@@ -36,6 +36,9 @@ body{background:var(--hp-bg);color:var(--hp-text);line-height:1.45}
 .shell{min-height:100dvh}
 .shell>header{padding:12px 22px;background:var(--hp-sidebar);border-color:var(--hp-border);gap:14px;min-height:58px}
 .shell>header .brand{font-size:21px;color:var(--hp-accent);font-weight:800}
+/* The authenticated sidebar carries the identity; do not repeat the brand in the utility bar. */
+.shell:has(.platform-layout)>header .brand{display:none}
+.shell:has(.platform-layout)>header{min-height:46px;padding-block:8px}
 .shell>header .brand span{color:var(--hp-text);font-size:17px}
 .shell>header .tag{color:var(--hp-muted)}
 .shell>header button{margin:0 0 0 auto}
