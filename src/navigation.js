@@ -1,0 +1,2 @@
+export const PAGES={dashboard:{title:'Dashboard',description:'A quick overview of your household account activity.'},transactions:{title:'Transactions',description:'Find, review and organize individual records.'},settings:{title:'Settings',description:'Manage accounts, properties, access and passkeys.'}};
+export function pageFromHash(hash){const page=hash.replace(/^#\/?/,'');return Object.hasOwn(PAGES,page)?page:'dashboard';}

@@ -47,7 +47,7 @@ There is one household per project. All approved members currently share finance
 
 ## Finance workflow
 
-The dashboard supports private on-demand Monarch snapshots as well as CSV imports. It shows month/account/search filters, money in/out/net movement, category totals, source metadata/tags, and coverage notes. Only account activity is totaled, never balances or mixed currencies. [Monarch import contract](docs/MONARCH.md) documents repeat-import behavior, preserved fields and limitations.
+The app has three pages: Dashboard for overview totals, leading categories, account activity counts and import coverage; Transactions for account/month/search filters, source details, assignment edits and CSV review; Settings for account/property/category forms, passkeys and household access. Account/month selections and staged CSV reviews survive page changes; transaction search does not alter dashboard totals. Hash links (`#dashboard`, `#transactions`, `#settings`) support bookmarks and browser navigation on GitHub Pages. Only account activity is totaled, never balances or mixed currencies. [Monarch import contract](docs/MONARCH.md) documents repeat-import behavior, preserved fields and limitations.
 
 
 Add a mock account, mock home/rental properties and optional categories. Upload `public/mock-transactions.csv`, which intentionally contains an identical payment and an invalid date. Preview validation and duplicate warnings, then explicitly confirm selected rows. Assign property/category references in the transaction table.

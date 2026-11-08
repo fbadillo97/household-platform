@@ -13,3 +13,13 @@ test('account/month/category/tag filters keep unrelated rows out of the view',()
  assert.deepEqual(filterRows(rows,{query:'groceries'},categories).map(t=>t.id),['1']);
  assert.deepEqual(tagNames(rows[1]),[]);
 });
+
+import {pageFromHash} from '../src/navigation.js';
+test('page links resolve safely on static hosting',()=>{
+ assert.equal(pageFromHash(''),'dashboard');
+ assert.equal(pageFromHash('#dashboard'),'dashboard');
+ assert.equal(pageFromHash('#transactions'),'transactions');
+ assert.equal(pageFromHash('#/settings'),'settings');
+ assert.equal(pageFromHash('#unknown'),'dashboard');
+ assert.equal(pageFromHash('#__proto__'),'dashboard');
+});

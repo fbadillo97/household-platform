@@ -1,10 +1,18 @@
 import React,{useState,useEffect} from 'react';
-import {parseCSV,defaultSelection,commitSelection} from './import.js';
-import {summarizeRows,filterRows,tagNames} from './finance.js';
-export function Finance({secureCall}){
+import {summarizeRows,filterRows} from './finance.js';
+import {PAGES,pageFromHash} from './navigation.js';
+import {DashboardPage} from './pages/DashboardPage.jsx';
+import {TransactionsPage} from './pages/TransactionsPage.jsx';
+import {SettingsPage} from './pages/SettingsPage.jsx';
+import {CsvImport} from './pages/CsvImport.jsx';
+function ActivityFilters({accounts,accountFilter,setAccountFilter,month,setMonth,query,setQuery}){
+ return <div className={'filters'+(setQuery?'':' filters-overview')}><label>Account<select value={accountFilter} onChange={e=>setAccountFilter(e.target.value)}><option value="">All accounts</option>{accounts.map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select></label><label>Month<input type="month" value={month} onChange={e=>setMonth(e.target.value)}/></label>{setQuery&&<label>Search<input type="search" placeholder="Merchant, category or tag" value={query} onChange={e=>setQuery(e.target.value)}/></label>}</div>;
+}
+export function Finance({secureCall,settingsContent}){
  const [error,setError]=useState(''),[busy,setBusy]=useState(false),[notice,setNotice]=useState('');
  const [accounts,setAccounts]=useState([]),[properties,setProperties]=useState([]),[categories,setCategories]=useState([]),[transactions,setTransactions]=useState([]),[snapshots,setSnapshots]=useState([]);
  const [account,setAccount]=useState(''),[batch,setBatch]=useState(null),[selected,setSelected]=useState([]);
+ const [page,setPage]=useState(()=>pageFromHash(window.location.hash));
  const [accountFilter,setAccountFilter]=useState(''),[month,setMonth]=useState(''),[query,setQuery]=useState('');
  async function refresh(){
   const [a,p,c,t,s]=await Promise.all(['list_accounts','list_properties','list_categories','list_transactions','list_source_snapshots'].map(operation=>secureCall(operation,operation==='list_transactions'?{limit:500}:{})));
@@ -17,33 +25,29 @@ export function Finance({secureCall}){
   event.preventDefault();const form=event.currentTarget;const payload=Object.fromEntries(new FormData(form));
   await run(async()=>{await secureCall('create_'+type,payload);form.reset();await refresh();setNotice('Saved.');});
  }
- const visible=filterRows(transactions,{accountId:accountFilter,month,query},categories);
- const totals=summarizeRows(visible);
- const currencies=[...new Set(visible.map(t=>accounts.find(a=>a.id===t.account_id)?.currency).filter(Boolean))];
+
+ useEffect(()=>{
+  const sync=()=>setPage(pageFromHash(window.location.hash));
+  window.addEventListener('hashchange',sync);window.addEventListener('popstate',sync);
+  return()=>{window.removeEventListener('hashchange',sync);window.removeEventListener('popstate',sync);};
+ },[]);
+ useEffect(()=>{document.title=PAGES[page].title+' · Household';},[page]);
+ function navigate(next){if(window.location.hash!=='#'+next)window.history.pushState(null,'','#'+next);setPage(next);}
+ const overviewRows=filterRows(transactions,{accountId:accountFilter,month},categories);
+ const visible=filterRows(overviewRows,{query},categories);
+ const totals=summarizeRows(overviewRows);
+ const currencies=[...new Set(overviewRows.map(t=>accounts.find(a=>a.id===t.account_id)?.currency).filter(Boolean))];
  const currency=currencies.length===1?currencies[0]:accounts.find(a=>a.id===accountFilter)?.currency||'CAD';
  const money=(minor,code=currency)=>new Intl.NumberFormat('en-CA',{style:'currency',currency:code}).format(minor/100);
  const summaryMoney=value=>currencies.length>1?'Choose one currency':money(value);
- const outflowCategories=Object.entries(visible.filter(t=>t.amount_minor<0).reduce((sum,t)=>{const name=categories.find(c=>c.id===t.category_id)?.name||'Unassigned';sum[name]=(sum[name]||0)-t.amount_minor;return sum;},{})).sort((a,b)=>b[1]-a[1]).slice(0,6);
+ const outflowCategories=Object.entries(overviewRows.filter(t=>t.amount_minor<0).reduce((sum,t)=>{const name=categories.find(c=>c.id===t.category_id)?.name||'Unassigned';sum[name]=(sum[name]||0)-t.amount_minor;return sum;},{})).sort((a,b)=>b[1]-a[1]).slice(0,6);
+ const filterProps={accounts,accountFilter,setAccountFilter,month,setMonth};
  return <>
+ <nav className="app-nav" aria-label="Main navigation">{Object.entries(PAGES).map(([id,info])=><a key={id} href={'#'+id} aria-current={page===id?'page':undefined} onClick={e=>{e.preventDefault();navigate(id);}}>{info.title}</a>)}</nav>
+ <div className="section-head page-heading"><div><p className="eyebrow">HOUSEHOLD FINANCE</p><h1>{PAGES[page].title}</h1><p className="intro">{PAGES[page].description}</p></div><button disabled={busy} onClick={()=>run(refresh)}>Refresh</button></div>
  {error&&<p className="error" role="alert">{error}</p>}{notice&&<p role="status">{notice}</p>}
- <section className="panel"><div className="section-head"><div><p className="eyebrow">FINANCE</p><h2>Your account activity</h2></div><button disabled={busy} onClick={()=>run(refresh)}>Refresh</button></div>
- <div className="filters"><label>Account<select value={accountFilter} onChange={e=>setAccountFilter(e.target.value)}><option value="">All accounts</option>{accounts.map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select></label><label>Month<input type="month" value={month} onChange={e=>setMonth(e.target.value)}/></label><label>Search<input type="search" placeholder="Merchant, category or tag" value={query} onChange={e=>setQuery(e.target.value)}/></label></div>
- <p><strong>{visible.length}</strong> transactions in this view. Money in/out includes transfers and transactions hidden in Monarch reports. These figures are activity, not an account balance.</p>
- </section>
- <div className="cards money-cards"><article><span>Money in</span><strong>{summaryMoney(totals.inflow)}</strong></article><article><span>Money out</span><strong>{summaryMoney(totals.outflow)}</strong></article><article><span>Net movement</span><strong>{summaryMoney(totals.net)}</strong><small>{currency} · Includes transfers</small></article></div>
- {snapshots.length>0&&<section className="panel coverage"><h2>Import coverage</h2>{snapshots.map(s=><details key={s.id} open><summary>{s.source==='monarch'?'Monarch snapshot':s.source} · {s.account_name} · {s.period_start} to {s.period_end}</summary><p>{s.committed_at?`${s.inserted_count} added · ${s.skipped_count} already present`:'Staged, not imported'} · {s.expected_count} source records</p><ul>{(s.coverage_notes||[]).map((note,i)=><li key={i}>{note}</li>)}</ul></details>)}</section>}
- <section className="panel"><h2>Transactions</h2><div className="scroll"><table><thead><tr><th>Date</th><th>Description / Account</th><th>Amount</th><th>Property</th><th>Category</th><th>Source details</th></tr></thead><tbody>{visible.map(t=>{
-  const acct=accounts.find(a=>a.id===t.account_id);const tags=tagNames(t);const source=t.source_data;
-  return <tr key={t.id}><td>{t.date}</td><td>{t.description}<small>{acct?.name}</small>{tags.length>0&&<div className="tags">{tags.map((tag,i)=><span key={i}>{tag}</span>)}</div>}{source?.hide_from_reports&&<small>Hidden in Monarch reports</small>}</td><td className={t.amount_minor<0?'outflow':'inflow'}>{money(t.amount_minor,acct?.currency||'CAD')}</td>
-  {[['property_id',properties],['category_id',categories]].map(([key,items])=><td key={key}><select aria-label={key+' for '+t.description} disabled={busy} value={t[key]||''} onChange={e=>{const value=e.target.value||null;run(async()=>{await secureCall('assign_transaction',{id:t.id,revision:t.revision,property_id:t.property_id,category_id:t.category_id,[key]:value});await refresh();});}}><option value="">Unassigned</option>{items.map(i=><option key={i.id} value={i.id}>{i.name}</option>)}</select></td>)}
-  <td>{t.source==='monarch'?<details><summary>Monarch</summary><small>Transaction {t.external_id}</small>{source?.cleansed_description&&<p>{source.cleansed_description}</p>}<p>{source?.notes_provided?source.notes||'No note':'Notes not supplied by connector'}</p>{source?.category_group&&<small>Source group: {source.category_group}</small>}{source?.is_recurring&&<small>Marked recurring in Monarch</small>}{source?.is_split&&<p>Split transaction; original detail retained for review.</p>}</details>:'CSV'}</td></tr>;
- })}</tbody></table>{!visible.length&&<p>No matching transactions. Add an account and import a file, or change the filters.</p>}</div><small>Showing matches within the latest 500 loaded transactions. Currency totals are never mixed.</small></section>
- {outflowCategories.length>0&&currencies.length<=1&&<section className="panel"><h2>Largest outflow categories</h2><p>Top six categories · includes transfers.</p><div className="category-list">{outflowCategories.map(([name,value])=><div key={name}><span>{name}</span><strong>{money(value)}</strong></div>)}</div></section>}
- <details className="panel"><summary>Manage accounts, properties and categories</summary><div className="grid">
- <section><h2>Accounts</h2>{accounts.map(a=><p key={a.id}>{a.name}<small>{a.kind} · {a.currency}{a.source_metadata?.currency_assumed?' (assumed; verify currency)':''}</small></p>)}<form onSubmit={e=>create(e,'account')}><label>Name<input name="name" required maxLength="120"/></label><label>Type<select name="kind"><option value="checking">Chequing</option><option>savings</option><option>credit</option><option>mortgage</option><option>other</option></select></label><label>Currency<input name="currency" defaultValue="CAD" pattern="[A-Z]{3}" required/></label><button disabled={busy}>Add account</button></form></section>
- <section><h2>Properties</h2>{properties.map(p=><p key={p.id}>{p.name}<small>{p.kind}</small></p>)}<form onSubmit={e=>create(e,'property')}><label>Name<input name="name" required maxLength="120"/></label><label>Use<select name="kind"><option value="home">Home</option><option value="rental">Rental</option><option value="other">Other</option></select></label><button disabled={busy}>Add property</button></form><h3>Categories</h3><p>{categories.map(c=>c.name).join(' · ')||'No categories yet'}</p><form onSubmit={e=>create(e,'category')}><label>Category name<input name="name" required maxLength="120"/></label><button disabled={busy}>Add category</button></form></section></div></details>
- <details className="panel"><summary>Import another CSV</summary><p>Positive amounts are inflows; negative amounts are outflows. Use date,description,amount headers in that order. Existing Monarch transactions are preserved.</p><label>Destination account<select disabled={busy} value={account} onChange={e=>{setAccount(e.target.value);setBatch(null);}}><option value="">Choose an account</option>{accounts.map(a=><option key={a.id} value={a.id}>{a.name} · {a.currency}</option>)}</select></label><label>CSV file<input type="file" accept=".csv,text/csv" disabled={!account||busy} onChange={e=>{const f=e.target.files[0];e.target.value='';if(f)run(async()=>{if(f.size>1000000)throw Error('File exceeds 1 MB');const b=await secureCall('stage_import',{account_id:account,rows:parseCSV(await f.text())});setBatch(b);setSelected(defaultSelection(b));setNotice('Preview only. Nothing has been added.');});}}/></label>
- {batch&&<><p>Possible duplicates are unchecked. Select them only to retain a genuine repeated payment.</p><div className="scroll"><table><thead><tr><th>Select</th><th>Line</th><th>Description</th><th>Amount</th><th>Review</th></tr></thead><tbody>{batch.rows.map(row=><tr key={row.id}><td><input aria-label={'Select CSV line '+row.line} type="checkbox" disabled={!!row.error||batch.committed||busy} checked={selected.includes(row.id)} onChange={e=>setSelected(s=>e.target.checked?[...s,row.id]:s.filter(id=>id!==row.id))}/></td><td>{row.line}</td><td>{row.payload.description||'Invalid row'}</td><td>{row.error?'—':money(row.payload.amount_minor,accounts.find(a=>a.id===batch.account_id)?.currency||'CAD')}</td><td>{row.error||(row.duplicate?'Possible duplicate':'Ready')}</td></tr>)}</tbody></table></div><button disabled={busy||batch.committed||!selected.length} onClick={()=>run(async()=>{try{const result=await secureCall('commit_import',commitSelection(batch,selected));setBatch({...batch,committed:true});setNotice(result.inserted+' transactions imported.');await refresh();}catch(e){const fresh=await secureCall('preview_import',{id:batch.id});setBatch(fresh);setSelected(defaultSelection(fresh));throw e;}})}>Confirm import of {selected.length} selected rows</button></>}
- </details>
+ {page==='dashboard'&&<DashboardPage accounts={accounts} properties={properties} rows={overviewRows} snapshots={snapshots} totals={totals} currency={currency} currencies={currencies} money={money} summaryMoney={summaryMoney} outflowCategories={outflowCategories} filters={<ActivityFilters {...filterProps}/>} onViewTransactions={()=>{setQuery('');navigate('transactions');}}/>}
+ {page==='transactions'&&<TransactionsPage rows={visible} accounts={accounts} properties={properties} categories={categories} money={money} busy={busy} run={run} secureCall={secureCall} refresh={refresh} filters={<ActivityFilters {...filterProps} query={query} setQuery={setQuery}/>}><CsvImport accounts={accounts} account={account} setAccount={setAccount} batch={batch} setBatch={setBatch} selected={selected} setSelected={setSelected} busy={busy} run={run} secureCall={secureCall} setNotice={setNotice} refresh={refresh} money={money}/></TransactionsPage>}
+ {page==='settings'&&<SettingsPage accounts={accounts} properties={properties} categories={categories} busy={busy} create={create}>{settingsContent}</SettingsPage>}
  </>;
 }
