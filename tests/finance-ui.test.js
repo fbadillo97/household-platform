@@ -117,7 +117,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   await openPage('Dashboard');await openPage('Transactions');
   assert.equal(container.querySelector('[aria-label="Select CSV line 2"]').checked,true);
   await openPage('Settings');assert.equal(heading(),'Settings');
-  assert.match(container.textContent,/Account security/);assert.doesNotMatch(container.textContent,/Properties/);assert.equal(container.querySelector('table'),null);
+  assert.match(container.textContent,/Account security/);assert.doesNotMatch(container.textContent,/Properties/);assert.equal(container.querySelector('.category-table tbody td').textContent,'Mock groceries');
   await openPage('Accounts');assert.equal(heading(),'Accounts');
   const form=container.querySelector('.account-create form');
   form.querySelector('input[name="name"]').value='Another mock account';
