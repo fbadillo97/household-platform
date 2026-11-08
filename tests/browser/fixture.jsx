@@ -1,0 +1,42 @@
+// Fabricated browser fixture. This entry is built separately and is never shipped in the app's dist.
+import React,{useEffect,useRef,useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import {Finance} from '../../src/Finance.jsx';
+import {SessionFence} from '../../src/lifecycle.js';
+import {historyRange,shiftDate} from '../../src/history.js';
+import {localToday} from '../../src/accounts.js';
+import '../../src/style.css';
+const today=localToday();let seq=0;
+const accounts=[['bank','Mock checking','checking','CAD'],['saving','Mock savings','savings','CAD'],['card','Mock card','credit','CAD'],['loan','Mock loan','mortgage','CAD'],['invest','Mock investments','investment','CAD'],['home','Mock property','asset','CAD'],['usd','Mock USD checking','checking','USD'],['excluded','Mock excluded savings','savings','CAD'],['archived','Mock archived card','credit','CAD']].map(([id,name,kind,currency])=>({id,name,kind,currency,revision:1,include_in_net_worth:id!=='excluded',archived_at:id==='archived'?today:null}));
+const entries=[];function addBalance(id,as_of,amount_minor,note=''){const a=accounts.find(a=>a.id===id);entries.push({id:'entry-'+(++seq),sequence:seq,account_id:id,as_of,amount_minor,currency:a.currency,is_estimate:a.kind==='asset',note});}
+for(const [id,amount] of [['bank',350000],['saving',800000],['card',70000],['invest',2800000],['usd',120000],['excluded',100000],['archived',0]])for(const [days,multiplier] of [[100,.8],[60,.9],[30,.95],[10,1],[0,1.1]])addBalance(id,shiftDate(today,-days),Math.round(amount*multiplier),'Mock saved balance');
+addBalance('home',shiftDate(today,-60),75000000,'Mock valuation');addBalance('loan',shiftDate(today,-10),45000000,'Mock first loan record');addBalance('bank',shiftDate(today,-30),340000,'Mock same-day correction');
+const categories=[{id:'food',name:'Mock groceries'},{id:'utilities',name:'Mock utilities'},{id:'transfer',name:'Mock transfers'}];
+const transactions=Array.from({length:55},(_,i)=>({id:'tx-'+i,revision:1,account_id:i%2?'card':'bank',date:shiftDate(today,-i),description:'Mock purchase '+String(i).padStart(2,'0'),amount_minor:-(500+i*11),category_id:i%3?'food':null,source_data:{tags:['Home']},review_status:'unreviewed',needs_attention:i===2,notes:'',deleted_at:null,flow_type:'regular',transfer_peer_id:null,receipts:[]}));
+const state={historyMode:'normal',historyDelay:0,failHistory:false,calls:[],signOut:null};window.__householdFixture=state;
+function accountView(a){const latest=entries.filter(e=>e.account_id===a.id).sort((x,y)=>y.as_of.localeCompare(x.as_of)||y.sequence-x.sequence)[0];return {...a,balance_snapshot:latest?{...latest}:null};}
+function transactionView(t){return {...t,original_description:t.description,original_account_id:t.account_id,original_tags:t.source_data.tags,description:t.description_override??t.description,account_id:t.account_override_id??t.account_id,has_description_override:!!t.description_override,has_account_override:!!t.account_override_id,receipt_count:t.receipts.length};}
+function history(payload){const cohort=payload.scope==='account'?accounts.filter(a=>a.id===payload.account_id):accounts.filter(a=>a.currency===payload.currency&&!a.archived_at&&a.include_in_net_worth);const currency=cohort[0]?.currency||payload.currency;
+ let all=entries.filter(e=>cohort.some(a=>a.id===e.account_id)&&e.as_of<=payload.to);if(state.historyMode==='empty')all=[];if(state.historyMode==='single')all=all.filter(e=>e.account_id===cohort[0]?.id).slice(0,1);
+ const earliest=all.map(e=>e.as_of).sort()[0]||null,from=payload.from===null?earliest||payload.to:payload.from||historyRange('90d').from;
+ const daily=new Map();for(const e of all.sort((a,b)=>a.sequence-b.sequence)){const key=e.account_id+e.as_of,old=daily.get(key);daily.set(key,{...e,correction_count:(old?.correction_count??-1)+1});}
+ const effective=[...daily.values()],visible=effective.filter(e=>e.as_of>=from);for(const a of cohort){const seed=effective.filter(e=>e.account_id===a.id&&e.as_of<from).sort((a,b)=>b.as_of.localeCompare(a.as_of))[0];if(seed)visible.push({...seed,carry_in:true});}
+ return {scope:payload.scope,currency,from,to:payload.to,earliest_available:earliest,cohort_policy:payload.scope==='account'?'individual_account':'current_inclusion',accounts:structuredClone(cohort),entries:structuredClone(visible.sort((a,b)=>a.as_of.localeCompare(b.as_of)||a.account_id.localeCompare(b.account_id)))};
+}
+async function mockCall(operation,payload={}){
+ state.calls.push({operation,payload:structuredClone(payload)});
+ if(operation==='get_balance_history'){if(state.historyDelay)await new Promise(r=>setTimeout(r,state.historyDelay));if(state.failHistory){state.failHistory=false;throw Error('Mock temporary history failure');}return history(payload);}
+ if(operation==='list_accounts')return structuredClone(accounts.map(accountView));
+ if(operation==='list_categories')return structuredClone(categories);
+ if(operation==='list_source_snapshots')return [];
+ if(operation==='list_ledger_transactions'){let rows=transactions.map(transactionView).filter(t=>payload.trash_only?!!t.deleted_at:!t.deleted_at);if(payload.account_id)rows=rows.filter(t=>t.account_id===payload.account_id);if(payload.month)rows=rows.filter(t=>t.date.startsWith(payload.month));if(payload.description)rows=rows.filter(t=>t.description.includes(payload.description));return {total:rows.length,rows:structuredClone(rows.slice(payload.offset||0,(payload.offset||0)+(payload.limit||50))),trash_total:transactions.filter(t=>t.deleted_at).length};}
+ if(operation==='get_transaction_detail')return structuredClone(transactionView(transactions.find(t=>t.id===payload.id)));
+ if(operation==='create_category'){categories.push({id:'category-'+categories.length,name:payload.name});return {};}
+ if(operation==='create_account'){const a={id:'account-'+accounts.length,revision:1,archived_at:null,...payload};accounts.push(a);return structuredClone(accountView(a));}
+ if(['save_account_balance','update_account','archive_account','restore_account'].includes(operation)){const a=accounts.find(a=>a.id===payload.id);if(a.revision!==payload.revision)throw Error('Account changed; reload before saving');if(operation==='save_account_balance')addBalance(a.id,payload.as_of,payload.amount_minor,payload.note);if(operation==='update_account'){a.name=payload.name;a.include_in_net_worth=payload.include_in_net_worth;}if(operation==='archive_account')a.archived_at=today;if(operation==='restore_account')a.archived_at=null;a.revision++;return structuredClone(accountView(a));}
+ if(operation==='update_ledger_transaction'){const t=transactions.find(t=>t.id===payload.id);if(t.revision!==payload.revision)throw Error('Transaction changed');Object.assign(t,payload,{revision:t.revision+1});return {};}
+ if(operation==='bulk_update_transactions'){const selected=payload.items.map(v=>transactions.find(t=>t.id===v.id));if(selected.some((t,i)=>t.revision!==payload.items[i].revision))throw Error('A selected transaction changed; refresh. Nothing was changed');for(const t of selected){if(payload.action==='category')t.category_id=payload.value;if(payload.action==='review')t.review_status=payload.value;if(payload.action==='attention')t.needs_attention=payload.value;if(payload.action==='trash')t.deleted_at=today;if(payload.action==='restore')t.deleted_at=null;t.revision++;}return {selected_count:selected.length,updated_count:selected.length};}
+ throw Error('Unexpected mock operation '+operation);
+}
+function Fixture(){const fence=useRef(new SessionFence()),[signedOut,setSignedOut]=useState(false);useEffect(()=>{state.signOut=()=>{fence.current.invalidate();setSignedOut(true);};},[]);return <div className="shell"><header><div className="brand">H<span>Household</span></div><span className="tag">Mock data only</span><button onClick={()=>state.signOut()}>Sign out (mock)</button></header><main>{signedOut?<h1>Mock signed out</h1>:<Finance secureCall={(...args)=>fence.current.run(()=>mockCall(...args))} secureReceipt={async()=>{throw Error('No real receipt files in browser fixture');}} settingsContent={<section className="panel"><h2>Account security</h2><p>Mock passkey-only session. No credentials are used by these browser checks.</p></section>}/>}</main><footer>Browser test fixture · fabricated household records</footer></div>;}
+createRoot(document.getElementById('root')).render(<Fixture/>);

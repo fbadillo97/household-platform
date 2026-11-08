@@ -13,4 +13,15 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - name: Install browser test runtime
+        run: npx playwright install --with-deps chromium --only-shell
+      - name: Desktop and mobile browser checks with mock data
+        run: npm run test:browser
+      - name: Save mock browser diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mock-browser-diagnostics
+          path: test-results/
+          retention-days: 7
       - run: npm run build

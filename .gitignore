@@ -7,3 +7,8 @@ supabase/.temp/
 supabase/.branches/
 *.log
 tests/.finance-render.mjs
+
+tests/.*-render.mjs
+playwright-report/
+test-results/
+.browser-dist/

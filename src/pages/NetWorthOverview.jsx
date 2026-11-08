@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react';
+import {HistorySection} from './HistorySection.jsx';
 import {summarizeWorth} from '../worth.js';
 import {balanceLabel,isDebt} from '../accounts.js';
 const METRICS=[['net','Net worth','Assets minus debts'],['assets','Assets','Negative asset balances are deducted'],['debts','Debts','Credit balances reduce amounts owed'],['cash','Cash available','Included checking + savings balances']];
-export function NetWorthOverview({accounts,money,onViewAccounts}){
+export function NetWorthOverview({accounts,money,onViewAccounts,secureCall}){
  const options=[...new Set(accounts.filter(a=>!a.archived_at).map(a=>a.currency))].sort();
  const [currency,setCurrency]=useState(options.includes('CAD')?'CAD':options[0]||'CAD');
  useEffect(()=>{if(!options.includes(currency))setCurrency(options.includes('CAD')?'CAD':options[0]||'CAD');},[options.join('|'),currency]);
@@ -40,5 +41,6 @@ export function NetWorthOverview({accounts,money,onViewAccounts}){
  {data.debtCredits!==0&&<small>Credit balances: {data.debtCredits===null?'Total unavailable':money(data.debtCredits,currency)}. These reduce Debts and are not donut slices.</small>}
  </section></div>}
  {data.eligible.length>0&&<section className="panel worth-account-summary"><div className="section-head"><h3>Included accounts · {currency}</h3><button className="text-button" onClick={()=>open(data.eligible.map(a=>a.id),'Included accounts')}>View these accounts</button></div><ul>{data.eligible.map(a=>{const known=data.known.some(k=>k.id===a.id),s=known?a.balance_snapshot:null,credit=s&&isDebt(a)&&s.amount_minor<0;return <li key={a.id}><button onClick={()=>open([a.id],a.name,a.id)}><span><strong>{a.name}</strong><small>{credit?'Credit balance':balanceLabel(a)} · {s?`As of ${s.as_of}`:'Not provided'}{s&&data.stale.some(k=>k.id===a.id)?' · Needs updating':''}</small></span><strong>{s?money(credit?-s.amount_minor:s.amount_minor,currency):'Not provided'}</strong></button></li>;})}</ul></section>}
+ <HistorySection title="Net worth history" scope="net_worth" currency={currency} money={money} secureCall={secureCall} refreshKey={accounts.map(a=>a.id+':'+a.revision).join('|')} onOpenAccount={id=>open([id],accounts.find(a=>a.id===id)?.name||'Account',id)}/>
  </section>;
 }
