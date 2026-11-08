@@ -23,3 +23,13 @@ test('page links resolve safely on static hosting',()=>{
  assert.equal(pageFromHash('#unknown'),'dashboard');
  assert.equal(pageFromHash('#__proto__'),'dashboard');
 });
+
+import {ledgerPayload,amountFilterMinor,EMPTY_COLUMN_FILTERS} from '../src/finance.js';
+test('amount filters use signed integer cents and reject ambiguous ranges',()=>{
+ assert.equal(amountFilterMinor('-12.35'),-1235);assert.equal(amountFilterMinor('+0.10'),10);assert.equal(amountFilterMinor(''),null);
+ assert.throws(()=>amountFilterMinor('1.001'));assert.throws(()=>amountFilterMinor('1,000'));
+ const view={columns:{...EMPTY_COLUMN_FILTERS,minAmount:'-2.00',maxAmount:'0.00'},sort:'amount',direction:'asc',offset:50};
+ const payload=ledgerPayload({accountId:'mock',month:'2026-10',query:'shop',view});
+ assert.equal(payload.min_minor,-200);assert.equal(payload.max_minor,0);assert.equal(payload.offset,50);assert.equal(payload.sort,'amount');
+ assert.throws(()=>ledgerPayload({view:{...view,columns:{...EMPTY_COLUMN_FILTERS,minAmount:'10',maxAmount:'-10'}}}));
+});

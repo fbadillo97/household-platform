@@ -47,6 +47,6 @@ function App(){
  {role==='owner'&&<section className="panel"><h2>Household access requests</h2><p>Approve only people who should share access to this household’s records. Approved members can read and manage finance records.</p>{people.map(p=><article key={p.user_id}><strong>{p.email}</strong><small>{p.role} · {p.status}</small>{p.role!=='owner'&&['approved','rejected','removed'].filter(status=>status!==p.status).map(status=><button key={status} disabled={busy} onClick={()=>run(async()=>{await secureCall('decide_access',{user_id:p.user_id,status,revision:p.revision});setPeople(await secureCall('list_requests'));setNotice('Access decision saved.');})}>{status==='approved'?'Approve':status==='rejected'?'Reject':'Remove access'}</button>)}</article>)}</section>}
 </>}/>
  </>}
- </main><footer>Household Platform · Canada Central · Foundation v0.3</footer></div>;
+ </main><footer>Household Platform · Canada Central · Foundation v0.4</footer></div>;
 }
 createRoot(document.getElementById('root')).render(<App/>);

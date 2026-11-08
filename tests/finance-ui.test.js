@@ -6,7 +6,7 @@ import {writeFile,unlink} from 'node:fs/promises';
 import {JSDOM} from 'jsdom';
 import React,{act} from 'react';
 
-test('pages isolate overview/records/settings and preserve filters and staged imports',async()=>{
+test('ledger navigation, sorting, column filters, overrides and staged imports work together',async()=>{
  const dom=new JSDOM('<!doctype html><div id="root"></div>',{url:'https://example.invalid/household-platform/'});
  globalThis.window=dom.window;globalThis.document=dom.window.document;globalThis.HTMLElement=dom.window.HTMLElement;
  globalThis.FormData=dom.window.FormData;globalThis.IS_REACT_ACT_ENVIRONMENT=true;
@@ -15,11 +15,25 @@ test('pages isolate overview/records/settings and preserve filters and staged im
  await writeFile(output,bundle.outputFiles[0].text);
  const {createRoot}=await import('react-dom/client');
  const {Finance}=await import(output.href);
- const accounts=[{id:'mock-account',name:'Mock Checking',kind:'checking',currency:'CAD',source_metadata:{currency_assumed:true}}];
+ const accounts=[{id:'mock-account',name:'Mock Checking',kind:'checking',currency:'CAD',source_metadata:{currency_assumed:true}},{id:'mock-savings',name:'Mock Savings',kind:'savings',currency:'CAD'}];
  const transactions=[{id:'mock-tx-1',account_id:'mock-account',date:'2026-10-01',description:'Mock shop',amount_minor:-125,category_id:'food',property_id:null,revision:1,source:'monarch',external_id:'mock-source-1',source_data:{tags:[{id:'mock-tag',name:'Renovation'}],notes_provided:true,notes:'Mock private note'}},{id:'mock-tx-2',account_id:'mock-account',date:'2026-10-02',description:'Mock pay',amount_minor:2000,category_id:null,property_id:null,revision:1}];
  const calls=[];
  const secureCall=async(operation,payload)=>{
   calls.push({operation,payload});
+  if(operation==='list_ledger_transactions'){
+   let rows=transactions.map(t=>({...t,original_description:t.description,original_account_id:t.account_id,description:t.description_override??t.description,account_id:t.account_override_id??t.account_id,has_description_override:!!t.description_override,has_account_override:!!t.account_override_id}));
+   if(payload.account_id)rows=rows.filter(t=>t.account_id===payload.account_id);
+   if(payload.query)rows=rows.filter(t=>[t.description,...(t.source_data?.tags||[]).map(x=>x.name)].join(' ').toLowerCase().includes(payload.query.toLowerCase()));
+   if(payload.min_minor!=null)rows=rows.filter(t=>t.amount_minor>=payload.min_minor);
+   if(payload.max_minor!=null)rows=rows.filter(t=>t.amount_minor<=payload.max_minor);
+   if(payload.description)rows=rows.filter(t=>t.description.includes(payload.description));
+   if(payload.sort==='amount')rows.sort((a,b)=>(a.amount_minor-b.amount_minor)*(payload.direction==='asc'?1:-1));
+   return {rows,total:rows.length};
+  }
+  if(operation==='update_ledger_transaction'){
+   const row=transactions.find(t=>t.id===payload.id);assert.equal(row.revision,payload.revision);
+   Object.assign(row,{description_override:payload.description_override,account_override_id:payload.account_override_id,category_id:payload.category_id,revision:row.revision+1});return {id:row.id,revision:row.revision};
+  }
   if(operation==='stage_import')return {id:'mock-batch',account_id:'mock-account',committed:false,rows:[{id:'mock-stage-row',line:2,error:null,duplicate:false,payload:{date:'2026-10-03',description:'Mock staged item',amount_minor:-100}}]};
   if(operation==='create_account'){accounts.push({id:'mock-second',...payload});return accounts.at(-1);}
   const data={list_accounts:accounts,list_properties:[],list_categories:[{id:'food',name:'Mock groceries'}],list_transactions:transactions,list_source_snapshots:[{id:'mock-snapshot',source:'monarch',account_name:'Mock Checking',period_start:'2026-10-01',period_end:'2026-10-31',committed_at:'2026-11-01',expected_count:2,inserted_count:2,skipped_count:0,coverage_notes:['Excluded mock institution']} ]};
@@ -30,7 +44,9 @@ test('pages isolate overview/records/settings and preserve filters and staged im
  try{
   await act(async()=>{root.render(React.createElement(Finance,{secureCall,settingsContent:React.createElement('section',null,React.createElement('h2',null,'Account security'))}));await new Promise(r=>setTimeout(r,0));});
   const heading=()=>container.querySelector('h1').textContent;
-  async function openPage(name){await act(async()=>{const link=[...container.querySelectorAll('nav a')].find(a=>a.textContent===name);link.dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true,cancelable:true}));});}
+  async function flushLedger(){await act(async()=>{await new Promise(r=>setTimeout(r,220));});}
+  async function openPage(name){await act(async()=>{const link=[...container.querySelectorAll('nav a')].find(a=>a.textContent===name);link.dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true,cancelable:true}));});await flushLedger();}
+  async function typeValue(input,value){await act(async()=>{Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype,'value').set.call(input,value);input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));});}
   assert.equal(heading(),'Dashboard');
   assert.match(container.textContent,/Mock Checking/);assert.match(container.textContent,/Excluded mock institution/);
   assert.equal(container.querySelector('table'),null);
@@ -39,11 +55,12 @@ test('pages isolate overview/records/settings and preserve filters and staged im
   await openPage('Transactions');
   assert.equal(heading(),'Transactions');assert.equal(container.querySelectorAll('tbody tr').length,2);
   assert.equal(container.querySelector('nav a[aria-current="page"]').textContent,'Transactions');
-  assert.doesNotMatch(container.textContent,/Import coverage|Account security/);
+  assert.doesNotMatch(container.textContent,/Import coverage|Account security|Source details|Property/);
   const input=container.querySelector('input[type="search"]');
   await act(async()=>{Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype,'value').set.call(input,'Renovation');input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));});
+  await flushLedger();
   assert.equal(container.querySelectorAll('tbody tr').length,1);assert.match(container.querySelector('tbody').textContent,/Mock shop/);
-  const accountFilter=container.querySelector('.filters select');
+  const accountFilter=container.querySelector('[aria-label="Filter account"]');
   await act(async()=>{accountFilter.value='mock-account';accountFilter.dispatchEvent(new dom.window.Event('change',{bubbles:true}));});
   await openPage('Dashboard');
   assert.equal(container.querySelector('table'),null);
@@ -55,16 +72,34 @@ test('pages isolate overview/records/settings and preserve filters and staged im
   assert.equal(container.querySelectorAll('tbody tr').length,1);
   await openPage('Dashboard');
   await act(async()=>{[...container.querySelectorAll('button')].find(b=>b.textContent==='View transactions').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true}));});
+  await flushLedger();
   assert.equal(heading(),'Transactions');assert.equal(container.querySelector('input[type="search"]').value,'');
   assert.equal(container.querySelectorAll('tbody tr').length,2);
-  assert.equal(calls.filter(c=>c.operation==='list_transactions').length,1); // navigation must not reload private data or reset shared state
+  await act(async()=>container.querySelector('[aria-label="Sort by Amount"]').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
+  await flushLedger();assert.equal(container.querySelector('[aria-label="Sort by Amount"]').closest('th').getAttribute('aria-sort'),'ascending');
+  assert.equal(calls.filter(c=>c.operation==='list_ledger_transactions').at(-1).payload.sort,'amount');
+  await typeValue(container.querySelector('[aria-label="Filter maximum amount"]'),'0');await flushLedger();
+  assert.equal(container.querySelectorAll('.ledger-table tbody>tr').length,1);
+  await act(async()=>[...container.querySelectorAll('button')].find(b=>b.textContent==='Clear column filters').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
+  await flushLedger();assert.equal(container.querySelectorAll('.ledger-table tbody>tr').length,2);
+  await act(async()=>container.querySelector('[aria-label="Edit transaction Mock shop"]').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
+  await typeValue(container.querySelector('.ledger-editor input'),'Edited groceries');
+  await act(async()=>{const select=container.querySelector('.ledger-editor select');select.value='mock-savings';select.dispatchEvent(new dom.window.Event('change',{bubbles:true}));});
+  await act(async()=>{container.querySelector('.ledger-editor form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await new Promise(r=>setTimeout(r,0));});await flushLedger();
+  assert.match(container.querySelector('.ledger-table tbody').textContent,/Edited groceries/);
+  assert.equal(transactions[0].description,'Mock shop');assert.equal(transactions[0].account_id,'mock-account');
+  assert.equal(calls.find(c=>c.operation==='update_ledger_transaction').payload.account_override_id,'mock-savings');
+  await act(async()=>container.querySelector('[aria-label="Edit transaction Edited groceries"]').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
+  for(const label of ['Reset description','Reset account'])await act(async()=>[...container.querySelectorAll('.ledger-editor button')].find(b=>b.textContent===label).dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
+  await act(async()=>{container.querySelector('.ledger-editor form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await new Promise(r=>setTimeout(r,0));});await flushLedger();
+  assert.equal(transactions[0].description_override,null);assert.equal(transactions[0].account_override_id,null);
   const fileInput=container.querySelector('input[type="file"]');
   await act(async()=>{Object.defineProperty(fileInput,'files',{configurable:true,value:[{size:65,text:async()=> 'date,description,amount\n2026-10-03,Mock staged item,-1.00'}]});fileInput.dispatchEvent(new dom.window.Event('change',{bubbles:true}));await new Promise(r=>setTimeout(r,0));});
   assert.equal(container.querySelector('[aria-label="Select CSV line 2"]').checked,true);
   await openPage('Dashboard');await openPage('Transactions');
   assert.equal(container.querySelector('[aria-label="Select CSV line 2"]').checked,true);
   await openPage('Settings');assert.equal(heading(),'Settings');
-  assert.match(container.textContent,/Account security/);assert.equal(container.querySelector('table'),null);
+  assert.match(container.textContent,/Account security/);assert.doesNotMatch(container.textContent,/Properties/);assert.equal(container.querySelector('table'),null);
   const form=[...container.querySelectorAll('form')].find(f=>f.querySelector('button')?.textContent==='Add account');
   form.querySelector('input[name="name"]').value='Another mock account';
   await act(async()=>{form.dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await new Promise(r=>setTimeout(r,0));});

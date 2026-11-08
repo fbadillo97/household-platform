@@ -30,3 +30,12 @@ Permission failures use SQLSTATE 42501; invalid payloads 22023; missing imports 
 ## Source snapshots
 
 See [Monarch snapshot contract](MONARCH.md). `stage_monarch_snapshot` and `commit_monarch_snapshot` require an approved passkey-authenticated owner. `list_source_snapshots` requires approved passkey membership. All records remain in household_private. Transactions returned by list_transactions can include `source`, `external_id` and `source_data`; accounts may include source metadata and an explicit currency assumption.
+
+
+## Accounting ledger
+
+`list_ledger_transactions` requires an approved passkey session and returns `{rows,total,limit,offset}`. Filters: account_id (effective account), month (YYYY-MM), query, description, category_id (`__unassigned` for null), date_from/date_to, min_minor/max_minor (signed integer cents), tags. Sort: date/description/account/amount/category/tags; direction: asc/desc; deterministic UUID tie-breaker. Limit 1–500, default 50. No dynamic SQL is used. Dashboard uses the same effective row format, with a latest-500 overview limit.
+
+Rows include effective description/account_id, original_description/original_account_id and override flags. These original fields support reset controls; source details and property columns are absent from the transaction UI.
+
+`update_ledger_transaction` accepts id/revision and optional description_override, account_override_id, category_id. Explicit null clears an override. Missing keys preserve existing values. Description is 1–500 nonblank characters. Account must exist and have the original account's currency; amounts are never converted. Saves lock the transaction, reject stale revisions and add an audit event. Raw description, account_id, amount, fingerprint, source identity, source metadata and parked property assignments are untouched. Reimports compare raw source values, so local overrides do not cause duplicate source records or false source-change conflicts. Existing legacy API operations remain available for compatibility.

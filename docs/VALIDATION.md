@@ -43,3 +43,10 @@ The finance screen adds account/month/category/tag filtering, signed activity su
 ## Page navigation
 
 The frontend is split into Dashboard, Transactions and Settings views. Automated DOM checks cover view isolation, active navigation, shared account/month filters, search retention, dashboard totals independent of transaction search, overview drill-through, preserved staged CSV selections, working account creation under Settings, and hash/history navigation. Route unit tests check static-hosting deep links and invalid-route fallback. Existing private API and database records are unchanged by this frontend-only refactor. Browser/device visual review remains separate from DOM simulation.
+
+
+## Ledger refinement
+
+`supabase/tests/ledger.sql` runs rolled-back fixtures to verify effective account/description overrides, resets, same-currency enforcement, stale-revision rejection, raw source/property/fingerprint preservation, source reimport deduplication after overrides, numeric/date sorting, pagination and column filters, invalid query rejection and passkey/helper-privilege boundaries. The migration adds nullable override fields; deployment changes no existing descriptions or account assignments.
+
+Frontend tests cover ledger server-query payloads, signed amount parsing, sort controls, amount filters, editable description/account overrides and resets, plus existing navigation/CSV staging behavior. Property creation and transaction property/source-detail columns are removed from the active UI; private schema fields remain for future use.

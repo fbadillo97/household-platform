@@ -6,3 +6,18 @@ export function filterRows(rows,{accountId='',month='',query=''},categories){
  const names=new Map(categories.map(c=>[c.id,c.name]));const q=query.trim().toLocaleLowerCase();
  return rows.filter(t=>(!accountId||t.account_id===accountId)&&(!month||t.date.startsWith(month))&&(!q||[t.description,names.get(t.category_id)||'',...tagNames(t)].join(' ').toLocaleLowerCase().includes(q)));
 }
+export const EMPTY_COLUMN_FILTERS={dateFrom:'',dateTo:'',description:'',category:'',minAmount:'',maxAmount:'',tags:''};
+export function amountFilterMinor(value){
+ if(value.trim()==='')return null;
+ const text=value.trim();if(!/^[+-]?\d+(\.\d{1,2})?$/.test(text))throw Error('Use signed amounts with at most two decimal places');
+ const negative=text.startsWith('-');const [whole,fraction='']=text.replace(/^[+-]/,'').split('.');
+ const cents=Number(whole)*100+Number(fraction.padEnd(2,'0'));
+ if(!Number.isSafeInteger(cents)||cents>100000000000)throw Error('Amount filter is outside the supported range');
+ return negative?-cents:cents;
+}
+export function ledgerPayload({accountId='',month='',query='',view}){
+ const f=view.columns;const min=amountFilterMinor(f.minAmount),max=amountFilterMinor(f.maxAmount);
+ if(min!==null&&max!==null&&min>max)throw Error('Minimum amount must not exceed maximum amount');
+ if(f.dateFrom&&f.dateTo&&f.dateFrom>f.dateTo)throw Error('Start date must not follow end date');
+ return {account_id:accountId||null,month,query,description:f.description,tags:f.tags,category_id:f.category||null,date_from:f.dateFrom||null,date_to:f.dateTo||null,min_minor:min,max_minor:max,sort:view.sort,direction:view.direction,offset:view.offset,limit:50};
+}
