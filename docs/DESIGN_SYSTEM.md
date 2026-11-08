@@ -60,3 +60,31 @@ Future work should:
 5. Add actual accessible visual-regression checks for dark desktop and mobile layouts.
 
 No new application module should independently invent its own colour palette, spacing scale or navigation pattern.
+
+## Refined Finance patterns
+
+The compact scale now includes font-size, control-height and chart-series tokens.
+`src/components/ui.jsx` supplies Panel, SectionHeading, InlineNotice, EmptyState
+and MetricCard; dashboard activity metrics and ledger feedback use these primitives.
+The persistent platform sidebar remains the desktop navigation anchor.
+
+Transactions uses a 520px contextual panel with a sticky heading. A lone category
+change autosaves through the revision-checked API; if other fields are dirty,
+the whole draft requires explicit Save. Failed saves retain the draft and expose
+Reload details with discard protection. Routine save success is quiet. Existing
+linked pairs retain priority over category defaults. Matching controls appear
+for movement categories or existing links, never ordinary purchases.
+
+Search/month/review are quick filters; amount/date/category/account/tag and
+accounting scope remain under Advanced filters. Column visibility is stored only
+as an allowlisted set of column names in browser localStorage, with a safe fallback
+when storage is unavailable. No household data or search terms are persisted.
+Description and amount remain visible. Sorting and 50-row server pagination are
+unchanged. Category bars drill into the ledger while retaining account/month.
+
+The browser fixture loads the same dark stylesheet as production. Desktop/mobile
+checks cover accessibility, overflow, saving conflicts, draft recovery, column
+preferences, category drill-down and modal keyboard behavior using fabricated data.
+No database migration, production record update or authorization change is part
+of this refinement. Column ordering/width, saved views and deeper legacy CSS
+migration remain future increments.

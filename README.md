@@ -141,3 +141,13 @@ Migrations are versioned in `supabase/migrations`. The first creates the foundat
 Set up an independent encrypted backup/export and perform a restore drill before using real records. Verify your Supabase plan's backup/retention options rather than assuming they are included. Back up the database AND the private Storage objects separately; database dumps alone do not contain receipt files. Keep both outside Git. Project region controls primary data location; it does not guarantee that every log, email, static asset or service remains in Canada. Review any broader residency requirements before adding sensitive records.
 
 Official references: [passkeys](https://supabase.com/docs/guides/auth/passkeys), [database functions](https://supabase.com/docs/guides/database/functions), [regions](https://supabase.com/docs/guides/platform/regions).
+
+### Compact Finance editing
+
+Transactions keeps search, month and review shortcuts visible, with other filters
+under Advanced filters. Columns lets each browser remember optional column
+visibility. Category-only edits autosave; multi-field drafts use Save changes.
+Errors keep the draft available for correction or guarded reload. Matching is
+shown only for transfer/card-payment categories or existing links. Largest
+outflow category bars open their source transactions in the current account/month.
+These UI changes use the existing checked API and do not rewrite imported values.

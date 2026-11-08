@@ -40,6 +40,7 @@ test('confirmed transfer workflow updates dashboard, classifies a single side, l
   assert.match(container.querySelector('.money-cards article').textContent,/300\.00/);
   await page('Transactions');await open();
   assert.equal(container.querySelector('[aria-label="Transaction type"]'),null);
+  assert.equal(container.querySelector('.transfer-section'),null);
   await change(container.querySelector('.ledger-editor select[value]')||container.querySelectorAll('.ledger-editor select')[1],'card-payment');
   await pause();assert.equal(rows[2].flow_type,'credit_card_payment');assert.equal(rows[2].transfer_peer_id,null);
   assert.equal(container.querySelector('.ledger-editor button:not([type=button])')?.disabled,true);

@@ -23,11 +23,11 @@ test('detail panel saves notes and flags, confirms unsaved changes, attaches pri
  const {TransactionDetail}=await import(output.href);const {createRoot}=await import('react-dom/client');
  const account={id:'mock-account',name:'Mock checking',currency:'CAD'};
  let item={id:'mock-tx',revision:1,date:'2026-10-01',amount_minor:-125,description:'Mock purchase',original_description:'Mock purchase',account_id:account.id,original_account_id:account.id,category_id:null,notes:'',review_status:'unreviewed',needs_attention:false,original_tags:['Mock imported tag'],tags_override:null,receipts:[]};
- let closes=0,failUpload=true,failRemove=true;const calls=[];const storage=[];
+ let closes=0,failUpload=true,failRemove=true,failCategory=false;const calls=[];const storage=[];
  const clone=()=>structuredClone(item);
  async function secureCall(op,payload){calls.push({op,payload});
   if(op==='get_transaction_detail')return clone();
-  if(op==='update_ledger_transaction'){assert.equal(payload.revision,item.revision);item={...item,...payload,revision:item.revision+1};return {id:item.id,revision:item.revision};}
+  if(op==='update_ledger_transaction'){if(failCategory){failCategory=false;throw Error('Mock category conflict; reload before saving');}assert.equal(payload.revision,item.revision);item={...item,...payload,revision:item.revision+1};return {id:item.id,revision:item.revision};}
   if(op==='prepare_receipt'){if(!item.receipts.length)item.receipts.push({...payload,id:'mock-receipt',object_path:'mock/path',state:'pending',revision:1});return {...item.receipts[0],already_exists:item.receipts[0].state==='ready'};}
   if(op==='finish_receipt_upload'){item.receipts[0].state='ready';item.receipts[0].revision++;return {...item.receipts[0]};}
   if(op==='finish_receipt_removal'){item.receipts=[];return {};}
@@ -37,13 +37,19 @@ test('detail panel saves notes and flags, confirms unsaved changes, attaches pri
  }
  async function secureReceipt(op,...args){storage.push({op,args});if(op==='upload'&&failUpload){failUpload=false;throw Error('Mock interrupted upload');}if(op==='remove'&&failRemove){failRemove=false;throw Error('Mock interrupted removal');}if(op==='download')return new Blob(['%PDF-1.7 mock']);return {};}
  const container=document.getElementById('root'),root=createRoot(container);
- async function render(key='a'){await act(async()=>{root.render(React.createElement(TransactionDetail,{key,id:item.id,accounts:[account],categories:[],money:v=>String(v),secureCall,secureReceipt,refresh:async()=>{},onClose:()=>closes++}));await new Promise(r=>setTimeout(r,0));});}
+ async function render(key='a'){await act(async()=>{root.render(React.createElement(TransactionDetail,{key,id:item.id,accounts:[account],categories:[{id:'food',name:'Mock food'}],money:v=>String(v),secureCall,secureReceipt,refresh:async()=>{},onClose:()=>closes++}));await new Promise(r=>setTimeout(r,0));});}
  async function click(text){await act(async()=>{const button=[...container.querySelectorAll('button')].find(b=>b.textContent===text);assert.ok(button,text);button.click();await new Promise(r=>setTimeout(r,0));});}
  async function type(selector,value){await act(async()=>{const input=container.querySelector(selector),prototype=input.tagName==='TEXTAREA'?dom.window.HTMLTextAreaElement.prototype:dom.window.HTMLInputElement.prototype;Object.getOwnPropertyDescriptor(prototype,'value').set.call(input,value);input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));});}
  async function upload(){await act(async()=>{const input=container.querySelector('input[type=file]');Object.defineProperty(input,'files',{configurable:true,value:[{name:'mock.pdf',size:12,arrayBuffer:async()=>new TextEncoder().encode('%PDF-1.7 mock').buffer}]});input.dispatchEvent(new dom.window.Event('change',{bubbles:true}));await new Promise(r=>setTimeout(r,30));});}
  try{
   await render();assert.equal(container.querySelector('dialog').open,true);assert.equal(container.querySelector('.original-record').open,false);
+  async function category(value){await act(async()=>{const select=container.querySelectorAll('.ledger-editor select')[1];select.value=value;select.dispatchEvent(new dom.window.Event('change',{bubbles:true}));await new Promise(r=>setTimeout(r,0));});}
+  await category('food');assert.equal(item.category_id,'food');assert.deepEqual(calls.find(c=>c.op==='update_ledger_transaction').payload,{id:item.id,revision:1,category_id:'food'});
+  assert.equal(container.querySelector('[role=status]'),null);
+  failCategory=true;await category('');assert.equal(item.category_id,'food');assert.match(container.querySelector('[role=alert]').textContent,/category conflict/);assert.equal(container.querySelectorAll('.ledger-editor select')[1].value,'');
+  await click('Reload details');await click('Reload and discard changes');assert.equal(container.querySelectorAll('.ledger-editor select')[1].value,'food');
   await type('textarea','Mock private note <script>literal</script>');await click('Close');assert.equal(closes,0);assert.match(container.querySelector('[role=alertdialog]').textContent,/Discard unsaved/);await click('Keep editing');
+  const updates=calls.filter(c=>c.op==='update_ledger_transaction').length;await category('');assert.equal(calls.filter(c=>c.op==='update_ledger_transaction').length,updates);assert.equal(item.category_id,'food');
   await act(async()=>{container.querySelectorAll('input[type=checkbox]')[0].click();container.querySelectorAll('input[type=checkbox]')[1].click();});
   await type('[aria-label="New tag"]','Local mock tag');await click('Add tag');
   await act(async()=>{container.querySelector('form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));});

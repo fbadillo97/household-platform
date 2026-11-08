@@ -207,3 +207,32 @@ thead{background:var(--hp-surface-raised)}
  .transaction-quick-filters .filters label{flex:1 1 135px;min-width:0}
  .transaction-dialog .detail-heading{top:-14px}
 }
+
+/* Shared compact interaction scale and analytical palette. */
+:root{--hp-font-xs:11px;--hp-font-sm:12px;--hp-font-body:13px;--hp-font-title:18px;--hp-control-height:36px;--hp-series-1:var(--hp-accent);--hp-series-2:var(--hp-violet);--hp-series-3:var(--hp-positive)}
+.section-description{font-size:var(--hp-font-sm);margin:4px 0}
+.section-actions,.quick-review{display:flex;align-items:center;gap:var(--hp-space-2);flex-wrap:wrap}
+.inline-notice{padding:var(--hp-space-3);border-radius:var(--hp-radius);border:1px solid var(--hp-border)}
+.inline-notice-error{background:#4b2434;color:#ffd4d9;border-color:#9a4864}
+.inline-notice-info{background:var(--hp-accent-tint);color:var(--hp-text)}
+.empty-state{padding:var(--hp-space-5);text-align:center}
+.empty-state h3{margin:0}
+.quick-filters .filters{margin:0;gap:var(--hp-space-3)}
+.quick-filters label{margin-top:0}
+.quick-review button[aria-pressed=true],.view-switch button[aria-pressed=true]{background:var(--hp-accent-tint);border-color:var(--hp-accent);color:var(--hp-text)}
+.detail-fields{gap:var(--hp-space-2)}
+.detail-fields label{margin:var(--hp-space-1) 0;gap:var(--hp-space-1)}
+.detail-heading{position:sticky;top:-21px;background:var(--hp-surface);padding-block:var(--hp-space-2);z-index:2;border-bottom:1px solid var(--hp-border)}
+.transaction-dialog{width:min(520px,100%)}
+.transaction-dialog::backdrop{background:#02071166}
+.ledger-table td:nth-child(5){text-align:right;white-space:nowrap}
+.ledger-table th:nth-child(5){text-align:right}
+.table-columns{margin-bottom:var(--hp-space-2);font-size:var(--hp-font-sm)}
+.table-columns>div{display:flex;gap:var(--hp-space-3);flex-wrap:wrap}
+.table-columns label{display:flex;gap:var(--hp-space-2);align-items:center}
+.table-columns input{width:auto}
+@media(max-width:700px){.detail-heading{top:-14px}.quick-filters .filters{display:grid;grid-template-columns:1fr;min-width:0}.quick-filters input{min-width:0;width:100%}}
+.category-list .category-drill{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;width:100%;text-align:left;background:transparent;color:var(--hp-text);border:0;border-bottom:1px solid var(--hp-border);padding:12px 0}
+.category-drill strong{font-variant-numeric:tabular-nums}
+.category-drill svg{grid-column:1/-1;width:100%;height:4px;background:var(--hp-surface-hover);fill:var(--hp-series-2)}
+.category-drill:hover span{color:var(--hp-accent)}

@@ -37,3 +37,17 @@ test('the production build loads its passkey-only signed-out screen without any 
  const errors=[],external=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',request=>{const url=new URL(request.url());if(!['localhost','127.0.0.1'].includes(url.hostname))external.push(request.url());});
  await page.goto('http://127.0.0.1:4176/household-platform/');await expect(page.getByRole('heading',{name:'A clearer view of home.',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Sign in with a passkey',exact:true})).toBeVisible();await expect(page.getByRole('navigation',{name:'Main navigation'})).toHaveCount(0);await expect(page.locator('.net-worth-overview')).toHaveCount(0);await scan(page);await noOverflow(page);expect(errors).toEqual([]);expect(external).toEqual([]);expect(await page.evaluate(()=>window.__cspViolations)).toEqual([]);
 });
+
+test('dark transaction workflow autosaves categories, preserves failed drafts and remembers columns',async({page},info)=>{
+ await page.goto(fixture+'#transactions');await expect(page.locator('.ledger-table tbody tr')).toHaveCount(50);
+ await page.locator('.table-columns > summary').click();await page.locator('.table-columns').getByLabel('Tags',{exact:true}).uncheck();await expect(page.getByRole('columnheader',{name:'Sort by Tags'})).toHaveCount(0);
+ await page.reload();await expect(page.locator('.ledger-table tbody tr')).toHaveCount(50);await expect(page.getByRole('columnheader',{name:'Sort by Tags'})).toHaveCount(0);
+ await page.getByRole('button',{name:'Needs attention',exact:true}).click();await expect(page.locator('.ledger-table tbody tr')).toHaveCount(1);
+ await page.getByRole('button',{name:'Edit transaction Mock purchase 02',exact:true}).click();const dialog=page.getByRole('dialog');await expect(dialog.locator('.transfer-section')).toHaveCount(0);
+ await dialog.getByLabel('Category',{exact:true}).selectOption('utilities');await expect(dialog.getByRole('button',{name:'Save changes',exact:true})).toBeDisabled();
+ await page.evaluate(()=>{window.__householdFixture.failTransactionSave=true;});await dialog.getByLabel('Category',{exact:true}).selectOption('food');await expect(dialog.getByRole('alert')).toContainText('Mock save conflict');await expect(dialog.getByLabel('Category',{exact:true})).toHaveValue('food');
+ await dialog.getByRole('button',{name:'Save changes',exact:true}).click();await expect(dialog.getByRole('alert')).toHaveCount(0);
+ await dialog.getByLabel('Notes',{exact:true}).fill('Unsaved mock note');const before=await page.evaluate(()=>window.__householdFixture.calls.filter(c=>c.operation==='update_ledger_transaction').length);await dialog.getByLabel('Category',{exact:true}).selectOption('utilities');expect(await page.evaluate(()=>window.__householdFixture.calls.filter(c=>c.operation==='update_ledger_transaction').length)).toBe(before);
+ await scan(page);await noOverflow(page);await dialog.screenshot({path:info.outputPath('transaction-dark.png')});await page.keyboard.press('Escape');await expect(page.getByRole('alertdialog')).toContainText('Discard unsaved');await page.getByRole('button',{name:'Discard changes',exact:true}).click();
+ await page.getByRole('link',{name:'Dashboard',exact:true}).click();await page.getByRole('button',{name:'View Mock groceries transactions',exact:true}).click();await expect(page.getByLabel('Filter category',{exact:true})).toHaveValue('food');await expect(page.locator('.ledger-table tbody tr')).toHaveCount(36);
+});
