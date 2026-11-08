@@ -63,7 +63,7 @@ begin
  -- Existing unlinked categorized entries inherit the updated category rule.
  -- Linked pairs retain their validated peer relationships.
  update household_private.transactions
- set category_id=category_id, revision=revision+1
+ set flow_type=behavior, revision=revision+1
  where category_id=ident and deleted_at is null and transfer_peer_id is null
  and flow_type is distinct from behavior;
  insert into household_private.audit_events(actor_id,action,target_id)
