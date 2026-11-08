@@ -19,6 +19,7 @@ test('confirmed transfer workflow updates dashboard, classifies a single side, l
  function detail(t){return {...structuredClone(t),original_description:t.description,original_account_id:t.account_id,original_tags:[],receipts:[],transfer_peer:structuredClone(rows.find(p=>p.id===t.transfer_peer_id)||null)};}
  async function secureCall(op,payload={}){calls.push({op,payload});
   if(op==='list_accounts')return accounts;
+  if(op==='list_payees')return [];
   if(op==='list_categories')return categories;
   if(op==='list_source_snapshots')return [];
   if(op==='list_ledger_transactions'){let data=rows.filter(t=>payload.flow==='unlinked_transfer'?t.flow_type!=='regular'&&!t.transfer_peer_id:!payload.flow||t.flow_type===payload.flow);return {rows:structuredClone(data),total:data.length,trash_total:0};}

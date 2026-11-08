@@ -88,3 +88,8 @@ preferences, category drill-down and modal keyboard behavior using fabricated da
 No database migration, production record update or authorization change is part
 of this refinement. Column ordering/width, saved views and deeper legacy CSS
 migration remain future increments.
+
+Payees uses the shared Panel, SectionHeading, InlineNotice and EmptyState
+primitives. Its editor follows the contextual side-panel pattern with draft
+protection. Transaction payee edits share category autosave and explicit mixed
+draft Save behavior.

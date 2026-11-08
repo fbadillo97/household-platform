@@ -1,11 +1,13 @@
 import React,{useState,useEffect,useRef} from 'react';
 import {InlineNotice} from '../components/ui.jsx';
+import {PayeeEditor} from './PayeesPage.jsx';
+import {payeeKey} from '../payees.js';
 import {TransferSection} from './TransferSection.jsx';
 import {receiptMetadata} from '../receipts.js';
-const draftFor=t=>({description:t.description,account_id:t.account_id,category_id:t.category_id||'',notes:t.notes||'',review_status:t.review_status||'unreviewed',needs_attention:!!t.needs_attention,tags_override:t.tags_override??null});
-export function TransactionDetail({id,accounts,categories,money,secureCall,secureReceipt,refresh,onClose}){
+const draftFor=t=>({description:t.description,account_id:t.account_id,category_id:t.category_id||'',payee_id:t.payee_id||'',notes:t.notes||'',review_status:t.review_status||'unreviewed',needs_attention:!!t.needs_attention,tags_override:t.tags_override??null});
+export function TransactionDetail({id,accounts,categories,payees=[],money,secureCall,secureReceipt,refresh,onClose}){
  const dialog=useRef(null),alive=useRef(true),previewUrl=useRef(null);
- const [item,setItem]=useState(null),[draft,setDraft]=useState(null),[baseline,setBaseline]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState(''),[tag,setTag]=useState(''),[confirm,setConfirm]=useState(null),[preview,setPreview]=useState(null);
+ const [item,setItem]=useState(null),[draft,setDraft]=useState(null),[baseline,setBaseline]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState(''),[tag,setTag]=useState(''),[confirm,setConfirm]=useState(null),[preview,setPreview]=useState(null),[addingPayee,setAddingPayee]=useState(false);
  const dirty=draft&&JSON.stringify(draft)!==baseline;
  function releasePreview(){if(previewUrl.current)URL.revokeObjectURL(previewUrl.current);previewUrl.current=null;setPreview(null);}
  function accept(t,reset=true){setItem(t);if(reset){const d=draftFor(t);setDraft(d);setBaseline(JSON.stringify(d));}}
@@ -19,19 +21,21 @@ export function TransactionDetail({id,accounts,categories,money,secureCall,secur
  async function reload(reset=false){const t=await secureCall('get_transaction_detail',{id});if(alive.current)accept(t,reset);return t;}
  function close(){if(busy)return;if(dirty)setConfirm({kind:'discard'});else onClose();}
  function field(name,value){setDraft(d=>({...d,[name]:value}));}
- async function category(value){
-  // A category-only edit is atomic. Mixed drafts keep explicit Save semantics.
+ async function singleField(name,value){
+  // A single category/payee edit is atomic. Mixed drafts keep explicit Save semantics.
   const previous=JSON.parse(baseline||'{}');
-  const otherFieldsDirty=Object.keys(draft||{}).some(key=>key!=='category_id'&&JSON.stringify(draft[key])!==JSON.stringify(previous[key]));
-  field('category_id',value);
+  const otherFieldsDirty=Object.keys(draft||{}).some(key=>key!==name&&JSON.stringify(draft[key])!==JSON.stringify(previous[key]));
+  field(name,value);
   if(otherFieldsDirty||busy||item.deleted_at)return;
   await action(async()=>{
-   await secureCall('update_ledger_transaction',{id,revision:item.revision,category_id:value||null});
+   await secureCall('update_ledger_transaction',{id,revision:item.revision,[name]:value||null});
    await reload(true);await refresh();
   });
  }
  async function save(event){event.preventDefault();await action(async()=>{
-  await secureCall('update_ledger_transaction',{...draft,id,revision:item.revision,description_override:draft.description.trim()===item.original_description?null:draft.description.trim(),account_override_id:draft.account_id===item.original_account_id?null:draft.account_id,category_id:draft.category_id||null});
+  const {payee_id,...fields}=draft;
+  const payeeChange=payee_id!==JSON.parse(baseline).payee_id?{payee_id:payee_id||null}:{};
+  await secureCall('update_ledger_transaction',{...fields,...payeeChange,id,revision:item.revision,description_override:draft.description.trim()===item.original_description?null:draft.description.trim(),account_override_id:draft.account_id===item.original_account_id?null:draft.account_id,category_id:draft.category_id||null});
   await reload(true);await refresh();
  });}
  async function trash(restore=false){await action(async()=>{await secureCall(restore?'restore_transaction':'trash_transaction',{id,revision:item.revision});await refresh();if(alive.current)onClose();});}
@@ -60,7 +64,11 @@ export function TransactionDetail({id,accounts,categories,money,secureCall,secur
  <button type="button" className="text-button" onClick={()=>field('description',item.original_description)}>Reset description</button>
  <label>Account<select value={draft.account_id} onChange={e=>field('account_id',e.target.value)}>{accounts.filter(a=>a.currency===acct?.currency).map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select></label>
  <button type="button" className="text-button" onClick={()=>field('account_id',item.original_account_id)}>Reset account</button>
- <label>Category<select aria-describedby="category-saving" value={draft.category_id} onChange={e=>category(e.target.value)}><option value="">Unassigned</option>{categories.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label><small id="category-saving">{busy?'Saving…':dirty?'Unsaved changes · Save changes to apply':'Category changes save automatically'}</small>
+ <label>Category<select aria-describedby="category-saving" value={draft.category_id} onChange={e=>singleField('category_id',e.target.value)}><option value="">Unassigned</option>{categories.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label><small id="category-saving">{busy?'Saving…':dirty?'Unsaved changes · Save changes to apply':'Category and payee changes save automatically'}</small>
+ <label>Payee<select aria-label="Transaction payee" value={draft.payee_id} onChange={e=>singleField('payee_id',e.target.value)}><option value="">Unassigned</option>{payees.filter(p=>!p.archived_at||p.id===draft.payee_id).map(p=><option key={p.id} value={p.id}>{p.name}{p.archived_at?' (archived)':''}</option>)}</select></label>
+ <div className="payee-inline-actions"><button type="button" className="text-button" onClick={()=>setAddingPayee(true)}>Add payee</button>
+ {item.suggested_payee_id&&!draft.payee_id&&payees.some(p=>p.id===item.suggested_payee_id)&&<button type="button" className="secondary" onClick={()=>singleField('payee_id',item.suggested_payee_id)}>Use suggested payee: {payees.find(p=>p.id===item.suggested_payee_id)?.name}</button>}
+ {item.payee_id&&!dirty&&!payees.find(p=>p.id===item.payee_id)?.aliases?.some(a=>payeeKey(a)===payeeKey(item.original_description))&&<button type="button" className="text-button" onClick={()=>action(async()=>{await secureCall('remember_payee_alias',{id,revision:item.revision});await refresh();})}>Recognize this imported description next time</button>}</div>
  <label>Notes<textarea rows="4" maxLength="10000" value={draft.notes} onChange={e=>field('notes',e.target.value)} placeholder="Receipt context, reimbursements, things to follow up…"/></label>
  <div className="review-controls"><label><input type="checkbox" checked={draft.review_status==='reviewed'} onChange={e=>field('review_status',e.target.checked?'reviewed':'unreviewed')}/> Reviewed</label><label><input type="checkbox" checked={draft.needs_attention} onChange={e=>field('needs_attention',e.target.checked)}/> Needs attention</label></div>
  <label>Tags</label><div className="tags">{tags.map(t=><span key={t}>{t} <button type="button" aria-label={'Remove tag '+t} onClick={()=>field('tags_override',tags.filter(x=>x!==t))}>×</button></span>)}</div>
@@ -78,6 +86,7 @@ export function TransactionDetail({id,accounts,categories,money,secureCall,secur
  <details className="original-record"><summary>Original imported record</summary><dl><dt>Description</dt><dd>{item.original_description}</dd><dt>Account</dt><dd>{acct?.name}</dd><dt>Date</dt><dd>{item.date}</dd><dt>Amount</dt><dd>{money(item.amount_minor,acct?.currency||'CAD')}</dd><dt>Tags</dt><dd>{(item.original_tags||[]).join(', ')||'None'}</dd>{item.source_data?.notes&&<><dt>Imported notes</dt><dd>{item.source_data.notes}</dd></>}<dt>Source</dt><dd>{item.source||'CSV'}{item.external_id?' · '+item.external_id:''}</dd></dl></details>
  {!item.deleted_at&&<button className="danger" disabled={busy} onClick={()=>setConfirm({kind:'trash'})}>Move to Trash</button>}
  </>}
+ {addingPayee&&<PayeeEditor secureCall={secureCall} refresh={refresh} onClose={()=>setAddingPayee(false)} onSaved={id=>{setAddingPayee(false);singleField('payee_id',id);}}/>}
  {confirm&&<div className="detail-confirm" role="alertdialog" aria-modal="false" aria-label="Confirm action"><p>{confirm.kind==='discard'?'Discard unsaved changes?':confirm.kind==='reload'?'Reload the latest details and discard unsaved changes?':confirm.kind==='trash'?'Move this transaction to Trash? It will leave your totals. You can restore it later. Unsaved changes will be discarded.':'Remove this receipt file? This cannot be undone.'}</p><button disabled={busy} autoFocus onClick={()=>confirm.kind==='discard'?onClose():confirm.kind==='reload'?action(async()=>{await reload(true);if(alive.current)setConfirm(null);}):confirm.kind==='trash'?trash():remove(confirm.receipt)}>{confirm.kind==='discard'?'Discard changes':confirm.kind==='reload'?'Reload and discard changes':confirm.kind==='trash'?'Confirm move to Trash':'Confirm remove receipt'}</button><button className="secondary" disabled={busy} onClick={()=>setConfirm(null)}>Keep editing</button></div>}
  </dialog>;
 }

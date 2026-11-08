@@ -231,3 +231,11 @@ thead{background:var(--hp-surface-raised)}
 .category-drill strong{font-variant-numeric:tabular-nums}
 .category-drill svg{grid-column:1/-1;width:100%;height:4px;background:var(--hp-surface-hover);fill:var(--hp-series-2)}
 .category-drill:hover span{color:var(--hp-accent)}
+.payee-tools,.payee-inline-actions{display:flex;align-items:center;gap:var(--hp-space-3);flex-wrap:wrap}
+.payee-tools>label:first-child{flex:1;max-width:480px}
+.checkbox-label{display:flex!important;align-items:center;gap:var(--hp-space-2)}
+.checkbox-label input{width:auto}
+.payee-table{width:100%}
+.payee-table td:last-child{white-space:nowrap}
+.payee-dialog textarea{min-height:130px}
+.payee-dialog .detail-fields{padding-top:var(--hp-space-3)}

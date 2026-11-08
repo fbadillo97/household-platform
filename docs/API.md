@@ -108,3 +108,8 @@ The existing `(account_id,as_of desc,sequence desc)` index supports lookups. Mor
 ## Category-driven accounting behavior
 
 Categories have an `accounting_behavior` of `regular` (default), `transfer`, or `credit_card_payment`. The Settings page edits this through `update_category_behavior` with `{id,accounting_behavior}`. New categories default to regular. The database applies the category default when a transaction is categorized, and applies category-rule changes to unlinked active transactions. Invalid credit-card direction is rejected atomically. Unassigned transactions are regular when their category is cleared. Explicit linked transfers retain their paired classification until unlinked; then category defaults apply. Original imported fields, amounts and source IDs are untouched. The existing `set_transaction_flow` dispatcher remains for backward compatibility but is no longer exposed in the user interface. The transaction detail form no longer has a separate transaction-type editor. Existing standalone classifications without a category change are preserved for audit until categorized or the relevant category rule changes.
+
+## Payee directory and assignments
+
+See [Payees](PAYEES.md#database-and-access) for the new private RPC operations,
+ledger fields, recognition rules and atomic bulk payee action.

@@ -39,7 +39,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   }
   if(operation==='stage_import')return {id:'mock-batch',account_id:'mock-account',committed:false,rows:[{id:'mock-stage-row',line:2,error:null,duplicate:false,payload:{date:'2026-10-03',description:'Mock staged item',amount_minor:-100}}]};
   if(operation==='create_account'){accounts.push({id:'mock-second',...payload});return accounts.at(-1);}
-  const data={list_accounts:accounts,list_properties:[],list_categories:[{id:'food',name:'Mock groceries'}],list_transactions:transactions,list_source_snapshots:[{id:'mock-snapshot',source:'monarch',account_name:'Mock Checking',period_start:'2026-10-01',period_end:'2026-10-31',committed_at:'2026-11-01',expected_count:2,inserted_count:2,skipped_count:0,coverage_notes:['Excluded mock institution']} ]};
+  const data={list_payees:[],list_accounts:accounts,list_properties:[],list_categories:[{id:'food',name:'Mock groceries'}],list_transactions:transactions,list_source_snapshots:[{id:'mock-snapshot',source:'monarch',account_name:'Mock Checking',period_start:'2026-10-01',period_end:'2026-10-31',committed_at:'2026-11-01',expected_count:2,inserted_count:2,skipped_count:0,coverage_notes:['Excluded mock institution']} ]};
   if(!(operation in data))throw Error('Unexpected operation: '+operation);
   return data[operation];
  };
@@ -61,7 +61,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   assert.doesNotMatch(container.textContent,/Import coverage|Account security|Source details|Property/);
   const filterPanel=container.querySelector('details.transaction-filters');
   assert.equal(filterPanel.open,false);
-  assert.equal(container.querySelector('.ledger-table thead tr').children.length,8);
+  assert.equal(container.querySelector('.ledger-table thead tr').children.length,9);
   assert.equal(container.querySelector('.ledger-table .column-filters'),null);
   await act(async()=>{filterPanel.open=true;});
   const input=container.querySelector('input[type="search"]');

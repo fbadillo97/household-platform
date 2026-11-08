@@ -15,7 +15,7 @@ test('dashboard shows partial saved-balance visuals, scopes account links, updat
  rows.push({...rows[0],id:'exclude',name:'Mock excluded',include_in_net_worth:false});rows.push({...rows[2],id:'closed',name:'Mock archived',archived_at:today});
  const calls=[];async function secureCall(op,payload={}){calls.push({op,payload});
   if(op==='list_accounts')return structuredClone(rows);
-  if(['list_categories','list_source_snapshots'].includes(op))return [];
+  if(['list_payees','list_categories','list_source_snapshots'].includes(op))return [];
   if(op==='list_ledger_transactions')return {rows:[{id:'mock-tx',account_id:'bank',date:'2026-10-01',description:'Mock activity',amount_minor:999999}],total:1};
   if(op==='save_account_balance'){const row=rows.find(a=>a.id===payload.id);assert.equal(payload.revision,row.revision);row.revision++;row.balance_snapshot={amount_minor:payload.amount_minor,currency:row.currency,as_of:payload.as_of};return structuredClone(row);}
   throw Error('Unexpected '+op);
