@@ -113,3 +113,8 @@ Categories have an `accounting_behavior` of `regular` (default), `transfer`, or 
 
 See [Payees](PAYEES.md#database-and-access) for the new private RPC operations,
 ledger fields, recognition rules and atomic bulk payee action.
+
+## Automations
+
+See [Automations](AUTOMATIONS.md) for closed definition schemas, private assistant
+configuration, on/off controls, activity and guarded Undo APIs.

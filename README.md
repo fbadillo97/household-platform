@@ -8,7 +8,7 @@ Private household finance foundation, with property identifiers ready for future
 
 - This public repository contains code, migrations and fabricated fixtures only; real imported records stay in the private database.
 - The dedicated Household Platform database is active in Canada Central (`ca-central-1`).
-- All twelve SQL migrations are already applied to that project. Do not rerun them manually.
+- All fourteen SQL migrations are already applied to that project. Do not rerun them manually.
 - The owner email reservation is configured privately in the database. The owner subsequently completed verified signup and passkey enrollment. No real email is seeded in migrations.
 - The frontend deploys to GitHub Pages after successful tests/builds on main, or a manual Publish GitHub Pages run.
 - The GitHub Pages website is published at https://fbadillo97.github.io/household-platform/ . The owner has completed passkey sign-in and disabled the Email provider. Statement reconciliation and a backup/restore drill remain outstanding.
@@ -159,3 +159,12 @@ in transaction details or through reviewed bulk edits. Exact imported-descriptio
 aliases recognize future imports; existing records are suggested for explicit
 review. Payees stay independent of categories and transfer accounting.
 See [Payee setup and API](docs/PAYEES.md) for filtering, archiving, limits and checks.
+
+### Automations
+
+**Settings → Automations** lists plain-language definitions, on/off switches,
+activity, errors, guarded Undo and affected transactions. Ask the connected
+assistant to create or revise a definition; imports execute validated actions
+without per-transaction AI calls. Existing payee aliases appear in the same
+directory. See [Automations](docs/AUTOMATIONS.md) and the retained
+[Recurring/Cash Flow roadmap](docs/ROADMAP.md).

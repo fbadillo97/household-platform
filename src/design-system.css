@@ -239,3 +239,12 @@ thead{background:var(--hp-surface-raised)}
 .payee-table td:last-child{white-space:nowrap}
 .payee-dialog textarea{min-height:130px}
 .payee-dialog .detail-fields{padding-top:var(--hp-space-3)}
+.settings-sections,.automation-event-actions{display:flex;gap:var(--hp-space-2);flex-wrap:wrap;align-items:center;margin-bottom:var(--hp-space-3)}
+.settings-sections button[aria-pressed=true]{background:var(--hp-accent-tint);border-color:var(--hp-accent)}
+.automation-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:var(--hp-space-3);margin-block:var(--hp-space-4)}
+.automation-card{background:var(--hp-surface-raised);border:1px solid var(--hp-border);border-radius:var(--hp-radius);padding:var(--hp-space-4);min-width:0;overflow-wrap:anywhere}
+.automation-card h3{margin:0}.automation-card button[role=switch]{min-width:60px;margin:0}
+.automation-card button[aria-checked=true]{border-color:var(--hp-accent);color:var(--hp-accent)}
+.automation-statement{color:var(--hp-text)}.automation-last,.automation-scope{font-size:var(--hp-font-sm)}
+.automation-events{list-style:none;padding:0}.automation-events>li{padding-block:var(--hp-space-4);border-bottom:1px solid var(--hp-border);overflow-wrap:anywhere}
+.automations-panel .automation-card{padding:var(--hp-space-4)}

@@ -19,6 +19,7 @@ export function Finance({secureCall,secureReceipt,settingsContent}){
  const initialPeriodSet=useRef(false);
  const [account,setAccount]=useState(''),[batch,setBatch]=useState(null),[selected,setSelected]=useState([]);
  const [page,setPage]=useState(()=>pageFromHash(window.location.hash));
+ const [settingsSection,setSettingsSection]=useState(()=>window.location.hash==='#settings/automations'?'automations':'general');
  const [accountScope,setAccountScope]=useState(null);
  const [accountFilter,setAccountFilter]=useState(''),[month,setMonth]=useState(''),[query,setQuery]=useState('');
  async function refresh(){
@@ -34,12 +35,12 @@ export function Finance({secureCall,secureReceipt,settingsContent}){
  }
 
  useEffect(()=>{
-  const sync=()=>setPage(pageFromHash(window.location.hash));
+  const sync=()=>{setPage(pageFromHash(window.location.hash));setSettingsSection(window.location.hash==='#settings/automations'?'automations':'general');};
   window.addEventListener('hashchange',sync);window.addEventListener('popstate',sync);
   return()=>{window.removeEventListener('hashchange',sync);window.removeEventListener('popstate',sync);};
  },[]);
  useEffect(()=>{document.title=PAGES[page].title+' · Household';},[page]);
- function navigate(next){if(window.location.hash!=='#'+next)window.history.pushState(null,'','#'+next);setPage(next);}
+ function navigate(next){if(window.location.hash!=='#'+next)window.history.pushState(null,'','#'+next);setPage(pageFromHash('#'+next));setSettingsSection(next==='settings/automations'?'automations':'general');}
  const overviewRows=filterRows(transactions,{accountId:accountFilter,month},categories);
 
  const totals=summarizeRows(overviewRows);
@@ -61,6 +62,6 @@ export function Finance({secureCall,secureReceipt,settingsContent}){
  {page==='accounts'&&<AccountsPage scope={accountScope} onClearScope={()=>setAccountScope(null)} accounts={accounts} secureCall={secureCall} refresh={refresh} money={money} onViewTransactions={id=>{setAccountFilter(id);setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
  {page==='transactions'&&<TransactionsPage payees={payees} accounts={accounts} categories={categories} money={money} busy={busy} run={run} secureCall={secureCall} secureReceipt={secureReceipt} refresh={refresh} accountFilter={accountFilter} setAccountFilter={changeAccount} month={month} setMonth={changeMonth} query={query} setQuery={changeQuery} view={transactionView} setView={setTransactionView} refreshVersion={refreshVersion} filters={<ActivityFilters {...filterProps} query={query} setQuery={changeQuery} hideAccount/>}><CsvImport accounts={accounts} account={account} setAccount={setAccount} batch={batch} setBatch={setBatch} selected={selected} setSelected={setSelected} busy={busy} run={run} secureCall={secureCall} setNotice={setNotice} refresh={refresh} money={money}/></TransactionsPage>}
  {page==='payees'&&<PayeesPage payees={payees} secureCall={secureCall} refresh={refresh} onViewTransactions={id=>{setAccountFilter('');setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,payee:id},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
- {page==='settings'&&<SettingsPage accounts={accounts} categories={categories} busy={busy} create={create} secureCall={secureCall} refresh={refresh}>{settingsContent}</SettingsPage>}
+ {page==='settings'&&<SettingsPage section={settingsSection} onSectionChange={section=>navigate(section==='automations'?'settings/automations':'settings')} onViewTransactions={({source='',event=''})=>{setAccountFilter('');setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,automationSource:source,automationEvent:event},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}} payees={payees} accounts={accounts} categories={categories} busy={busy} create={create} secureCall={secureCall} refresh={refresh}>{settingsContent}</SettingsPage>}
  </div></div>;
 }
