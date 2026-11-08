@@ -76,13 +76,12 @@ language plpgsql security definer set search_path='' as $$
 declare actor uuid:=household_private.identity_id();result jsonb;actor_role text;ident uuid;
 begin
  if operation='update_category_behavior' then return household_private.category_behavior_action(payload);end if;
- if operation='set_transaction_flow' then raise exception using errcode='22023',message='Set a category instead of a transaction type';end if;
  if operation='get_balance_history' then return household_private.balance_history(payload);end if;
  if operation='list_accounts' then return household_private.account_list();end if;
  if operation in ('create_account','update_account','archive_account','restore_account','save_account_balance') then return household_private.account_action(operation,payload);end if;
  if operation='bulk_update_transactions' then return household_private.bulk_transactions(payload);end if;
  if operation='list_transfer_candidates' then return household_private.transfer_candidates(payload);end if;
- if operation in ('link_transfer','unlink_transfer') then return household_private.transfer_action(operation,payload);end if;
+ if operation in ('set_transaction_flow','link_transfer','unlink_transfer') then return household_private.transfer_action(operation,payload);end if;
  if operation='get_transaction_detail' then return household_private.transaction_detail(payload);end if;
  if operation='trash_transaction' then return household_private.transaction_trash(payload,false);end if;
  if operation='restore_transaction' then return household_private.transaction_trash(payload,true);end if;
