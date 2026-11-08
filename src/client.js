@@ -9,3 +9,14 @@ export async function call(operation,payload={}){
  if(error)throw error;
  return data;
 }
+
+export async function receiptStorage(action,path,file,mime){
+ if(!client)throw Error('Project configuration is missing');
+ const bucket=client.storage.from('household-receipts');let result;
+ if(action==='upload')result=await bucket.upload(path,file,{contentType:mime,upsert:false,cacheControl:'0'});
+ else if(action==='download')result=await bucket.download(path);
+ else if(action==='remove')result=await bucket.remove([path]);
+ else throw Error('Unknown receipt action');
+ if(result.error)throw result.error;
+ return result.data;
+}

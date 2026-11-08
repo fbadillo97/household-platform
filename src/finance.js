@@ -1,7 +1,7 @@
 export function summarizeRows(rows){
  return rows.reduce((sum,row)=>{if(!Number.isSafeInteger(row.amount_minor))throw Error('Invalid stored amount');sum.count++;if(row.amount_minor>0)sum.inflow+=row.amount_minor;else sum.outflow-=row.amount_minor;sum.net+=row.amount_minor;return sum;},{count:0,inflow:0,outflow:0,net:0});
 }
-export function tagNames(row){return (row.source_data?.tags||[]).map(t=>typeof t==='string'?t:t.name||t.id).filter(Boolean);}
+export function tagNames(row){return (row.tags_override??row.source_data?.tags??[]).map(t=>typeof t==='string'?t:t.name||t.id).filter(Boolean);}
 export function filterRows(rows,{accountId='',month='',query=''},categories){
  const names=new Map(categories.map(c=>[c.id,c.name]));const q=query.trim().toLocaleLowerCase();
  return rows.filter(t=>(!accountId||t.account_id===accountId)&&(!month||t.date.startsWith(month))&&(!q||[t.description,names.get(t.category_id)||'',...tagNames(t)].join(' ').toLocaleLowerCase().includes(q)));
@@ -19,5 +19,5 @@ export function ledgerPayload({accountId='',month='',query='',view}){
  const f=view.columns;const min=amountFilterMinor(f.minAmount),max=amountFilterMinor(f.maxAmount);
  if(min!==null&&max!==null&&min>max)throw Error('Minimum amount must not exceed maximum amount');
  if(f.dateFrom&&f.dateTo&&f.dateFrom>f.dateTo)throw Error('Start date must not follow end date');
- return {account_id:accountId||null,month,query:query.trim(),description:f.description.trim(),tags:f.tags.trim(),category_id:f.category||null,date_from:f.dateFrom||null,date_to:f.dateTo||null,min_minor:min,max_minor:max,sort:view.sort,direction:view.direction,offset:view.offset,limit:50};
+ return {trash_only:!!view.trashOnly,review:view.review||'',account_id:accountId||null,month,query:query.trim(),description:f.description.trim(),tags:f.tags.trim(),category_id:f.category||null,date_from:f.dateFrom||null,date_to:f.dateTo||null,min_minor:min,max_minor:max,sort:view.sort,direction:view.direction,offset:view.offset,limit:50};
 }

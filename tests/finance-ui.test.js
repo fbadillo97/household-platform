@@ -30,6 +30,9 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
    if(payload.sort==='amount')rows.sort((a,b)=>(a.amount_minor-b.amount_minor)*(payload.direction==='asc'?1:-1));
    return {rows,total:rows.length};
   }
+  if(operation==='get_transaction_detail'){
+   const t=transactions.find(t=>t.id===payload.id);return {...t,original_description:t.description,original_account_id:t.account_id,original_tags:['Renovation'],receipts:[],description:t.description_override??t.description,account_id:t.account_override_id??t.account_id};
+  }
   if(operation==='update_ledger_transaction'){
    const row=transactions.find(t=>t.id===payload.id);assert.equal(row.revision,payload.revision);
    Object.assign(row,{description_override:payload.description_override,account_override_id:payload.account_override_id,category_id:payload.category_id,revision:row.revision+1});return {id:row.id,revision:row.revision};
@@ -101,11 +104,13 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   assert.match(container.querySelector('.ledger-table tbody').textContent,/Edited groceries/);
   assert.equal(transactions[0].description,'Mock shop');assert.equal(transactions[0].account_id,'mock-account');
   assert.equal(calls.find(c=>c.operation==='update_ledger_transaction').payload.account_override_id,'mock-savings');
+  await act(async()=>container.querySelector('[aria-label="Close transaction"]').click());
   await act(async()=>container.querySelector('[aria-label="Edit transaction Edited groceries"]').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
   for(const label of ['Reset description','Reset account'])await act(async()=>[...container.querySelectorAll('.ledger-editor button')].find(b=>b.textContent===label).dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
   await act(async()=>{container.querySelector('.ledger-editor form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await new Promise(r=>setTimeout(r,0));});await flushLedger();
   assert.equal(transactions[0].description_override,null);assert.equal(transactions[0].account_override_id,null);
   assert.equal(container.querySelector('input[type="month"]').value,''); // refresh after saving must not restore a cleared period
+  await act(async()=>container.querySelector('[aria-label="Close transaction"]').click());
   const fileInput=container.querySelector('input[type="file"]');
   await act(async()=>{Object.defineProperty(fileInput,'files',{configurable:true,value:[{size:65,text:async()=> 'date,description,amount\n2026-10-03,Mock staged item,-1.00'}]});fileInput.dispatchEvent(new dom.window.Event('change',{bubbles:true}));await new Promise(r=>setTimeout(r,0));});
   assert.equal(container.querySelector('[aria-label="Select CSV line 2"]').checked,true);

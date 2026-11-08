@@ -53,3 +53,12 @@ Frontend tests cover ledger server-query payloads, signed amount parsing, sort c
 
 
 Transaction filters are grouped in a collapsed-by-default native details/summary accordion. DOM regression checks verify the table keeps its sort headings, active filters remain applied while collapsed, clear-all removes every filter, and a refresh after an edit does not restore a deliberately cleared month. No ledger/backend behavior or records are changed by this layout adjustment.
+
+
+## Transaction detail panel and receipts
+
+Migration six adds notes, local tags, review flags, recoverable Trash and a private receipts bucket without changing imported dates, amounts, descriptions, accounts or source IDs. `supabase/tests/details.sql` passes three rollback groups: field validation/source preservation; exact prepared Storage paths, authenticated RLS and hash deduplication; Trash/Restore, repeat-import exclusion, missing-object/removal ordering and OTP/public/direct-table denial. Tests use a mock account/transactions and temporary session for the existing owner, rolled back. Storage fixtures contain metadata only; no real receipt or file is uploaded/deleted by the SQL suite.
+
+DOM tests cover opening/editing the panel, unsaved-close confirmation, notes/flags/tags, interrupted receipt upload/removal and retry, duplicate attachments, Trash and Restore. File tests reject oversize, unsafe names and unsupported content. Existing navigation, filter/sort, overrides/reset and CSV staging checks pass. Production build passes. These are simulated browser/storage operations; native authenticated file transfer, PDF preview and mobile visual acceptance still require a signed-in browser check.
+
+The advisor adds one intentional deny-all RLS/no-policy informational receipt-table notice. No missing-FK-index or function-search-path warning was added. The pre-existing leaked-password warning concerns the disabled Email/password provider; passkey and membership gates remain required. New indexes are retained despite unused-index notices on this small ledger. See [RLS advisor](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy), [password advisor](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection) and [index advisor](https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index).
