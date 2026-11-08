@@ -76,7 +76,7 @@ linked pairs retain priority over category defaults. Matching controls appear
 for movement categories or existing links, never ordinary purchases.
 
 Search/month/review are quick filters; amount/date/category/account/tag and
-accounting scope remain under Advanced filters. Column visibility is stored only
+matching status remain under Advanced filters. Column visibility is stored only
 as an allowlisted set of column names in browser localStorage, with a safe fallback
 when storage is unavailable. No household data or search terms are persisted.
 Description and amount remain visible. Sorting and 50-row server pagination are
