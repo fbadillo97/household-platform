@@ -23,3 +23,9 @@ household expense report. Optional column visibility is per browser, not synced.
 Column order/width and saved views remain future increments. The previously
 recorded Auth provider cutover and encrypted backup/restore drill in DEPLOYMENT.md
 remain owner acceptance items; this UI release does not verify them.
+
+Final local result: 25/25 Node/DOM tests and 12/12 desktop/mobile Chromium
+checks passed, including axe scans. Production Vite build passed. Dark panel
+screenshots were visually inspected. The new browser test's initial label
+locator timeout was fixed by selecting the combobox through its accessible role;
+the final merged source passed the full suite.
