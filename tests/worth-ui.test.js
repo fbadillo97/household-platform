@@ -37,7 +37,7 @@ test('dashboard shows partial saved-balance visuals, scopes account links, updat
   for(const row of rows)row.balance_snapshot=null;await click('Refresh');assert.match(worth().querySelector('.worth-net').textContent,/Not provided/);assert.equal(worth().querySelector('.worth-donut'),null);assert.equal(worth().querySelector('.worth-bars'),null);assert.match(worth().textContent,/Add balances to build your overview/);
   rows[0].balance_snapshot={amount_minor:0,currency:'CAD',as_of:today};await click('Refresh');assert.match(worth().querySelector('.worth-net').textContent,/0\.00/);assert.match(worth().textContent,/No positive equity/);assert.equal(worth().querySelector('.worth-donut'),null);
   assert.equal(worth().querySelector('.worth-bar-equity'),null);
-  rows[0].balance_snapshot={amount_minor:100,currency:'CAD',as_of:today};rows[2].balance_snapshot={amount_minor:500,currency:'CAD',as_of:today};await click('Refresh');assert.match(worth().querySelector('.worth-bar-net').textContent,/-\$4\.00/);assert.equal(worth().querySelector('.worth-bar-equity'),null);assert.equal(worth().querySelector('.worth-bar-debt'),null);assert.match(worth().textContent,/Equity is negative/);
+  rows[0].balance_snapshot={amount_minor:100,currency:'CAD',as_of:today};rows[2].balance_snapshot={amount_minor:500,currency:'CAD',as_of:today};await click('Refresh');assert.match(worth().querySelector('.worth-bar-net').textContent,/-\$4\.00/);assert.equal(worth().querySelector('.worth-bar-equity'),null);assert.equal(worth().querySelector('.worth-bar-debt'),null);assert.match(worth().textContent,/Net worth is negative/);
   assert.equal(calls.filter(c=>c.op==='save_account_balance').length,1);
  }finally{await act(async()=>root.unmount());await unlink(output);dom.window.close();}
 });
