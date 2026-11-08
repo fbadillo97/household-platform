@@ -1,6 +1,6 @@
 # Website and Auth setup
 
-No website has been published by this change. Choose a permanent HTTPS hostname before enrolling passkeys; changing the relying-party ID requires new passkey enrollment. GitHub stores code; Supabase runs the data and authentication services; a static host serves `dist/`.
+The selected website is https://fbadillo97.github.io/household-platform/ . Deployment is prepared but Pages must be enabled in repository settings before publication. Changing the relying-party ID later requires new passkey enrollment. GitHub stores code; Supabase runs the data and authentication services; a static host serves `dist/`.
 
 ## Frontend host
 
@@ -27,3 +27,21 @@ From the approved account, add a passkey, sign out, and sign in using it. Test a
 Use a separate approved test email account to request access. Confirm the pending screen displays without record requests, approve it from the owner account, then confirm records are available. Remove its access while it remains signed in and verify the next database operation fails and the protected screen clears. Rejected accounts should remain rejected after signing in again. Test only with mock records.
 
 Do not paste database passwords, SMTP credentials, secret keys, email-link tokens or passkey responses into GitHub or chat. The connected setup does not need those secrets to inspect project state or apply approved schema changes.
+
+
+## Selected GitHub Pages configuration
+
+Keep the repository private. Open Settings → Pages and select **GitHub Actions** as the build/deployment source. If GitHub asks for a plan upgrade, Pages for this private repository is not available on the current plan; do not change repository visibility as a workaround without a separate decision.
+
+Open Actions → Publish GitHub Pages → Run workflow, select main and run it. The workflow tests/builds the app with `/household-platform/` as its base, the dedicated project's public URL and publishable key, then deploys only `dist/`. Publishing is manual for now, so later source pushes require another manual run. No secret database credentials are used.
+
+Once deployment succeeds, use these exact Supabase Auth values:
+
+- Site URL and allowed email redirect: `https://fbadillo97.github.io/household-platform/`
+- Passkey relying-party display name: `Household Platform`
+- Passkey relying-party ID: `fbadillo97.github.io`
+- Passkey allowed origin: `https://fbadillo97.github.io`
+
+Do not include `/household-platform/` in the passkey RP ID or origin. The wishlist and household frontend share the GitHub Pages origin, but each Supabase project keeps separate Auth identities, credentials and approval rules.
+
+GitHub Pages does not apply the `_headers` convention. The document includes a restrictive CSP meta tag and no-referrer meta tag for this host; meta CSP cannot enforce `frame-ancestors`, and response-level cache/frame headers remain a hosting limitation. No household records are packaged in the static site. Keep records mock-only until email delivery, passkeys, approval behavior and recovery have been exercised in real browsers.
