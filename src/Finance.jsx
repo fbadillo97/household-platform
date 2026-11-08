@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 import {summarizeRows,filterRows,EMPTY_COLUMN_FILTERS} from './finance.js';
 import {PAGES,pageFromHash} from './navigation.js';
 import {DashboardPage} from './pages/DashboardPage.jsx';
@@ -13,13 +13,14 @@ export function Finance({secureCall,settingsContent}){
  const [accounts,setAccounts]=useState([]),[categories,setCategories]=useState([]),[transactions,setTransactions]=useState([]),[snapshots,setSnapshots]=useState([]);
  const [transactionView,setTransactionView]=useState({columns:{...EMPTY_COLUMN_FILTERS},sort:'date',direction:'desc',offset:0});
  const [refreshVersion,setRefreshVersion]=useState(0);
+ const initialPeriodSet=useRef(false);
  const [account,setAccount]=useState(''),[batch,setBatch]=useState(null),[selected,setSelected]=useState([]);
  const [page,setPage]=useState(()=>pageFromHash(window.location.hash));
  const [accountFilter,setAccountFilter]=useState(''),[month,setMonth]=useState(''),[query,setQuery]=useState('');
  async function refresh(){
   const [a,c,t,s]=await Promise.all(['list_accounts','list_categories','list_ledger_transactions','list_source_snapshots'].map(operation=>secureCall(operation,operation==='list_ledger_transactions'?{limit:500}:{})));
   setAccounts(a);setCategories(c);setTransactions(t.rows);setSnapshots(s);setRefreshVersion(v=>v+1);
-  setAccount(old=>old||a[0]?.id||'');setMonth(old=>old||s[0]?.period_start?.slice(0,7)||'');
+  setAccount(old=>old||a[0]?.id||'');if(!initialPeriodSet.current){setMonth(old=>old||s[0]?.period_start?.slice(0,7)||'');initialPeriodSet.current=true;}
  }
  async function run(task){setBusy(true);setError('');try{await task();}catch(e){if(e.message!=='Stale session')setError(e.message);}finally{setBusy(false);}}
  useEffect(()=>{run(refresh);},[]);
@@ -52,7 +53,7 @@ export function Finance({secureCall,settingsContent}){
  <div className="section-head page-heading"><div><p className="eyebrow">HOUSEHOLD FINANCE</p><h1>{PAGES[page].title}</h1><p className="intro">{PAGES[page].description}</p></div><button disabled={busy} onClick={()=>run(refresh)}>Refresh</button></div>
  {error&&<p className="error" role="alert">{error}</p>}{notice&&<p role="status">{notice}</p>}
  {page==='dashboard'&&<DashboardPage accounts={accounts} rows={overviewRows} snapshots={snapshots} totals={totals} currency={currency} currencies={currencies} money={money} summaryMoney={summaryMoney} outflowCategories={outflowCategories} filters={<ActivityFilters {...filterProps}/>} onViewTransactions={()=>{setQuery('');navigate('transactions');}}/>}
- {page==='transactions'&&<TransactionsPage accounts={accounts} categories={categories} money={money} busy={busy} run={run} secureCall={secureCall} refresh={refresh} accountFilter={accountFilter} setAccountFilter={changeAccount} month={month} query={query} view={transactionView} setView={setTransactionView} refreshVersion={refreshVersion} filters={<ActivityFilters {...filterProps} query={query} setQuery={changeQuery} hideAccount/>}><CsvImport accounts={accounts} account={account} setAccount={setAccount} batch={batch} setBatch={setBatch} selected={selected} setSelected={setSelected} busy={busy} run={run} secureCall={secureCall} setNotice={setNotice} refresh={refresh} money={money}/></TransactionsPage>}
+ {page==='transactions'&&<TransactionsPage accounts={accounts} categories={categories} money={money} busy={busy} run={run} secureCall={secureCall} refresh={refresh} accountFilter={accountFilter} setAccountFilter={changeAccount} month={month} setMonth={changeMonth} query={query} setQuery={changeQuery} view={transactionView} setView={setTransactionView} refreshVersion={refreshVersion} filters={<ActivityFilters {...filterProps} query={query} setQuery={changeQuery} hideAccount/>}><CsvImport accounts={accounts} account={account} setAccount={setAccount} batch={batch} setBatch={setBatch} selected={selected} setSelected={setSelected} busy={busy} run={run} secureCall={secureCall} setNotice={setNotice} refresh={refresh} money={money}/></TransactionsPage>}
  {page==='settings'&&<SettingsPage accounts={accounts} categories={categories} busy={busy} create={create}>{settingsContent}</SettingsPage>}
  </>;
 }

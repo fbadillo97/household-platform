@@ -56,10 +56,19 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   assert.equal(heading(),'Transactions');assert.equal(container.querySelectorAll('tbody tr').length,2);
   assert.equal(container.querySelector('nav a[aria-current="page"]').textContent,'Transactions');
   assert.doesNotMatch(container.textContent,/Import coverage|Account security|Source details|Property/);
+  const filterPanel=container.querySelector('details.transaction-filters');
+  assert.equal(filterPanel.open,false);
+  assert.equal(container.querySelector('.ledger-table thead tr').children.length,7);
+  assert.equal(container.querySelector('.ledger-table .column-filters'),null);
+  await act(async()=>{filterPanel.open=true;});
   const input=container.querySelector('input[type="search"]');
   await act(async()=>{Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype,'value').set.call(input,'Renovation');input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));});
   await flushLedger();
   assert.equal(container.querySelectorAll('tbody tr').length,1);assert.match(container.querySelector('tbody').textContent,/Mock shop/);
+  await act(async()=>{filterPanel.open=false;});
+  assert.match(filterPanel.querySelector('summary').textContent,/2 active/);
+  assert.equal(container.querySelectorAll('.ledger-table tbody>tr').length,1);
+  await act(async()=>{filterPanel.open=true;});
   const accountFilter=container.querySelector('[aria-label="Filter account"]');
   await act(async()=>{accountFilter.value='mock-account';accountFilter.dispatchEvent(new dom.window.Event('change',{bubbles:true}));});
   await openPage('Dashboard');
@@ -78,10 +87,13 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   await act(async()=>container.querySelector('[aria-label="Sort by Amount"]').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
   await flushLedger();assert.equal(container.querySelector('[aria-label="Sort by Amount"]').closest('th').getAttribute('aria-sort'),'ascending');
   assert.equal(calls.filter(c=>c.operation==='list_ledger_transactions').at(-1).payload.sort,'amount');
+  await act(async()=>{container.querySelector('details.transaction-filters').open=true;});
   await typeValue(container.querySelector('[aria-label="Filter maximum amount"]'),'0');await flushLedger();
   assert.equal(container.querySelectorAll('.ledger-table tbody>tr').length,1);
-  await act(async()=>[...container.querySelectorAll('button')].find(b=>b.textContent==='Clear column filters').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
+  await act(async()=>[...container.querySelectorAll('button')].find(b=>b.textContent==='Clear all filters').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
   await flushLedger();assert.equal(container.querySelectorAll('.ledger-table tbody>tr').length,2);
+  assert.match(container.querySelector('details.transaction-filters summary').textContent,/None active/);
+  assert.equal(container.querySelector('input[type="month"]').value,'');
   await act(async()=>container.querySelector('[aria-label="Edit transaction Mock shop"]').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
   await typeValue(container.querySelector('.ledger-editor input'),'Edited groceries');
   await act(async()=>{const select=container.querySelector('.ledger-editor select');select.value='mock-savings';select.dispatchEvent(new dom.window.Event('change',{bubbles:true}));});
@@ -93,6 +105,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   for(const label of ['Reset description','Reset account'])await act(async()=>[...container.querySelectorAll('.ledger-editor button')].find(b=>b.textContent===label).dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
   await act(async()=>{container.querySelector('.ledger-editor form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await new Promise(r=>setTimeout(r,0));});await flushLedger();
   assert.equal(transactions[0].description_override,null);assert.equal(transactions[0].account_override_id,null);
+  assert.equal(container.querySelector('input[type="month"]').value,''); // refresh after saving must not restore a cleared period
   const fileInput=container.querySelector('input[type="file"]');
   await act(async()=>{Object.defineProperty(fileInput,'files',{configurable:true,value:[{size:65,text:async()=> 'date,description,amount\n2026-10-03,Mock staged item,-1.00'}]});fileInput.dispatchEvent(new dom.window.Event('change',{bubbles:true}));await new Promise(r=>setTimeout(r,0));});
   assert.equal(container.querySelector('[aria-label="Select CSV line 2"]').checked,true);

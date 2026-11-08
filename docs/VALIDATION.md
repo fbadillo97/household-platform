@@ -50,3 +50,6 @@ The frontend is split into Dashboard, Transactions and Settings views. Automated
 `supabase/tests/ledger.sql` runs rolled-back fixtures to verify effective account/description overrides, resets, same-currency enforcement, stale-revision rejection, raw source/property/fingerprint preservation, source reimport deduplication after overrides, numeric/date sorting, pagination and column filters, invalid query rejection and passkey/helper-privilege boundaries. The migration adds nullable override fields; deployment changes no existing descriptions or account assignments.
 
 Frontend tests cover ledger server-query payloads, signed amount parsing, sort controls, amount filters, editable description/account overrides and resets, plus existing navigation/CSV staging behavior. Property creation and transaction property/source-detail columns are removed from the active UI; private schema fields remain for future use.
+
+
+Transaction filters are grouped in a collapsed-by-default native details/summary accordion. DOM regression checks verify the table keeps its sort headings, active filters remain applied while collapsed, clear-all removes every filter, and a refresh after an edit does not restore a deliberately cleared month. No ledger/backend behavior or records are changed by this layout adjustment.

@@ -19,5 +19,5 @@ export function ledgerPayload({accountId='',month='',query='',view}){
  const f=view.columns;const min=amountFilterMinor(f.minAmount),max=amountFilterMinor(f.maxAmount);
  if(min!==null&&max!==null&&min>max)throw Error('Minimum amount must not exceed maximum amount');
  if(f.dateFrom&&f.dateTo&&f.dateFrom>f.dateTo)throw Error('Start date must not follow end date');
- return {account_id:accountId||null,month,query,description:f.description,tags:f.tags,category_id:f.category||null,date_from:f.dateFrom||null,date_to:f.dateTo||null,min_minor:min,max_minor:max,sort:view.sort,direction:view.direction,offset:view.offset,limit:50};
+ return {account_id:accountId||null,month,query:query.trim(),description:f.description.trim(),tags:f.tags.trim(),category_id:f.category||null,date_from:f.dateFrom||null,date_to:f.dateTo||null,min_minor:min,max_minor:max,sort:view.sort,direction:view.direction,offset:view.offset,limit:50};
 }
