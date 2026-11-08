@@ -61,7 +61,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   assert.doesNotMatch(container.textContent,/Import coverage|Account security|Source details|Property/);
   const filterPanel=container.querySelector('details.transaction-filters');
   assert.equal(filterPanel.open,false);
-  assert.equal(container.querySelector('.ledger-table thead tr').children.length,7);
+  assert.equal(container.querySelector('.ledger-table thead tr').children.length,8);
   assert.equal(container.querySelector('.ledger-table .column-filters'),null);
   await act(async()=>{filterPanel.open=true;});
   const input=container.querySelector('input[type="search"]');

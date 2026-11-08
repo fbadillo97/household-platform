@@ -6,7 +6,7 @@ Private household finance foundation, with property identifiers ready for future
 
 - This public repository contains code, migrations and fabricated fixtures only; real imported records stay in the private database.
 - The dedicated Household Platform database is active in Canada Central (`ca-central-1`).
-- All seven SQL migrations are already applied to that project. Do not rerun them manually.
+- All eight SQL migrations are already applied to that project. Do not rerun them manually.
 - The owner email reservation is configured privately in the database. The owner subsequently completed verified signup and passkey enrollment. No real email is seeded in migrations.
 - The frontend deploys to GitHub Pages after successful tests/builds on main, or a manual Publish GitHub Pages run.
 - The GitHub Pages website is published at https://fbadillo97.github.io/household-platform/ . The owner has completed passkey sign-in and disabled the Email provider. Statement reconciliation and a backup/restore drill remain outstanding.
@@ -52,6 +52,15 @@ The app has three pages: Dashboard for overview totals, leading categories, acco
 
 Click any transaction row (or Open) for the detail panel. Edit description, same-currency account, category, notes, Reviewed/Needs attention flags and local tags. Save changes explicitly. Original imported details are collapsed for reconciliation; source values and IDs remain immutable. Date and amount are read-only. Active and Trash views share the existing filters. Trash excludes the record from overview totals and preserves notes, receipts and import identity; Restore brings it back. Repeat imports cannot resurrect a trashed source ID.
 
+### Bulk review and Trash
+
+Use transaction checkboxes to select up to 50 rows on the current page; the header checkbox selects that page only, with a mixed-state indicator for a partial selection. The action bar shows the selected count. Choose category (including Unassigned), Reviewed/Unreviewed, Needs attention on/off, Add tag or Remove tag. Tags are matched without regard to case and other labels remain in place. Review the change and per-row before/after preview, then confirm. The confirmation uses the exact selected IDs and loaded revisions, never an unbounded filter/query.
+
+Bulk Move to Trash requires explicit confirmation and preserves notes, receipt files and source identity. Linked transfers block the whole Trash request; deselect them with the provided shortcut or undo their links individually first. The Trash view offers only bulk Restore. No permanent transaction-delete action is supplied. Account, description, amount, date, notes, receipts and transfer classification/linking remain individual actions in this version.
+
+Each batch is one database transaction. The server locks all selected rows in stable UUID order and checks every revision/state before writing; missing, stale or invalid selections, a linked Trash target, and even a later tag-limit error leave the whole batch unchanged. Existing limits apply (20 effective tags, 60 characters per label). Matching values are skipped without revising records; success reports selected and actually updated counts. If a conflict occurs, refresh and select again rather than silently retrying changed records. Selection clears on filter/sort/page/view changes, refresh and successful completion. Imported originals and source IDs remain unchanged.
+
+
 ### Transfers and credit card payments
 
 The detail panel has a Transfer or card payment section. You can explicitly classify one entry when the other side is not imported, or use Find the other side to review equal/opposite amounts in a different effective account with the same currency. Suggestions default to within 7 posting days, expandable to 31, with description/account search (nearest 50 results). Confirming a match links and classifies both entries atomically. A suggested card payment must leave a non-card funding account and arrive on a credit card; other movements use Transfer. Only use Transfer for movements between your own accounts, never merely because a description says transfer.
@@ -82,7 +91,7 @@ All records live in unexposed `household_private` tables with RLS enabled and no
 
 Do not expose `household_private` in the Data API settings. Do not grant direct table access to `anon` or `authenticated`. Database administrators and project secret keys remain privileged; protect the Supabase and GitHub accounts with MFA.
 
-Migrations are versioned in `supabase/migrations`. The first creates the foundation; the second qualifies staged-row columns in the import commit function; the third requires server-recorded passkey authentication; the fourth adds private source snapshots and external-ID deduplication; the fifth adds local overrides and the paginated ledger query; the sixth adds transaction notes, review flags, tags, recoverable Trash and private receipt storage; the seventh adds local transfer/card-payment classification and reciprocal links. Those filenames match the project's applied migration history. Future changes need new migrations, database tests and advisor review. Supabase CLI 2.81.3 was used only to create migration files; hosted migrations were applied through the Supabase connector. CLI 3 has different target/confirmation behavior: read its help and current docs before deploying with it. No workflow automatically deploys database changes or requires a database secret.
+Migrations are versioned in `supabase/migrations`. The first creates the foundation; the second qualifies staged-row columns in the import commit function; the third requires server-recorded passkey authentication; the fourth adds private source snapshots and external-ID deduplication; the fifth adds local overrides and the paginated ledger query; the sixth adds transaction notes, review flags, tags, recoverable Trash and private receipt storage; the seventh adds local transfer/card-payment classification and reciprocal links; the eighth adds atomic bulk metadata edits and Trash/Restore. Those filenames match the project's applied migration history. Future changes need new migrations, database tests and advisor review. Supabase CLI 2.81.3 was used only to create migration files; hosted migrations were applied through the Supabase connector. CLI 3 has different target/confirmation behavior: read its help and current docs before deploying with it. No workflow automatically deploys database changes or requires a database secret.
 
 ## Verification and backups
 

@@ -64,3 +64,22 @@ All new operations require current approved passkey membership. Private helper E
 - `unlink_transfer` `{id,revision,peer_id,peer_revision}` requires the exact current reciprocal link and revisions, locks both rows in UUID order, clears both peer IDs and restores both to regular with incremented revisions/audit events.
 
 The three mutation operations return the initiating transaction detail. Pair operations do not infer amounts or rewrite source categories. Ledger account moves and Trash reject linked records until unlinked; ordinary details/receipt changes remain supported. Restore retains a standalone classification. No generic ledger payload key can update flow/peer fields. Dashboard excludes each non-regular entry before aggregating, including single-side records and pairs crossing account/month boundaries. Transfer matching is same-currency only; it does not reconcile statements or support split/FX/fee matching.
+
+
+## Bulk metadata edits and Trash/Restore
+
+`bulk_update_transactions` accepts `{items:[{id,revision}],action,value}`. It requires the same live, verified, approved passkey membership as individual changes. Items must be 1–50 unique UUIDs with positive integer revisions; duplicate/missing IDs, unknown request/item fields, invalid action/value and payloads over 20 KB are rejected. The UI selects the current page only; the API operates strictly on the explicitly supplied IDs, never all filter matches.
+
+Actions/values:
+
+| Action | Value |
+|---|---|
+| category | Existing category UUID or explicit null for Unassigned |
+| review | reviewed / unreviewed |
+| attention | JSON boolean |
+| add_tag / remove_tag | One nonblank tag label, 1–60 characters |
+| trash / restore | Ignored; client sends null |
+
+All IDs are locked in UUID order, then existence, every revision and active/Trash state are checked before any write. Metadata edits require active rows. Trash rejects any linked transfer; Restore requires every selected row in Trash. No item is silently skipped for an error. Existing checked ledger/trash helpers perform the updates and auditing in the same transaction; any exception rolls back the entire batch, including earlier loop iterations. No-op values preserve revisions. Response: `{action,selected_count,updated_count}`. An extra per-updated-row `bulk_<action>` audit event records bulk intent. Private bulk helper EXECUTE is revoked from public/anon/authenticated.
+
+Tag changes operate on each record's effective tags, case-insensitively adding once or removing the requested label while preserving other labels/order and raw source metadata. The existing 20-tag limit can reject an addition. No bulk payload can change raw source fields, description, account, date/amount, notes, receipt files or flow/link fields. Trash uses recoverable tombstones and keeps receipt files/source identity; restores retain standalone flow classification. Permission denial is 42501, invalid payload 22023, missing ID P0002 and stale/state/linked-Trash conflict 40001. On conflict refresh and explicitly select again.
