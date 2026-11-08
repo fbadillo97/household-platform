@@ -1,12 +1,12 @@
 # Household Platform
 
-Private household finance foundation, with property identifiers ready for future maintenance and document modules. React/Vite frontend, Supabase PostgreSQL, approved-member access, passkey controls, reviewed CSV imports. Mock records only until the remaining deployment and Auth checks pass.
+Private household finance foundation, with property identifiers ready for future maintenance and document modules. React/Vite frontend, Supabase PostgreSQL, approved-member access, passkey controls, reviewed CSV imports. Real records are held only in the private database; repository fixtures remain fabricated.
 
 ## Current state
 
-- This private repository contains code, migrations and fabricated fixtures only.
+- This public repository contains code, migrations and fabricated fixtures only; real imported records stay in the private database.
 - The dedicated Household Platform database is active in Canada Central (`ca-central-1`).
-- All three SQL migrations are already applied to that project. Do not rerun them manually.
+- All four SQL migrations are already applied to that project. Do not rerun them manually.
 - The owner email reservation is configured privately in the database. The owner subsequently completed verified signup and passkey enrollment. No real email is seeded in migrations.
 - The frontend deploys to GitHub Pages after successful tests/builds on main, or a manual Publish GitHub Pages run.
 - The GitHub Pages website is published at https://fbadillo97.github.io/household-platform/ . Finish the Email-provider cutover described below; real-data acceptance and restore checks remain outstanding.
@@ -47,13 +47,16 @@ There is one household per project. All approved members currently share finance
 
 ## Finance workflow
 
+The dashboard supports private on-demand Monarch snapshots as well as CSV imports. It shows month/account/search filters, money in/out/net movement, category totals, source metadata/tags, and coverage notes. Only account activity is totaled, never balances or mixed currencies. [Monarch import contract](docs/MONARCH.md) documents repeat-import behavior, preserved fields and limitations.
+
+
 Add a mock account, mock home/rental properties and optional categories. Upload `public/mock-transactions.csv`, which intentionally contains an identical payment and an invalid date. Preview validation and duplicate warnings, then explicitly confirm selected rows. Assign property/category references in the transaction table.
 
 CSV: UTF-8, exact ordered headers `date,description,amount`, ISO dates, positive inflows/negative outflows, at most two decimal places. Client CSV limit is 1 MB / 5,000 rows; server independently checks structured payload size, types and each amount/date/description. Amounts are stored as integer cents. Only currencies with two decimal places are supported. No currency conversion or balances are inferred. Imports retain normalized staged rows, not original files or invalid raw values.
 
 Duplicate warnings are scoped to one account and match date, normalized description and cents. Default selection excludes them. Explicit selection sends duplicate acknowledgments. Commits lock the batch and account, recheck duplicates, validate all selected IDs, and atomically insert transactions. A newly detected duplicate fails for renewed review. Identical legitimate payments can be deliberately retained. This is duplicate assistance, not statement reconciliation. Imported batches cannot be committed twice. Import previews/commits are restricted to the staging user.
 
-Transactions are listed in date order, up to the latest 500 in the UI. The API supports account/property filtering and limit/offset pagination. Assignment updates and approval decisions require a revision to reject stale edits. A private audit table records successful record creation, imports, assignments and access decisions; there is no audit viewer yet.
+Transactions are listed in date order, up to the latest 500 in the UI. Monarch imports preserve their source IDs, categories, returned tag metadata and other returned source details. Source notes/attachments/split details are not assumed present when the connector omits them. No balances or document files are imported. The API supports account/property filtering and limit/offset pagination. Assignment updates and approval decisions require a revision to reject stale edits. A private audit table records successful record creation, imports, assignments and access decisions; there is no audit viewer yet.
 
 This remains a transaction-ledger foundation: no reconciliation, opening balances, transfers, double-entry bookkeeping, tax reports, budgets, bank feeds, attachments, imports history UI or retention/purge UI. Documents and maintenance have extension points through property UUIDs but are not implemented.
 
@@ -63,7 +66,7 @@ All records live in unexposed `household_private` tables with RLS enabled and no
 
 Do not expose `household_private` in the Data API settings. Do not grant direct table access to `anon` or `authenticated`. Database administrators and project secret keys remain privileged; protect the Supabase and GitHub accounts with MFA.
 
-Migrations are versioned in `supabase/migrations`. The first creates the foundation; the second qualifies staged-row columns in the import commit function; the third requires server-recorded passkey authentication for household operations. Those filenames match the project's applied migration history. Future changes need new migrations, database tests and advisor review. Supabase CLI 2.81.3 was used only to create migration files; hosted migrations were applied through the Supabase connector. CLI 3 has different target/confirmation behavior: read its help and current docs before deploying with it. No workflow automatically deploys database changes or requires a database secret.
+Migrations are versioned in `supabase/migrations`. The first creates the foundation; the second qualifies staged-row columns in the import commit function; the third requires server-recorded passkey authentication; the fourth adds private source snapshots and external-ID deduplication. Those filenames match the project's applied migration history. Future changes need new migrations, database tests and advisor review. Supabase CLI 2.81.3 was used only to create migration files; hosted migrations were applied through the Supabase connector. CLI 3 has different target/confirmation behavior: read its help and current docs before deploying with it. No workflow automatically deploys database changes or requires a database secret.
 
 ## Verification and backups
 

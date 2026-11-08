@@ -1,0 +1,43 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {build} from 'esbuild';
+import {fileURLToPath} from 'node:url';
+import {writeFile,unlink} from 'node:fs/promises';
+import {JSDOM} from 'jsdom';
+import React,{act} from 'react';
+
+test('finance screen loads private data, filters by tags, and saves account forms',async()=>{
+ const dom=new JSDOM('<!doctype html><div id="root"></div>',{url:'https://example.invalid/household-platform/'});
+ globalThis.window=dom.window;globalThis.document=dom.window.document;globalThis.HTMLElement=dom.window.HTMLElement;
+ globalThis.FormData=dom.window.FormData;globalThis.IS_REACT_ACT_ENVIRONMENT=true;
+ const output=new URL('./.finance-render.mjs',import.meta.url);
+ const bundle=await build({entryPoints:[fileURLToPath(new URL('../src/Finance.jsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react'],write:false});
+ await writeFile(output,bundle.outputFiles[0].text);
+ const {createRoot}=await import('react-dom/client');
+ const {Finance}=await import(output.href);
+ const accounts=[{id:'mock-account',name:'Mock Checking',kind:'checking',currency:'CAD',source_metadata:{currency_assumed:true}}];
+ const transactions=[{id:'mock-tx-1',account_id:'mock-account',date:'2026-10-01',description:'Mock shop',amount_minor:-125,category_id:'food',property_id:null,revision:1,source:'monarch',external_id:'mock-source-1',source_data:{tags:[{id:'mock-tag',name:'Renovation'}],notes_provided:true,notes:'Mock private note'}},{id:'mock-tx-2',account_id:'mock-account',date:'2026-10-02',description:'Mock pay',amount_minor:2000,category_id:null,property_id:null,revision:1}];
+ const calls=[];
+ const secureCall=async(operation,payload)=>{
+  calls.push({operation,payload});
+  if(operation==='create_account'){accounts.push({id:'mock-second',...payload});return accounts.at(-1);}
+  const data={list_accounts:accounts,list_properties:[],list_categories:[{id:'food',name:'Mock groceries'}],list_transactions:transactions,list_source_snapshots:[{id:'mock-snapshot',source:'monarch',account_name:'Mock Checking',period_start:'2026-10-01',period_end:'2026-10-31',committed_at:'2026-11-01',expected_count:2,inserted_count:2,skipped_count:0,coverage_notes:['Excluded mock institution']} ]};
+  if(!(operation in data))throw Error('Unexpected operation: '+operation);
+  return data[operation];
+ };
+ const container=document.getElementById('root');const root=createRoot(container);
+ try{
+  await act(async()=>{root.render(React.createElement(Finance,{secureCall}));await new Promise(r=>setTimeout(r,0));});
+  assert.match(container.textContent,/Mock Checking/);assert.match(container.textContent,/Excluded mock institution/);
+  assert.equal(container.querySelectorAll('tbody tr').length,2);
+  const input=container.querySelector('input[type="search"]');
+  await act(async()=>{Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype,'value').set.call(input,'Renovation');input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));});
+  assert.equal(container.querySelectorAll('tbody tr').length,1);assert.match(container.querySelector('tbody').textContent,/Mock shop/);
+  const form=[...container.querySelectorAll('form')].find(f=>f.querySelector('button')?.textContent==='Add account');
+  form.querySelector('input[name="name"]').value='Another mock account';
+  await act(async()=>{form.dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await new Promise(r=>setTimeout(r,0));});
+  assert.deepEqual(calls.find(c=>c.operation==='create_account').payload,{name:'Another mock account',kind:'checking',currency:'CAD'});
+  assert.match(container.textContent,/Another mock account/);
+  assert.equal(container.querySelector('[role="alert"]'),null);
+ }finally{await act(async()=>root.unmount());await unlink(output);dom.window.close();}
+});

@@ -25,3 +25,8 @@ Amounts are signed integer `amount_minor` cents in transaction responses; CSV am
 A successful `request_access` is not proof of approval: inspect `status`. Do not use user-editable JWT metadata, email suffixes or frontend state as authorization. No client-facing operation can set the owner email, assign owner role, access arbitrary tables or run SQL.
 
 Permission failures use SQLSTATE 42501; invalid payloads 22023; missing imports P0002; stale revision/replay/duplicate-review conflicts 40001. Constraints may also reject malformed resource fields. Refresh before retrying a conflict, and clear protected views on authorization failure. There is no token/key in this document.
+
+
+## Source snapshots
+
+See [Monarch snapshot contract](MONARCH.md). `stage_monarch_snapshot` and `commit_monarch_snapshot` require an approved passkey-authenticated owner. `list_source_snapshots` requires approved passkey membership. All records remain in household_private. Transactions returned by list_transactions can include `source`, `external_id` and `source_data`; accounts may include source metadata and an explicit currency assumption.

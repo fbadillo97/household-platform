@@ -37,7 +37,7 @@ function App(){
  },[]);
  async function signOut(scope='local'){currentUser.current=null;clear();const {error}=await client.auth.signOut({scope});if(error)throw error;}
  async function listKeys(){const {data,error}=await fence.current.run(()=>client.auth.passkey.list());if(error)throw error;setKeys(data||[]);}
- return <div className="shell"><header><div className="brand">H<span>Household</span></div><span className="tag">Private household · Mock records only</span>{currentUser.current&&<button disabled={busy} onClick={()=>run(signOut)}>Sign out</button>}</header><main><p className="eyebrow">YOUR HOUSEHOLD, CONNECTED</p><h1>A clearer view of home.</h1><p className="intro">Finance, property and the things that keep home running.</p>
+ return <div className="shell"><header><div className="brand">H<span>Household</span></div><span className="tag">Private household · Passkey access</span>{currentUser.current&&<button disabled={busy} onClick={()=>run(signOut)}>Sign out</button>}</header><main><p className="eyebrow">YOUR HOUSEHOLD, CONNECTED</p><h1>A clearer view of home.</h1><p className="intro">Finance, property and the things that keep home running.</p>
  {error&&<p className="error" role="alert">{error}</p>}{notice&&<p role="status">{notice}</p>}
  {!configured?<section className="panel"><h2>Project setup needed</h2><p>Add the project URL and publishable key using the setup guide, then rebuild.</p></section>:
  phase==='signed_out'?<section className="panel login"><h2>Sign in to your household</h2><button disabled={busy||!passkeys} onClick={()=>run(async()=>{const {error}=await client.auth.signInWithPasskey();if(error)throw error;})}>Sign in with a passkey</button>{!passkeys&&<p>Passkeys need a supported browser and a secure connection.</p>}<p>Household access requires a passkey and owner approval. If every passkey is lost, contact the owner for a controlled recovery process.</p></section>:
@@ -47,6 +47,6 @@ function App(){
  {role==='owner'&&<section className="panel"><h2>Household access requests</h2><p>Approve only people who should share access to this household’s records. Approved members can read and manage finance records.</p>{people.map(p=><article key={p.user_id}><strong>{p.email}</strong><small>{p.role} · {p.status}</small>{p.role!=='owner'&&['approved','rejected','removed'].filter(status=>status!==p.status).map(status=><button key={status} disabled={busy} onClick={()=>run(async()=>{await secureCall('decide_access',{user_id:p.user_id,status,revision:p.revision});setPeople(await secureCall('list_requests'));setNotice('Access decision saved.');})}>{status==='approved'?'Approve':status==='rejected'?'Reject':'Remove access'}</button>)}</article>)}</section>}
  <Finance key={generation} secureCall={secureCall}/>
  </>}
- </main><footer>Household Platform · Canada Central · Foundation v0.2</footer></div>;
+ </main><footer>Household Platform · Canada Central · Foundation v0.3</footer></div>;
 }
 createRoot(document.getElementById('root')).render(<App/>);
