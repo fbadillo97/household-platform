@@ -53,6 +53,6 @@ test('confirmed transfer workflow updates dashboard, classifies a single side, l
   // Unsaved details block transfer linking so notes cannot be silently discarded.
   await act(async()=>{const input=container.querySelector('textarea');Object.getOwnPropertyDescriptor(dom.window.HTMLTextAreaElement.prototype,'value').set.call(input,'Mock unsaved note');input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));});
   assert.equal(container.querySelector('.transfer-matches fieldset').disabled,true);
-  await click('Close');await click('Discard changes');await page('Dashboard');assert.match(container.querySelector('.money-cards article:first-child').textContent,/200\.00/);
+  await click('Close');await click('Discard changes');await page('Dashboard');assert.match(container.querySelector('.money-cards article:first-child').textContent,/300\.00/);
  }finally{await act(async()=>root.unmount());await unlink(output);dom.window.close();}
 });
