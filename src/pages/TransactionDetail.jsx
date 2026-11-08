@@ -33,7 +33,7 @@ export function TransactionDetail({id,accounts,categories,money,secureCall,secur
 
  async function save(event){event.preventDefault();await action(async()=>{
   await secureCall('update_ledger_transaction',{...draft,id,revision:item.revision,description_override:draft.description.trim()===item.original_description?null:draft.description.trim(),account_override_id:draft.account_id===item.original_account_id?null:draft.account_id,category_id:draft.category_id||null});
-  await reload(true);await refresh();if(alive.current)setNotice('Changes saved.');
+  await reload(true);await refresh();
  });}
  async function trash(restore=false){await action(async()=>{await secureCall(restore?'restore_transaction':'trash_transaction',{id,revision:item.revision});await refresh();if(alive.current)onClose();});}
  async function upload(file){if(!file)return;await action(async()=>{
