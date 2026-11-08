@@ -1,5 +1,7 @@
 # Household Platform
 
+**UI / product standard:** [Household Platform Design Standard v1.0](docs/DESIGN_STANDARD.md) (adopted). Future development should follow [AGENTS.md](AGENTS.md) and the design acceptance checklist.
+
 Private household finance foundation, with property identifiers ready for future maintenance and document modules. React/Vite frontend, Supabase PostgreSQL, approved-member access, passkey controls, reviewed CSV imports. Real records are held only in the private database; repository fixtures remain fabricated.
 
 ## Current state
