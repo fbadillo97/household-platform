@@ -118,10 +118,11 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   assert.equal(container.querySelector('[aria-label="Select CSV line 2"]').checked,true);
   await openPage('Settings');assert.equal(heading(),'Settings');
   assert.match(container.textContent,/Account security/);assert.doesNotMatch(container.textContent,/Properties/);assert.equal(container.querySelector('table'),null);
-  const form=[...container.querySelectorAll('form')].find(f=>f.querySelector('button')?.textContent==='Add account');
+  await openPage('Accounts');assert.equal(heading(),'Accounts');
+  const form=container.querySelector('.account-create form');
   form.querySelector('input[name="name"]').value='Another mock account';
   await act(async()=>{form.dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await new Promise(r=>setTimeout(r,0));});
-  assert.deepEqual(calls.find(c=>c.operation==='create_account').payload,{name:'Another mock account',kind:'checking',currency:'CAD'});
+  assert.deepEqual(calls.find(c=>c.operation==='create_account').payload,{name:'Another mock account',kind:'checking',currency:'CAD',include_in_net_worth:true});
   assert.match(container.textContent,/Another mock account/);
   assert.equal(container.querySelector('[role="alert"]'),null);
   await act(async()=>{window.history.replaceState(null,'','#dashboard');window.dispatchEvent(new dom.window.PopStateEvent('popstate'));});

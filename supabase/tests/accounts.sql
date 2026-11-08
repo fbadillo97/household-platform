@@ -1,0 +1,60 @@
+-- Administrative connection only. All member/session/accounts/balance fixtures roll back.
+begin;
+create temporary table account_test_results(name text,passed boolean);
+do $$
+declare actor uuid;sid uuid;passkey_sid uuid;kind text;r jsonb;a uuid;card uuid;asset uuid;items jsonb;revision integer;today date:=current_date;
+begin
+ actor:=gen_random_uuid();insert into auth.users(id,email,email_confirmed_at,is_anonymous,created_at,updated_at) values(actor,'mock-accounts@example.invalid',now(),false,now(),now());
+ insert into household_private.memberships(user_id,status,role) values(actor,'approved','member');
+ sid:=gen_random_uuid();passkey_sid:=sid;insert into auth.sessions(id,user_id,aal) values(sid,actor,'aal1');
+ insert into auth.mfa_amr_claims(id,session_id,authentication_method,created_at,updated_at) values(gen_random_uuid(),sid,'passkey',now(),now());
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'session_id',sid,'role','authenticated')::text,true);
+ foreach kind in array array['checking','savings','credit','mortgage','loan','investment','asset','other'] loop
+  r:=public.household_v1('create_account',jsonb_build_object('name','Mock '||kind,'kind',kind,'currency','CAD'));
+  if r->>'revision'<>'1' or r->'balance_snapshot'<>'null'::jsonb or r->>'include_in_net_worth'<>'true' then raise exception 'Account initialization failed';end if;
+  if kind='checking' then a:=(r->>'id')::uuid;elsif kind='credit' then card:=(r->>'id')::uuid;elsif kind='asset' then asset:=(r->>'id')::uuid;end if;
+ end loop;
+ r:=public.household_v1('save_account_balance',jsonb_build_object('id',a,'revision',1,'amount_minor',0,'as_of',today,'note','Mock statement'));
+ if r->'balance_snapshot'->>'amount_minor'<>'0' or r->'balance_snapshot'->>'as_of'<>today::text or r->>'revision'<>'2' then raise exception 'Zero balance was lost';end if;
+ r:=public.household_v1('save_account_balance',jsonb_build_object('id',a,'revision',2,'amount_minor',10000,'as_of',today-10));
+ if r->'balance_snapshot'->>'amount_minor'<>'0' then raise exception 'Backdated entry displaced newest as-of balance';end if;
+ r:=public.household_v1('save_account_balance',jsonb_build_object('id',a,'revision',3,'amount_minor',12345,'as_of',today));
+ if r->'balance_snapshot'->>'amount_minor'<>'12345' or (select count(*) from household_private.account_balance_snapshots where account_id=a)<>3 then raise exception 'Same-day correction lost history or newest selection';end if;
+ r:=public.household_v1('save_account_balance',jsonb_build_object('id',card,'revision',1,'amount_minor',15000,'as_of',today));
+ if r->'balance_snapshot'->>'amount_minor'<>'15000' then raise exception 'Positive amount owed changed sign';end if;
+ r:=public.household_v1('save_account_balance',jsonb_build_object('id',card,'revision',2,'amount_minor',-100,'as_of',today));
+ if r->'balance_snapshot'->>'amount_minor'<>'-100' then raise exception 'Card credit balance rejected';end if;
+ r:=public.household_v1('save_account_balance',jsonb_build_object('id',asset,'revision',1,'amount_minor',10000000,'as_of',today-40));
+ if r->'balance_snapshot'->>'is_estimate'<>'true' or r->'balance_snapshot'->>'currency'<>'CAD' then raise exception 'Asset estimate/currency missing';end if;
+ insert into account_test_results values('extended account types, missing versus zero, positive debts, credits, dated corrections and retained snapshot history',true);
+ begin perform public.household_v1('save_account_balance',jsonb_build_object('id',a,'revision',3,'amount_minor',1,'as_of',today));raise exception 'Stale balance accepted';exception when serialization_failure then null;end;
+ begin perform public.household_v1('save_account_balance',jsonb_build_object('id',a,'revision',4,'amount_minor',1.5,'as_of',today));raise exception 'Fractional cents accepted';exception when invalid_parameter_value then null;end;
+ begin perform public.household_v1('save_account_balance',jsonb_build_object('id',a,'revision',4,'amount_minor',1,'as_of',today+1));raise exception 'Future date accepted';exception when invalid_parameter_value then null;end;
+ begin perform public.household_v1('save_account_balance',jsonb_build_object('id',a,'revision',4,'amount_minor',1,'as_of','2026-02-30'));raise exception 'Invalid date accepted';exception when invalid_parameter_value then null;end;
+ begin perform public.household_v1('save_account_balance',jsonb_build_object('id',asset,'revision',2,'amount_minor',-1,'as_of',today));raise exception 'Negative market estimate accepted';exception when invalid_parameter_value then null;end;
+ begin perform public.household_v1('update_account',jsonb_build_object('id',a,'revision',4,'currency','USD'));raise exception 'Currency rewrite accepted';exception when invalid_parameter_value then null;end;
+ begin perform public.household_v1('update_account',jsonb_build_object('id',a,'revision',4,'kind','credit'));raise exception 'Type reinterpretation accepted';exception when invalid_parameter_value then null;end;
+ update household_private.accounts set source='monarch',external_id='mock-account-foundation',source_metadata='{"mock":true}' where id=a;
+ r:=public.household_v1('update_account',jsonb_build_object('id',a,'revision',4,'name','Mock renamed','include_in_net_worth',false));
+ if r->>'name'<>'Mock renamed' or r->>'include_in_net_worth'<>'false' or r->>'external_id'<>'mock-account-foundation' or r->'balance_snapshot'->>'amount_minor'<>'12345' then raise exception 'Account edit lost source/balance';end if;
+ r:=public.household_v1('archive_account',jsonb_build_object('id',a,'revision',5));
+ if r->>'archived_at' is null or (select count(*) from household_private.account_balance_snapshots where account_id=a)<>3 then raise exception 'Archive lost history';end if;
+ begin perform public.household_v1('save_account_balance',jsonb_build_object('id',a,'revision',6,'amount_minor',1,'as_of',today));raise exception 'Archived account accepted balance';exception when serialization_failure then null;end;
+ r:=public.household_v1('restore_account',jsonb_build_object('id',a,'revision',6));
+ if r->>'archived_at' is not null or r->>'include_in_net_worth'<>'false' or r->'balance_snapshot'->>'amount_minor'<>'12345' then raise exception 'Restore lost inclusion/balance';end if;
+ if (select count(*) from household_private.transactions where account_id=a)<>0 then raise exception 'Balance generated ledger transactions';end if;
+ insert into account_test_results values('strict dates/amounts, stale protection, immutable currency/type, editable inclusion/name and archive/restore preserve records',true);
+ sid:=gen_random_uuid();insert into auth.sessions(id,user_id,aal) values(sid,actor,'aal1');
+ insert into auth.mfa_amr_claims(id,session_id,authentication_method,created_at,updated_at) values(gen_random_uuid(),sid,'otp',now(),now());
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'session_id',sid,'role','authenticated')::text,true);
+ foreach kind in array array['list_accounts','create_account','update_account','archive_account','restore_account','save_account_balance'] loop
+  begin perform public.household_v1(kind,jsonb_build_object('id',a,'revision',7));raise exception 'OTP account operation accepted';exception when insufficient_privilege then null;end;
+ end loop;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'session_id',passkey_sid,'role','authenticated')::text,true);
+ update household_private.memberships set status='removed' where user_id=actor;
+ begin perform public.household_v1('list_accounts');raise exception 'Removed account read accepted';exception when insufficient_privilege then null;end;
+ if has_table_privilege('authenticated','household_private.account_balance_snapshots','SELECT') or has_function_privilege('anon','household_private.account_list(uuid)','EXECUTE') or has_function_privilege('authenticated','household_private.account_action(text,jsonb)','EXECUTE') then raise exception 'Private balance access exposed';end if;
+ insert into account_test_results values('approved live-passkey membership and deny-all private balance/helper boundaries',true);
+end $$;
+select * from account_test_results order by name;
+rollback;

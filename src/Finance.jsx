@@ -3,6 +3,7 @@ import {summarizeRows,filterRows,EMPTY_COLUMN_FILTERS,isTransfer} from './financ
 import {PAGES,pageFromHash} from './navigation.js';
 import {DashboardPage} from './pages/DashboardPage.jsx';
 import {TransactionsPage} from './pages/TransactionsPage.jsx';
+import {AccountsPage} from './pages/AccountsPage.jsx';
 import {SettingsPage} from './pages/SettingsPage.jsx';
 import {CsvImport} from './pages/CsvImport.jsx';
 function ActivityFilters({accounts,accountFilter,setAccountFilter,month,setMonth,query,setQuery,hideAccount=false}){
@@ -20,7 +21,7 @@ export function Finance({secureCall,secureReceipt,settingsContent}){
  async function refresh(){
   const [a,c,t,s]=await Promise.all(['list_accounts','list_categories','list_ledger_transactions','list_source_snapshots'].map(operation=>secureCall(operation,operation==='list_ledger_transactions'?{limit:500}:{})));
   setAccounts(a);setCategories(c);setTransactions(t.rows);setSnapshots(s);setRefreshVersion(v=>v+1);
-  setAccount(old=>old||a[0]?.id||'');if(!initialPeriodSet.current){setMonth(old=>old||s[0]?.period_start?.slice(0,7)||'');initialPeriodSet.current=true;}
+  setAccount(old=>old||a[0]?.id||'');if(!initialPeriodSet.current){setMonth(old=>old||s[0]?.period_start?.slice(0,7)||'');initialPeriodSet.current=true;}return a;
  }
  async function run(task){setBusy(true);setError('');try{await task();}catch(e){if(e.message!=='Stale session')setError(e.message);}finally{setBusy(false);}}
  useEffect(()=>{run(refresh);},[]);
@@ -53,6 +54,7 @@ export function Finance({secureCall,secureReceipt,settingsContent}){
  <div className="section-head page-heading"><div><p className="eyebrow">HOUSEHOLD FINANCE</p><h1>{PAGES[page].title}</h1><p className="intro">{PAGES[page].description}</p></div><button disabled={busy} onClick={()=>run(refresh)}>Refresh</button></div>
  {error&&<p className="error" role="alert">{error}</p>}{notice&&<p role="status">{notice}</p>}
  {page==='dashboard'&&<DashboardPage accounts={accounts} rows={overviewRows} snapshots={snapshots} totals={totals} currency={currency} currencies={currencies} money={money} summaryMoney={summaryMoney} outflowCategories={outflowCategories} filters={<ActivityFilters {...filterProps}/>} onViewTransactions={()=>{setQuery('');navigate('transactions');}} onReviewTransfers={()=>{setQuery('');setTransactionView(v=>({...v,flow:'unlinked_transfer',trashOnly:false,offset:0}));navigate('transactions');}}/>}
+ {page==='accounts'&&<AccountsPage accounts={accounts} secureCall={secureCall} refresh={refresh} money={money} onViewTransactions={id=>{setAccountFilter(id);setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
  {page==='transactions'&&<TransactionsPage accounts={accounts} categories={categories} money={money} busy={busy} run={run} secureCall={secureCall} secureReceipt={secureReceipt} refresh={refresh} accountFilter={accountFilter} setAccountFilter={changeAccount} month={month} setMonth={changeMonth} query={query} setQuery={changeQuery} view={transactionView} setView={setTransactionView} refreshVersion={refreshVersion} filters={<ActivityFilters {...filterProps} query={query} setQuery={changeQuery} hideAccount/>}><CsvImport accounts={accounts} account={account} setAccount={setAccount} batch={batch} setBatch={setBatch} selected={selected} setSelected={setSelected} busy={busy} run={run} secureCall={secureCall} setNotice={setNotice} refresh={refresh} money={money}/></TransactionsPage>}
  {page==='settings'&&<SettingsPage accounts={accounts} categories={categories} busy={busy} create={create}>{settingsContent}</SettingsPage>}
  </>;
