@@ -1,10 +1,12 @@
 # Net worth and secured-asset equity
 
-The overview compares debts on the left and assets on the right of one horizontal
-bar, with **net worth centered above it**. Both segments share a magnitude scale.
-Exact signed amounts remain in the labels, so overdrafts and debt credits retain
-their accounting meaning. These are saved-balance totals, not transaction-derived
-balances or market quotes. Missing/invalid balances and currencies remain separate.
+The overview uses the accounting identity **assets = liabilities + equity**.
+Liabilities fill the left segment and equity (net worth) fills the right, in
+proportion to total assets. There is no unused background track. Net worth stays
+centered above the bar and total assets label the whole. Negative equity or other
+signed balances that cannot form positive proportions show exact signed totals
+without a misleading stacked bar. Missing/invalid balances and currencies remain
+separate. These are saved balances, not transaction-derived balances or quotes.
 
 The **Equity breakdown** uses each included asset's saved value **minus the signed
 balances of its included, linked debts**. Multiple debts can link to one asset;

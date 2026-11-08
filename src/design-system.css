@@ -248,9 +248,11 @@ thead{background:var(--hp-surface-raised)}
 .automation-statement{color:var(--hp-text)}.automation-last,.automation-scope{font-size:var(--hp-font-sm)}
 .automation-events{list-style:none;padding:0}.automation-events>li{padding-block:var(--hp-space-4);border-bottom:1px solid var(--hp-border);overflow-wrap:anywhere}
 .automations-panel .automation-card{padding:var(--hp-space-4)}
-.worth-bar-track{fill:var(--hp-surface-hover)}.worth-bar-debt{fill:var(--hp-violet)}.worth-bar-asset{fill:var(--hp-accent)}
+.worth-bar-debt{fill:var(--hp-violet)}
 .worth-bar-axis{stroke:var(--hp-text);stroke-width:2}.worth-bar-caption{fill:var(--hp-muted);font-size:16px}
 .worth-bar-net{fill:var(--hp-text);font-size:28px;font-weight:750;font-variant-numeric:tabular-nums}
 .worth-donut text{fill:var(--hp-text)}.worth-donut text:last-child{fill:var(--hp-muted)}
 .equity-unlinked{border-top:1px solid var(--hp-border);margin-top:var(--hp-space-3);padding-top:var(--hp-space-2)}
 .equity-incomplete{color:var(--hp-warning)!important}
+
+.worth-bar-equity{fill:var(--hp-accent)}
