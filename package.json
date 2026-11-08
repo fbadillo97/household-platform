@@ -10,7 +10,8 @@
     "test": "node --test tests/*.test.js",
     "test:browser": "playwright test",
     "build:browser": "vite build --config vite.browser.config.js",
-    "preview:browser": "vite preview --config vite.browser.config.js --host 127.0.0.1 --port 4175 --strictPort"
+    "preview:browser": "vite preview --config vite.browser.config.js --host 127.0.0.1 --port 4175 --strictPort",
+    "test:planning:sql": "node tests/planning/run-local.mjs supabase/tests/planning.sql"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.119.0",
@@ -23,6 +24,7 @@
     "@playwright/test": "1.65.0",
     "esbuild": "0.25.12",
     "jsdom": "26.1.0",
-    "vite": "6.4.5"
+    "vite": "6.4.5",
+    "@electric-sql/pglite": "0.5.15"
   }
 }

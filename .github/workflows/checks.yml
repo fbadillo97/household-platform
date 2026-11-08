@@ -13,6 +13,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - name: Isolated PostgreSQL planning tests with fabricated records
+        run: npm run test:planning:sql
       - name: Install browser test runtime
         run: npx playwright install --with-deps chromium --only-shell
       - name: Desktop and mobile browser checks with mock data

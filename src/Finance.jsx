@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useRef} from 'react';
+import React,{useState,useEffect,useRef,lazy,Suspense} from 'react';
 import {summarizeRows,filterRows,EMPTY_COLUMN_FILTERS,isTransfer} from './finance.js';
 import {formatMoney} from './money.js';
 import {PAGES,pageFromHash} from './navigation.js';
@@ -8,10 +8,14 @@ import {AccountsPage} from './pages/AccountsPage.jsx';
 import {SettingsPage} from './pages/SettingsPage.jsx';
 import {PayeesPage} from './pages/PayeesPage.jsx';
 import {CsvImport} from './pages/CsvImport.jsx';
+import {TransactionDetail} from './pages/TransactionDetail.jsx';
+const TaxesPage=lazy(()=>import('./taxes/TaxesPage.jsx').then(m=>({default:m.TaxesPage})));
+const BudgetPage=lazy(()=>import('./budget/BudgetPage.jsx').then(m=>({default:m.BudgetPage})));
+const BudgetActivity=lazy(()=>import('./budget/BudgetActivity.jsx').then(m=>({default:m.BudgetActivity})));
 function ActivityFilters({accounts,accountFilter,setAccountFilter,month,setMonth,query,setQuery,hideAccount=false}){
  return <div className={'filters'+(setQuery&&!hideAccount?'':' filters-overview')}>{!hideAccount&&<label>Account<select value={accountFilter} onChange={e=>setAccountFilter(e.target.value)}><option value="">All accounts</option>{accounts.map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select></label>}<label>Month<input type="month" value={month} onChange={e=>setMonth(e.target.value)}/></label>{setQuery&&<label>Search<input type="search" placeholder="Description, payee, category or tag" value={query} onChange={e=>setQuery(e.target.value)}/></label>}</div>;
 }
-export function Finance({secureCall,secureReceipt,settingsContent}){
+export function Finance({secureCall,secureReceipt,secureDocument,settingsContent}){
  const [error,setError]=useState(''),[busy,setBusy]=useState(false),[notice,setNotice]=useState('');
  const [accounts,setAccounts]=useState([]),[categories,setCategories]=useState([]),[transactions,setTransactions]=useState([]),[snapshots,setSnapshots]=useState([]),[payees,setPayees]=useState([]);
  const [transactionView,setTransactionView]=useState({columns:{...EMPTY_COLUMN_FILTERS},sort:'date',direction:'desc',offset:0});
@@ -21,6 +25,7 @@ export function Finance({secureCall,secureReceipt,settingsContent}){
  const [page,setPage]=useState(()=>pageFromHash(window.location.hash));
  const [settingsSection,setSettingsSection]=useState(()=>window.location.hash==='#settings/automations'?'automations':'general');
  const [accountScope,setAccountScope]=useState(null);
+ const [planningDetail,setPlanningDetail]=useState(null),[budgetActivity,setBudgetActivity]=useState(null);
  const [accountFilter,setAccountFilter]=useState(''),[month,setMonth]=useState(''),[query,setQuery]=useState('');
  async function refresh(){
   const [a,c,t,s,p]=await Promise.all(['list_accounts','list_categories','list_ledger_transactions','list_source_snapshots','list_payees'].map(operation=>secureCall(operation,operation==='list_ledger_transactions'?{limit:500}:{})));
@@ -62,6 +67,12 @@ export function Finance({secureCall,secureReceipt,settingsContent}){
  {page==='accounts'&&<AccountsPage scope={accountScope} onClearScope={()=>setAccountScope(null)} accounts={accounts} secureCall={secureCall} refresh={refresh} money={money} onViewTransactions={id=>{setAccountFilter(id);setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
  {page==='transactions'&&<TransactionsPage payees={payees} accounts={accounts} categories={categories} money={money} busy={busy} run={run} secureCall={secureCall} secureReceipt={secureReceipt} refresh={refresh} accountFilter={accountFilter} setAccountFilter={changeAccount} month={month} setMonth={changeMonth} query={query} setQuery={changeQuery} view={transactionView} setView={setTransactionView} refreshVersion={refreshVersion} filters={<ActivityFilters {...filterProps} query={query} setQuery={changeQuery} hideAccount/>}><CsvImport accounts={accounts} account={account} setAccount={setAccount} batch={batch} setBatch={setBatch} selected={selected} setSelected={setSelected} busy={busy} run={run} secureCall={secureCall} setNotice={setNotice} refresh={refresh} money={money}/></TransactionsPage>}
  {page==='payees'&&<PayeesPage payees={payees} secureCall={secureCall} refresh={refresh} onViewTransactions={id=>{setAccountFilter('');setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,payee:id},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
+ <Suspense fallback={<p role="status">Loading household workspace…</p>}>
+ {page==='taxes'&&<TaxesPage secureCall={secureCall} documentStorage={secureDocument} refreshVersion={refreshVersion} onOpenTransaction={setPlanningDetail}/>}
+ {page==='budget'&&<BudgetPage secureCall={secureCall} refreshVersion={refreshVersion} onViewTransactions={setBudgetActivity}/>}
+ {budgetActivity&&<BudgetActivity scope={budgetActivity} secureCall={secureCall} refreshVersion={refreshVersion} onClose={()=>setBudgetActivity(null)} onOpenTransaction={setPlanningDetail}/>}
+ </Suspense>
+ {planningDetail&&<TransactionDetail key={planningDetail} id={planningDetail} accounts={accounts} categories={categories} payees={payees} money={money} secureCall={secureCall} secureReceipt={secureReceipt} refresh={refresh} onClose={()=>setPlanningDetail(null)}/>}
  {page==='settings'&&<SettingsPage section={settingsSection} onSectionChange={section=>navigate(section==='automations'?'settings/automations':'settings')} onViewTransactions={({source='',event=''})=>{setAccountFilter('');setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,automationSource:source,automationEvent:event},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}} payees={payees} accounts={accounts} categories={categories} busy={busy} create={create} secureCall={secureCall} refresh={refresh}>{settingsContent}</SettingsPage>}
  </div></div>;
 }

@@ -1,0 +1,5629 @@
+{
+  "source": "Statistics Canada, Table 11-10-0223-01",
+  "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+  "download_url": "https://www150.statcan.gc.ca/n1/tbl/csv/11100223-eng.zip",
+  "archive_sha256": "fada25b467ad0d900ba9c1f4401accbdf2fda30b170d4f922c7d5d3221f0e734",
+  "retrieved_at": "2026-11-08T18:43:11.534704+00:00",
+  "reference_year": 2023,
+  "statistic": "Average expenditure per household",
+  "basis": "Annual nominal CAD; monthly presentation divides by 12. No inflation adjustment.",
+  "mapping_note": "No categories mapped automatically. Broad food, shelter and transportation totals excluded to avoid overlapping or incompatible cash-flow concepts.",
+  "records": [
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · All quintiles",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8579",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529911",
+      "coordinate": "1.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · All quintiles",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3316",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529912",
+      "coordinate": "1.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · All quintiles",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2716",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529925",
+      "coordinate": "1.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · All quintiles",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5175",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529937",
+      "coordinate": "1.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Lowest quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5581",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529953",
+      "coordinate": "1.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Lowest quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1587",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529954",
+      "coordinate": "1.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Lowest quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1315",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529967",
+      "coordinate": "1.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Lowest quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2162",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529979",
+      "coordinate": "1.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Second quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "7181",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529995",
+      "coordinate": "1.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Second quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2402",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54529996",
+      "coordinate": "1.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Second quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2076",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530009",
+      "coordinate": "1.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Second quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3319",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530021",
+      "coordinate": "1.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Third quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "7904",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530037",
+      "coordinate": "1.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Third quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3213",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530038",
+      "coordinate": "1.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Third quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2661",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530051",
+      "coordinate": "1.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Third quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4530",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530063",
+      "coordinate": "1.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Fourth quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "10063",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530079",
+      "coordinate": "1.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Fourth quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3583",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530080",
+      "coordinate": "1.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Fourth quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3158",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530093",
+      "coordinate": "1.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Fourth quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "6488",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530105",
+      "coordinate": "1.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Highest quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "12152",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530121",
+      "coordinate": "1.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Highest quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "5764",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530122",
+      "coordinate": "1.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Highest quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "4368",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530135",
+      "coordinate": "1.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Canada · Highest quintile",
+      "dimensions": {
+        "GEO": "Canada",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "9367",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v54530147",
+      "coordinate": "1.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · All quintiles",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8707",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65783805",
+      "coordinate": "2.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · All quintiles",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2753",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65783814",
+      "coordinate": "2.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · All quintiles",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2116",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65783908",
+      "coordinate": "2.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · All quintiles",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4531",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784004",
+      "coordinate": "2.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Lowest quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5663",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784116",
+      "coordinate": "2.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Lowest quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1129",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784125",
+      "coordinate": "2.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Lowest quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1079",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784219",
+      "coordinate": "2.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Lowest quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "1735",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784315",
+      "coordinate": "2.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Second quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "7390",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784427",
+      "coordinate": "2.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Second quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1924",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784436",
+      "coordinate": "2.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Second quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1366",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784530",
+      "coordinate": "2.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Second quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2401",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784626",
+      "coordinate": "2.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Third quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8398",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784738",
+      "coordinate": "2.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Third quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2122",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784747",
+      "coordinate": "2.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Third quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1696",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784841",
+      "coordinate": "2.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Third quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3839",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65784937",
+      "coordinate": "2.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Fourth quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9284",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785049",
+      "coordinate": "2.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Fourth quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3662",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785058",
+      "coordinate": "2.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Fourth quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2636",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785152",
+      "coordinate": "2.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Fourth quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5646",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785248",
+      "coordinate": "2.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Highest quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "12799",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785360",
+      "coordinate": "2.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Highest quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4882",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785369",
+      "coordinate": "2.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Highest quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3804",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785463",
+      "coordinate": "2.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Atlantic Region · Highest quintile",
+      "dimensions": {
+        "GEO": "Atlantic Region",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "9035",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785559",
+      "coordinate": "2.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · All quintiles",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "10809",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785671",
+      "coordinate": "3.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · All quintiles",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2455",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785680",
+      "coordinate": "3.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · All quintiles",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2157",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785774",
+      "coordinate": "3.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · All quintiles",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4672",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785870",
+      "coordinate": "3.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Lowest quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "7769",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65785982",
+      "coordinate": "3.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Lowest quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": null,
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "F",
+      "suppressed": true,
+      "vector": "v65785991",
+      "coordinate": "3.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Lowest quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1005",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786085",
+      "coordinate": "3.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Lowest quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": null,
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "F",
+      "suppressed": true,
+      "vector": "v65786181",
+      "coordinate": "3.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Second quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "10714",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786293",
+      "coordinate": "3.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Second quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1543",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786302",
+      "coordinate": "3.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Second quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1403",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786396",
+      "coordinate": "3.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Second quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2463",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786492",
+      "coordinate": "3.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Third quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9945",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786604",
+      "coordinate": "3.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Third quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2057",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786613",
+      "coordinate": "3.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Third quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1720",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786707",
+      "coordinate": "3.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Third quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3371",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786803",
+      "coordinate": "3.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Fourth quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "10827",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786915",
+      "coordinate": "3.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Fourth quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2893",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65786924",
+      "coordinate": "3.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Fourth quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2471",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787018",
+      "coordinate": "3.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Fourth quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5964",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787114",
+      "coordinate": "3.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Highest quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "14742",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787226",
+      "coordinate": "3.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Highest quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "5103",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787235",
+      "coordinate": "3.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Highest quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "4164",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787329",
+      "coordinate": "3.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Newfoundland and Labrador · Highest quintile",
+      "dimensions": {
+        "GEO": "Newfoundland and Labrador",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "9015",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787425",
+      "coordinate": "3.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · All quintiles",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8349",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787537",
+      "coordinate": "4.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · All quintiles",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3637",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787546",
+      "coordinate": "4.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · All quintiles",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2001",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787640",
+      "coordinate": "4.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · All quintiles",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4339",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787736",
+      "coordinate": "4.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Lowest quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": null,
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "F",
+      "suppressed": true,
+      "vector": "v65787848",
+      "coordinate": "4.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Lowest quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1813",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787857",
+      "coordinate": "4.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Lowest quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1051",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65787951",
+      "coordinate": "4.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Lowest quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2402",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788047",
+      "coordinate": "4.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Second quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "6753",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788159",
+      "coordinate": "4.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Second quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": null,
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "F",
+      "suppressed": true,
+      "vector": "v65788168",
+      "coordinate": "4.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Second quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1224",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788262",
+      "coordinate": "4.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Second quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2736",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788358",
+      "coordinate": "4.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Third quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8395",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788470",
+      "coordinate": "4.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Third quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2202",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788479",
+      "coordinate": "4.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Third quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2089",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788573",
+      "coordinate": "4.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Third quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3582",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788669",
+      "coordinate": "4.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Fourth quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "10683",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788781",
+      "coordinate": "4.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Fourth quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4159",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788790",
+      "coordinate": "4.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Fourth quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2318",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788884",
+      "coordinate": "4.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Fourth quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "6495",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65788980",
+      "coordinate": "4.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Highest quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "11439",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789092",
+      "coordinate": "4.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Highest quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4321",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789101",
+      "coordinate": "4.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Highest quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3310",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789195",
+      "coordinate": "4.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prince Edward Island · Highest quintile",
+      "dimensions": {
+        "GEO": "Prince Edward Island",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "6439",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789291",
+      "coordinate": "4.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · All quintiles",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "7831",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789403",
+      "coordinate": "5.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · All quintiles",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2812",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789412",
+      "coordinate": "5.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · All quintiles",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2100",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789506",
+      "coordinate": "5.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · All quintiles",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4469",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789602",
+      "coordinate": "5.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Lowest quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5079",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789714",
+      "coordinate": "5.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Lowest quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1106",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789723",
+      "coordinate": "5.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Lowest quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1119",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789817",
+      "coordinate": "5.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Lowest quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "1445",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65789913",
+      "coordinate": "5.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Second quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "6688",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790025",
+      "coordinate": "5.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Second quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1814",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790034",
+      "coordinate": "5.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Second quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1128",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790128",
+      "coordinate": "5.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Second quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2760",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790224",
+      "coordinate": "5.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Third quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "6473",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790336",
+      "coordinate": "5.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Third quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2003",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790345",
+      "coordinate": "5.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Third quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1835",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790439",
+      "coordinate": "5.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Third quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3696",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790535",
+      "coordinate": "5.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Fourth quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8911",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790647",
+      "coordinate": "5.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Fourth quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4177",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790656",
+      "coordinate": "5.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Fourth quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2884",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790750",
+      "coordinate": "5.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Fourth quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5396",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790846",
+      "coordinate": "5.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Highest quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "11987",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790958",
+      "coordinate": "5.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Highest quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4949",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65790967",
+      "coordinate": "5.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Highest quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3530",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791061",
+      "coordinate": "5.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Nova Scotia · Highest quintile",
+      "dimensions": {
+        "GEO": "Nova Scotia",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "9031",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791157",
+      "coordinate": "5.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · All quintiles",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8488",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791269",
+      "coordinate": "6.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · All quintiles",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2700",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791278",
+      "coordinate": "6.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · All quintiles",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2133",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791372",
+      "coordinate": "6.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · All quintiles",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4555",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791468",
+      "coordinate": "6.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Lowest quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5089",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791580",
+      "coordinate": "6.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Lowest quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1163",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791589",
+      "coordinate": "6.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Lowest quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1115",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791683",
+      "coordinate": "6.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Lowest quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "1292",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791779",
+      "coordinate": "6.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Second quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "6475",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791891",
+      "coordinate": "6.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Second quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1722",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791900",
+      "coordinate": "6.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Second quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1521",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65791994",
+      "coordinate": "6.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Second quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "1939",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792090",
+      "coordinate": "6.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Third quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8465",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792202",
+      "coordinate": "6.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Third quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2051",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792211",
+      "coordinate": "6.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Third quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1583",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792305",
+      "coordinate": "6.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Third quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4158",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792401",
+      "coordinate": "6.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Fourth quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9994",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792513",
+      "coordinate": "6.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Fourth quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3902",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792522",
+      "coordinate": "6.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Fourth quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2454",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792616",
+      "coordinate": "6.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Fourth quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "6093",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792712",
+      "coordinate": "6.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Highest quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "12404",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792824",
+      "coordinate": "6.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Highest quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4656",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792833",
+      "coordinate": "6.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Highest quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3990",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65792927",
+      "coordinate": "6.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "New Brunswick · Highest quintile",
+      "dimensions": {
+        "GEO": "New Brunswick",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "9277",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793023",
+      "coordinate": "6.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · All quintiles",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8634",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793135",
+      "coordinate": "7.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · All quintiles",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2464",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793144",
+      "coordinate": "7.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · All quintiles",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2468",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793238",
+      "coordinate": "7.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · All quintiles",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4876",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793334",
+      "coordinate": "7.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Lowest quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "6540",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793446",
+      "coordinate": "7.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Lowest quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1893",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793455",
+      "coordinate": "7.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Lowest quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1166",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793549",
+      "coordinate": "7.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Lowest quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2060",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793645",
+      "coordinate": "7.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Second quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5683",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793757",
+      "coordinate": "7.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Second quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1928",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793766",
+      "coordinate": "7.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Second quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1751",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793860",
+      "coordinate": "7.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Second quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3207",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65793956",
+      "coordinate": "7.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Third quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "7867",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794068",
+      "coordinate": "7.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Third quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2491",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794077",
+      "coordinate": "7.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Third quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2405",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794171",
+      "coordinate": "7.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Third quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3779",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794267",
+      "coordinate": "7.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Fourth quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "10012",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794379",
+      "coordinate": "7.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Fourth quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2192",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794388",
+      "coordinate": "7.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Fourth quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3063",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794482",
+      "coordinate": "7.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Fourth quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5524",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794578",
+      "coordinate": "7.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Highest quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "13058",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794690",
+      "coordinate": "7.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Highest quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3816",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794699",
+      "coordinate": "7.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Highest quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3947",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794793",
+      "coordinate": "7.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Quebec · Highest quintile",
+      "dimensions": {
+        "GEO": "Quebec",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "9796",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65794889",
+      "coordinate": "7.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · All quintiles",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "7974",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795001",
+      "coordinate": "8.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · All quintiles",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3686",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795010",
+      "coordinate": "8.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · All quintiles",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3086",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795104",
+      "coordinate": "8.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · All quintiles",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5153",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795200",
+      "coordinate": "8.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Lowest quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5098",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795312",
+      "coordinate": "8.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Lowest quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1920",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795321",
+      "coordinate": "8.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Lowest quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1431",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795415",
+      "coordinate": "8.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Lowest quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "1871",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795511",
+      "coordinate": "8.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Second quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "6475",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795623",
+      "coordinate": "8.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Second quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2789",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795632",
+      "coordinate": "8.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Second quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2523",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795726",
+      "coordinate": "8.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Second quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3896",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795822",
+      "coordinate": "8.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Third quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "7605",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795934",
+      "coordinate": "8.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Third quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3113",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65795943",
+      "coordinate": "8.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Third quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3076",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796037",
+      "coordinate": "8.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Third quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4549",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796133",
+      "coordinate": "8.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Fourth quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9836",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796245",
+      "coordinate": "8.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Fourth quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4067",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796254",
+      "coordinate": "8.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Fourth quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3613",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796348",
+      "coordinate": "8.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Fourth quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "6179",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796444",
+      "coordinate": "8.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Highest quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "10837",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796556",
+      "coordinate": "8.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Highest quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "6529",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796565",
+      "coordinate": "8.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Highest quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "4774",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796659",
+      "coordinate": "8.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Ontario · Highest quintile",
+      "dimensions": {
+        "GEO": "Ontario",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "9245",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796755",
+      "coordinate": "8.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · All quintiles",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9797",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796867",
+      "coordinate": "9.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · All quintiles",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3687",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796876",
+      "coordinate": "9.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · All quintiles",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2632",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65796970",
+      "coordinate": "9.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · All quintiles",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5263",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797066",
+      "coordinate": "9.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Lowest quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5934",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797178",
+      "coordinate": "9.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Lowest quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "993",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797187",
+      "coordinate": "9.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Lowest quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1196",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797281",
+      "coordinate": "9.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Lowest quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2171",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797377",
+      "coordinate": "9.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Second quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8169",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797489",
+      "coordinate": "9.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Second quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2926",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797498",
+      "coordinate": "9.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Second quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2015",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797592",
+      "coordinate": "9.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Second quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3297",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797688",
+      "coordinate": "9.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Third quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9537",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797800",
+      "coordinate": "9.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Third quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4382",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797809",
+      "coordinate": "9.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Third quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2364",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797903",
+      "coordinate": "9.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Third quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4473",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65797999",
+      "coordinate": "9.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Fourth quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "10286",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798111",
+      "coordinate": "9.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Fourth quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3979",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798120",
+      "coordinate": "9.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Fourth quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2912",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798214",
+      "coordinate": "9.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Fourth quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "6437",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798310",
+      "coordinate": "9.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Highest quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "14672",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798422",
+      "coordinate": "9.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Highest quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "5904",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798431",
+      "coordinate": "9.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Highest quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "4669",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798525",
+      "coordinate": "9.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Prairie Region · Highest quintile",
+      "dimensions": {
+        "GEO": "Prairie Region",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "9883",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798621",
+      "coordinate": "9.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · All quintiles",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9570",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798733",
+      "coordinate": "10.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · All quintiles",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3083",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798742",
+      "coordinate": "10.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · All quintiles",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2319",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798836",
+      "coordinate": "10.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · All quintiles",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4662",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65798932",
+      "coordinate": "10.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Lowest quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5688",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799044",
+      "coordinate": "10.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Lowest quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1370",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799053",
+      "coordinate": "10.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Lowest quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1190",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799147",
+      "coordinate": "10.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Lowest quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "1716",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799243",
+      "coordinate": "10.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Second quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "7375",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799355",
+      "coordinate": "10.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Second quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2576",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799364",
+      "coordinate": "10.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Second quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1446",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799458",
+      "coordinate": "10.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Second quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2719",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799554",
+      "coordinate": "10.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Third quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9114",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799666",
+      "coordinate": "10.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Third quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3145",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799675",
+      "coordinate": "10.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Third quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1773",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799769",
+      "coordinate": "10.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Third quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3526",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799865",
+      "coordinate": "10.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Fourth quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "12242",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799977",
+      "coordinate": "10.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Fourth quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2899",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65799986",
+      "coordinate": "10.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Fourth quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2820",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800080",
+      "coordinate": "10.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Fourth quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5010",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800176",
+      "coordinate": "10.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Highest quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "13401",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800288",
+      "coordinate": "10.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Highest quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "5415",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800297",
+      "coordinate": "10.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Highest quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "4353",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800391",
+      "coordinate": "10.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Manitoba · Highest quintile",
+      "dimensions": {
+        "GEO": "Manitoba",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "10303",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800487",
+      "coordinate": "10.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · All quintiles",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9528",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800599",
+      "coordinate": "11.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · All quintiles",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3128",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800608",
+      "coordinate": "11.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · All quintiles",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2066",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800702",
+      "coordinate": "11.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · All quintiles",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4512",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800798",
+      "coordinate": "11.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Lowest quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5470",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800910",
+      "coordinate": "11.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Lowest quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1014",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65800919",
+      "coordinate": "11.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Lowest quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1101",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801013",
+      "coordinate": "11.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Lowest quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "1729",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801109",
+      "coordinate": "11.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Second quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8518",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801221",
+      "coordinate": "11.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Second quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2247",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801230",
+      "coordinate": "11.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Second quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1457",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801324",
+      "coordinate": "11.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Second quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2307",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801420",
+      "coordinate": "11.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Third quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8180",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801532",
+      "coordinate": "11.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Third quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2913",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801541",
+      "coordinate": "11.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Third quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1801",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801635",
+      "coordinate": "11.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Third quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3947",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801731",
+      "coordinate": "11.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Fourth quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "11956",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801843",
+      "coordinate": "11.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Fourth quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3533",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801852",
+      "coordinate": "11.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Fourth quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2615",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65801946",
+      "coordinate": "11.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Fourth quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5998",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802042",
+      "coordinate": "11.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Highest quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "13483",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802154",
+      "coordinate": "11.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Highest quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "5907",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802163",
+      "coordinate": "11.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Highest quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3347",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802257",
+      "coordinate": "11.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Saskatchewan · Highest quintile",
+      "dimensions": {
+        "GEO": "Saskatchewan",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "8543",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802353",
+      "coordinate": "11.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · All quintiles",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9936",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802465",
+      "coordinate": "12.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · All quintiles",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4015",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802474",
+      "coordinate": "12.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · All quintiles",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2874",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802568",
+      "coordinate": "12.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · All quintiles",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5641",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802664",
+      "coordinate": "12.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Lowest quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "6696",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802776",
+      "coordinate": "12.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Lowest quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1076",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802785",
+      "coordinate": "12.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Lowest quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1337",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802879",
+      "coordinate": "12.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Lowest quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2529",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65802975",
+      "coordinate": "12.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Second quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8603",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803087",
+      "coordinate": "12.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Second quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3165",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803096",
+      "coordinate": "12.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Second quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2300",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803190",
+      "coordinate": "12.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Second quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3743",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803286",
+      "coordinate": "12.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Third quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8905",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803398",
+      "coordinate": "12.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Third quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "5347",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803407",
+      "coordinate": "12.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Third quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2633",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803501",
+      "coordinate": "12.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Third quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "4933",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803597",
+      "coordinate": "12.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Fourth quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "9990",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803709",
+      "coordinate": "12.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Fourth quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": null,
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "F",
+      "suppressed": true,
+      "vector": "v65803718",
+      "coordinate": "12.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Fourth quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "3053",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803812",
+      "coordinate": "12.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Fourth quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "6770",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65803908",
+      "coordinate": "12.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Highest quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "15453",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804020",
+      "coordinate": "12.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Highest quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "6561",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804029",
+      "coordinate": "12.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Highest quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "5034",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804123",
+      "coordinate": "12.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "Alberta · Highest quintile",
+      "dimensions": {
+        "GEO": "Alberta",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "10205",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804219",
+      "coordinate": "12.1.6.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · All quintiles",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8530",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804331",
+      "coordinate": "13.1.1.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · All quintiles",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3630",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804340",
+      "coordinate": "13.1.1.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · All quintiles",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2558",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804434",
+      "coordinate": "13.1.1.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · All quintiles",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "All quintiles"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5977",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804530",
+      "coordinate": "13.1.1.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Lowest quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "5455",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804642",
+      "coordinate": "13.1.2.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Lowest quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "1521",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804651",
+      "coordinate": "13.1.2.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Lowest quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1621",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804745",
+      "coordinate": "13.1.2.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Lowest quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Lowest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "3066",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804841",
+      "coordinate": "13.1.2.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Second quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "6342",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804953",
+      "coordinate": "13.1.3.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Second quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "2361",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65804962",
+      "coordinate": "13.1.3.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Second quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "1805",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805056",
+      "coordinate": "13.1.3.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Second quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Second quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "2830",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805152",
+      "coordinate": "13.1.3.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Third quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "8955",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805264",
+      "coordinate": "13.1.4.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Third quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "3764",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805273",
+      "coordinate": "13.1.4.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Third quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2711",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805367",
+      "coordinate": "13.1.4.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Third quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Third quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "5894",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805463",
+      "coordinate": "13.1.4.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Fourth quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "10183",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805575",
+      "coordinate": "13.1.5.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Fourth quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "4486",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805584",
+      "coordinate": "13.1.5.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Fourth quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "2642",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805678",
+      "coordinate": "13.1.5.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Fourth quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Fourth quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "8930",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805774",
+      "coordinate": "13.1.5.30"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Highest quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from stores",
+      "value_annual": "11696",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805886",
+      "coordinate": "13.1.6.4"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Highest quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Food purchased from restaurants",
+      "value_annual": "6005",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805895",
+      "coordinate": "13.1.6.5"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Highest quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Clothing and accessories",
+      "value_annual": "4006",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65805989",
+      "coordinate": "13.1.6.18"
+    },
+    {
+      "source_table": "11-10-0223-01",
+      "source_url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110022301",
+      "reference_year": 2023,
+      "cohort_label": "British Columbia · Highest quintile",
+      "dimensions": {
+        "GEO": "British Columbia",
+        "Before-tax household income quintile": "Highest quintile"
+      },
+      "expenditure_label": "Recreation",
+      "value_annual": "9147",
+      "currency": "CAD",
+      "unit": "CAD/year",
+      "status": "",
+      "suppressed": false,
+      "vector": "v65806085",
+      "coordinate": "13.1.6.30"
+    }
+  ]
+}

@@ -10,7 +10,7 @@ test('confirmed transfer workflow updates dashboard, classifies a single side, l
  const dom=new JSDOM('<!doctype html><div id="root"></div>',{url:'https://example.invalid/household-platform/'});
  globalThis.window=dom.window;globalThis.document=dom.window.document;globalThis.HTMLElement=dom.window.HTMLElement;globalThis.IS_REACT_ACT_ENVIRONMENT=true;
  const output=new URL('./.transfers-render.mjs',import.meta.url);
- const bundle=await build({entryPoints:[fileURLToPath(new URL('../src/Finance.jsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react'],write:false});await writeFile(output,bundle.outputFiles[0].text);
+ const bundle=await build({entryPoints:[fileURLToPath(new URL('../src/Finance.jsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react'],loader:{'.css':'empty'},write:false});await writeFile(output,bundle.outputFiles[0].text);
  const {Finance}=await import(output.href);const {createRoot}=await import('react-dom/client');
  const accounts=[{id:'bank',name:'Mock bank',currency:'CAD',kind:'checking'},{id:'card',name:'Mock card',currency:'CAD',kind:'credit'}];
  const rows=[{id:'pay',account_id:'bank',date:'2026-10-01',description:'Mock salary',amount_minor:20000},{id:'purchase',account_id:'card',date:'2026-10-02',description:'Mock groceries',amount_minor:-5000},{id:'out',account_id:'bank',date:'2026-10-03',description:'Mock bill payment',amount_minor:-10000},{id:'in',account_id:'card',date:'2026-10-04',description:'Mock card payment',amount_minor:10000}].map(t=>({...t,revision:1,flow_type:'regular',transfer_peer_id:null}));

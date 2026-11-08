@@ -11,7 +11,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
  globalThis.window=dom.window;globalThis.document=dom.window.document;globalThis.HTMLElement=dom.window.HTMLElement;
  globalThis.FormData=dom.window.FormData;globalThis.IS_REACT_ACT_ENVIRONMENT=true;
  const output=new URL('./.finance-render.mjs',import.meta.url);
- const bundle=await build({entryPoints:[fileURLToPath(new URL('../src/Finance.jsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react'],write:false});
+ const bundle=await build({entryPoints:[fileURLToPath(new URL('../src/Finance.jsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react'],loader:{'.css':'empty'},write:false});
  await writeFile(output,bundle.outputFiles[0].text);
  const {createRoot}=await import('react-dom/client');
  const {Finance}=await import(output.href);

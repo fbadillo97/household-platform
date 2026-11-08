@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {operationEndpoint} from '../src/planning.js';
+test('planning endpoints are allowlisted and finance routing remains intact',()=>{assert.equal(operationEndpoint('tax_get_workspace'),'household_tax_v1');assert.equal(operationEndpoint('budget_category_activity'),'household_budget_v1');assert.equal(operationEndpoint('list_accounts'),'household_v1');assert.throws(()=>operationEndpoint('tax_arbitrary_sql'));assert.throws(()=>operationEndpoint('budget_arbitrary_sql'));});

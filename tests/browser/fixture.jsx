@@ -2,6 +2,9 @@
 import React,{useEffect,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Finance} from '../../src/Finance.jsx';
+import {mockTaxApi,mockTaxWorkspace} from '../taxes/mock.js';
+import {mockBudgetApi,mockBudget} from '../budget/mock.js';
+const taxApi=mockTaxApi(mockTaxWorkspace(new Date().getFullYear())),budgetApi=mockBudgetApi(mockBudget());
 import {SessionFence} from '../../src/lifecycle.js';
 import {historyRange,shiftDate} from '../../src/history.js';
 import {localToday} from '../../src/accounts.js';
@@ -17,7 +20,7 @@ const payees=[{id:'mock-payee',name:'Mock market',kind:'business',revision:1,ali
 const transactions=Array.from({length:55},(_,i)=>({id:'tx-'+i,revision:1,account_id:i%2?'card':'bank',date:shiftDate(today,-i),description:'Mock purchase '+String(i).padStart(2,'0'),amount_minor:-(500+i*11),category_id:i%3?'food':null,source_data:{tags:['Home']},review_status:'unreviewed',needs_attention:i===2,notes:'',deleted_at:null,flow_type:'regular',transfer_peer_id:null,receipts:[]}));
 const automationRules=[{id:'mock-rule',kind:'rule',name:'Mock insurance tag',source_key:'rule:mock-rule',priority:100,revision:1,enabled:true,effective_enabled:true,conditions:{payee_id:'mock-payee',amount_min_minor:-12500,amount_max_minor:-12500,currency:'CAD'},actions:{add_tags:['Insurance']},applied_count:1,error_count:1,last_event:{at:new Date().toISOString(),status:'error',error:'Mock automation needs review'}},{id:'mock-alias',kind:'alias',description:'MOCK MARKET #01',payee_id:'mock-payee',source_key:'alias:mock-alias',revision:1,enabled:false,effective_enabled:false,applied_count:0,error_count:0}];
 const automationEvents=[{id:'mock-event',source_key:'rule:mock-rule',transaction_id:'tx-0',definition:automationRules[0],status:'applied',before_values:{tags_override:null},after_values:{tags_override:['Home','Insurance']},after_revision:1,created_at:new Date().toISOString()},{id:'mock-error',source_key:'rule:mock-rule',transaction_id:'tx-1',definition:automationRules[0],status:'error',error_message:'Mock automation could not add a tag',before_values:{},after_values:{},created_at:new Date().toISOString()}];
-const state={historyMode:'normal',historyDelay:0,failHistory:false,calls:[],signOut:null};window.__householdFixture=state;
+const state={historyMode:'normal',historyDelay:0,failHistory:false,calls:[],signOut:null};window.__householdFixture=state;window.__planningFixture={taxApi,budgetApi};
 function accountView(a){const latest=entries.filter(e=>e.account_id===a.id).sort((x,y)=>y.as_of.localeCompare(x.as_of)||y.sequence-x.sequence)[0];return {...a,balance_snapshot:latest?{...latest}:null};}
 function transactionView(t){return {...t,original_description:t.description,original_account_id:t.account_id,original_tags:t.source_data.tags,description:t.description_override??t.description,account_id:t.account_override_id??t.account_id,has_description_override:!!t.description_override,has_account_override:!!t.account_override_id,receipt_count:t.receipts.length};}
 function history(payload){const cohort=payload.scope==='account'?accounts.filter(a=>a.id===payload.account_id):accounts.filter(a=>a.currency===payload.currency&&!a.archived_at&&a.include_in_net_worth);const currency=cohort[0]?.currency||payload.currency;
@@ -29,6 +32,8 @@ function history(payload){const cohort=payload.scope==='account'?accounts.filter
 }
 async function mockCall(operation,payload={}){
  state.calls.push({operation,payload:structuredClone(payload)});
+ if(operation.startsWith('tax_'))return taxApi.call(operation,payload);
+ if(operation.startsWith('budget_'))return budgetApi.call(operation,payload);
  if(operation==='get_balance_history'){if(state.historyDelay)await new Promise(r=>setTimeout(r,state.historyDelay));if(state.failHistory){state.failHistory=false;throw Error('Mock temporary history failure');}return history(payload);}
  if(operation==='list_accounts')return structuredClone(accounts.map(accountView));
  if(operation==='list_automations')return {rows:structuredClone(automationRules),total:automationRules.length,offset:0};
@@ -54,5 +59,5 @@ async function mockCall(operation,payload={}){
  if(operation==='bulk_update_transactions'){const selected=payload.items.map(v=>transactions.find(t=>t.id===v.id));if(selected.some((t,i)=>t.revision!==payload.items[i].revision))throw Error('A selected transaction changed; refresh. Nothing was changed');for(const t of selected){if(payload.action==='category')t.category_id=payload.value;if(payload.action==='payee'){t.payee_id=payload.value;t.payee_assignment='manual';}if(payload.action==='review')t.review_status=payload.value;if(payload.action==='attention')t.needs_attention=payload.value;if(payload.action==='trash')t.deleted_at=today;if(payload.action==='restore')t.deleted_at=null;t.revision++;}return {selected_count:selected.length,updated_count:selected.length};}
  throw Error('Unexpected mock operation '+operation);
 }
-function Fixture(){const fence=useRef(new SessionFence()),[signedOut,setSignedOut]=useState(false);useEffect(()=>{state.signOut=()=>{fence.current.invalidate();setSignedOut(true);};},[]);return <div className="shell"><header><div className="brand">H<span>Household</span></div><span className="tag">Mock data only</span><button onClick={()=>state.signOut()}>Sign out (mock)</button></header><main>{signedOut?<h1>Mock signed out</h1>:<Finance secureCall={(...args)=>fence.current.run(()=>mockCall(...args))} secureReceipt={async()=>{throw Error('No real receipt files in browser fixture');}} settingsContent={<section className="panel"><h2>Account security</h2><p>Mock passkey-only session. No credentials are used by these browser checks.</p></section>}/>}</main><footer>Browser test fixture · fabricated household records</footer></div>;}
+function Fixture(){const fence=useRef(new SessionFence()),[signedOut,setSignedOut]=useState(false);useEffect(()=>{state.signOut=()=>{fence.current.invalidate();setSignedOut(true);};},[]);return <div className="shell"><header><div className="brand">H<span>Household</span></div><span className="tag">Mock data only</span><button onClick={()=>state.signOut()}>Sign out (mock)</button></header><main>{signedOut?<h1>Mock signed out</h1>:<Finance secureCall={(...args)=>fence.current.run(()=>mockCall(...args))} secureDocument={(...args)=>fence.current.run(()=>taxApi.storage(...args))} secureReceipt={async()=>{throw Error('No real receipt files in browser fixture');}} settingsContent={<section className="panel"><h2>Account security</h2><p>Mock passkey-only session. No credentials are used by these browser checks.</p></section>}/>}</main><footer>Browser test fixture · fabricated household records</footer></div>;}
 createRoot(document.getElementById('root')).render(<Fixture/>);
