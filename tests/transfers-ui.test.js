@@ -41,7 +41,8 @@ test('confirmed transfer workflow updates dashboard, classifies a single side, l
   await page('Transactions');await open();
   assert.equal(container.querySelector('[aria-label="Transaction type"]'),null);
   await change(container.querySelector('.ledger-editor select[value]')||container.querySelectorAll('.ledger-editor select')[1],'card-payment');
-  await click('Save changes');await pause();assert.equal(rows[2].flow_type,'credit_card_payment');assert.equal(rows[2].transfer_peer_id,null);
+  await pause();assert.equal(rows[2].flow_type,'credit_card_payment');assert.equal(rows[2].transfer_peer_id,null);
+  assert.equal(container.querySelector('.ledger-editor button:not([type=button])')?.disabled,true);
   await click('Close');await page('Dashboard');assert.match(container.querySelector('.money-cards article:nth-child(2)').textContent,/50\.00/);assert.match(container.querySelector('.transfer-overview').textContent,/1 without a linked counterpart/);
   await click('Review unlinked transfers');await pause();assert.equal(container.querySelectorAll('.ledger-table tbody tr').length,1);assert.equal(calls.filter(c=>c.op==='list_ledger_transactions').at(-1).payload.flow,'unlinked_transfer');
   await open();const matches=container.querySelector('.transfer-matches');await act(async()=>{matches.open=true;});await click('Find matching entries');assert.match(matches.textContent,/1 possible match/);assert.equal(rows[2].transfer_peer_id,null);
