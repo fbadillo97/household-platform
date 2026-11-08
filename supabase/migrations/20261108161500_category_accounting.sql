@@ -42,6 +42,14 @@ create trigger category_accounting_on_transaction
 
 -- Review existing unlinked entries; do not silently alter old imports or classified transactions here.
 -- Category changes will apply the behavior atomically to each record when edited.
+-- Bring already categorized imported records into the new reporting behavior.
+-- Preserve linked pairs and source identity; advance revisions for auditable optimistic locking.
+update household_private.transactions t
+set flow_type=c.accounting_behavior, revision=t.revision+1
+from household_private.categories c
+where t.category_id=c.id and t.deleted_at is null and t.transfer_peer_id is null
+ and t.flow_type is distinct from c.accounting_behavior;
+
 create function household_private.category_behavior_action(payload jsonb) returns jsonb
 language plpgsql security definer set search_path='' as $$
 declare actor uuid:=household_private.identity_id(); role text:=household_private.member_role();
