@@ -1,0 +1,36 @@
+import React,{useState} from 'react';
+import {parseCSV,defaultSelection,commitSelection} from './import.js';
+export function Finance({secureCall}){
+ const [error,setError]=useState(''),[busy,setBusy]=useState(false);
+ const [accounts,setAccounts]=useState([]),[properties,setProperties]=useState([]),[categories,setCategories]=useState([]),[transactions,setTransactions]=useState([]);
+ const [account,setAccount]=useState(''),[batch,setBatch]=useState(null),[selected,setSelected]=useState([]),[notice,setNotice]=useState('');
+
+ async function api(path,method='GET',body){
+  const names={accounts:'account',properties:'property',categories:'category'};
+  const resource=path.split('?')[0].split('/')[1];
+  if(names[resource])return secureCall((method==='GET'?'list_':'create_')+(method==='GET'?resource:names[resource]),body);
+  if(resource==='transactions'){
+   if(method==='PATCH')return secureCall('assign_transaction',{...body,id:path.split('/')[2],revision:transactions.find(t=>t.id===path.split('/')[2]).revision});
+   return secureCall('list_transactions',{limit:500});
+  }
+  if(resource==='imports'){
+   if(method==='POST'&&path==='/imports')return secureCall('stage_import',{account_id:body.account_id,rows:parseCSV(body.content)});
+   if(path.endsWith('/commit'))return secureCall('commit_import',commitSelection(batch,body.row_ids));
+  }
+  throw Error('Unknown action');
+ }
+ async function refresh(){const [a,p,c,t]=await Promise.all(['/accounts','/properties','/categories','/transactions?limit=500'].map(x=>api(x)));setAccounts(a);setProperties(p);setCategories(c);setTransactions(t);setAccount(old=>old||a[0]?.id||'');}
+ async function run(fn){setError('');setBusy(true);try{await fn();}catch(e){if(e.message!=='Stale session')setError(e.message);if(batch&&!batch.committed){try{const fresh=await secureCall('preview_import',{id:batch.id});setBatch(fresh);setSelected(defaultSelection(fresh));}catch{setBatch(null);}}}finally{setBusy(false);}}
+ React.useEffect(()=>{run(refresh);},[]);
+
+ const money=(minor,currency)=>new Intl.NumberFormat('en-CA',{style:'currency',currency}).format(minor/100);
+ return <>{error&&<p role="alert" className="error">{error}</p>}{notice&&<p role="status">{notice}</p>}
+ <div className="cards"><article><span>Accounts</span><strong>{accounts.length}</strong></article><article><span>Properties</span><strong>{properties.length}</strong></article><article><span>Transactions shown</span><strong>{transactions.length}</strong><small>Latest 500 maximum · no balance inferred</small></article></div>
+ <div className="grid"><section className="panel"><h2>Accounts</h2>{accounts.map(a=><p key={a.id}>{a.name} <small>{a.kind} · {a.currency}</small></p>)}<form onSubmit={e=>create(e,'/accounts')}><label>Name<input name="name" required maxLength="120" placeholder="Mock chequing"/></label><label>Type<select name="kind"><option value="checking">Chequing</option><option>savings</option><option>credit</option><option>mortgage</option><option>other</option></select></label><label>Currency<input name="currency" defaultValue="CAD" pattern="[A-Z]{3}" required/></label><button disabled={busy}>Add account</button></form></section>
+ <section className="panel"><h2>Properties</h2>{properties.map(p=><p key={p.id}>{p.name} <small>{p.kind}</small></p>)}<form onSubmit={e=>create(e,'/properties')}><label>Name<input name="name" required maxLength="120" placeholder="Mock primary residence"/></label><label>Use<select name="kind"><option value="home">Home</option><option value="rental">Rental</option><option value="other">Other</option></select></label><button disabled={busy}>Add property</button></form><h3>Categories</h3><p>{categories.map(c=>c.name).join(' · ')||'No categories yet'}</p><form onSubmit={e=>create(e,'/categories')}><label>Category name<input name="name" required maxLength="120"/></label><button disabled={busy}>Add category</button></form></section></div>
+ <section className="panel"><h2>Import with a review step</h2><p>Use the mock CSV in the repository. Positive amounts are inflows; negative amounts are outflows. Files must have date,description,amount headers in that order.</p><label>Destination account<select disabled={busy} value={account} onChange={e=>{setAccount(e.target.value);setBatch(null);}}><option value="">Choose an account</option>{accounts.map(a=><option key={a.id} value={a.id}>{a.name} · {a.currency}</option>)}</select></label><label>Sample CSV file<input type="file" accept=".csv,text/csv" disabled={!account||busy} onChange={e=>{const f=e.target.files[0];e.target.value='';if(f)run(async()=>{if(f.size>1000000)throw Error('File exceeds 1 MB');const b=await api('/imports','POST',{account_id:account,content:await f.text()});setBatch(b);setSelected(defaultSelection(b));setNotice('Preview only. Nothing has been added to transactions.');});}}/></label>
+ {batch&&<><p>Duplicate matches are warnings: leave them unchecked, or explicitly select a genuine repeated payment. Invalid rows cannot be selected.</p><div className="scroll"><table><thead><tr><th>Select</th><th>Line</th><th>Description</th><th>Amount</th><th>Review</th></tr></thead><tbody>{batch.rows.map(r=><tr key={r.id}><td><input aria-label={'Select CSV line '+r.line} type="checkbox" disabled={!!r.error||batch.committed||busy} checked={selected.includes(r.id)} onChange={e=>setSelected(s=>e.target.checked?[...s,r.id]:s.filter(x=>x!==r.id))}/></td><td>{r.line}</td><td>{r.payload.description||'Invalid row'}</td><td>{r.error?'—':money(r.payload.amount_minor,accounts.find(a=>a.id===batch.account_id)?.currency||'CAD')}</td><td>{r.error|| (r.duplicate?'Possible duplicate':'Ready')}</td></tr>)}</tbody></table></div><button disabled={busy||batch.committed||!selected.length} onClick={()=>run(async()=>{const result=await api('/imports/'+batch.id+'/commit','POST',{row_ids:selected});setBatch({...batch,committed:true});setNotice(result.inserted+' transactions imported.');await refresh();})}>Confirm import of {selected.length} selected rows</button></>}
+ </section><section className="panel"><h2>Transactions</h2><div className="scroll"><table><thead><tr><th>Date</th><th>Description / Account</th><th>Amount</th><th>Property</th><th>Category</th></tr></thead><tbody>{transactions.map(t=><tr key={t.id}><td>{t.date}</td><td>{t.description}<small>{accounts.find(a=>a.id===t.account_id)?.name}</small></td><td>{money(t.amount_minor,accounts.find(a=>a.id===t.account_id)?.currency||'CAD')}</td>{[['property_id',properties],['category_id',categories]].map(([key,items])=><td key={key}><select aria-label={key+' for '+t.description} disabled={busy} value={t[key]||''} onChange={e=>run(async()=>{await api('/transactions/'+t.id,'PATCH',{property_id:t.property_id,category_id:t.category_id,[key]:e.target.value||null});await refresh();})}><option value="">Unassigned</option>{items.map(i=><option key={i.id} value={i.id}>{i.name}</option>)}</select></td>)}</tr>)}</tbody></table>{!transactions.length&&<p>No transactions yet. Start by adding an account, then preview the sample CSV.</p>}</div></section>
+ <section className="future"><h2>Room to grow</h2><p>Maintenance · Property records · Documents</p><p>Future modules will use the same property identifiers and versioned API.</p></section>
+</>;
+}

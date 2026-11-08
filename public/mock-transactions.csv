@@ -1,0 +1,6 @@
+date,description,amount
+2026-01-02,Mock salary,3200.00
+2026-01-03,Mock groceries,-82.35
+2026-01-03,Mock groceries,-82.35
+2026-01-05,Mock rental repair,-140.00
+2026-99-99,Invalid date example,-9.00
