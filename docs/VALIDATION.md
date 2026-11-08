@@ -24,3 +24,10 @@ Security advisor reports nine informational `RLS enabled without policies` findi
 npm audit reports zero known vulnerabilities for the pinned frontend dependency tree at verification time. Performance advisor reports only four unused-index informational notices on the empty database; these indexes support foreign keys and are retained. [Unused-index advisor](https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index).
 
 Outstanding: actual browser layout, real email delivery, website headers/redirect configuration, device passkey enrollment/sign-in/recovery, simultaneous multi-connection import testing and a backup/restore drill. Nothing here claims those checks passed. No real finance data was accessed, and setup sent no email or invitations.
+
+
+## Passkey-only cutover verification
+
+The full rollback suite passes eleven groups. Added assertions deny all thirteen household data/admin operations to an approved owner's OTP-only session even when the test JWT AMR and user metadata claim passkey authentication. A server-recorded passkey session passes. The test fixtures now create their own temporary sessions/AMR records; when an owner exists they use that owner's UUID in a rollback-only test session, without changing the owner's membership, credentials or identity. Transaction reads are filtered to generated mock accounts. Mock sessions, AMR records and finance rows are rolled back.
+
+The fourth frontend test verifies that the protected view requires the server's strict boolean passkey_verified, with no user-metadata fallback. Provider configuration and the native WebAuthn ceremony are outside these automated checks. The Email provider must still be disabled in the Dashboard, then sessions signed out globally; no test here claims that toggle has already happened.

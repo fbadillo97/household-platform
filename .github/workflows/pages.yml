@@ -1,6 +1,8 @@
 name: Publish GitHub Pages
-# Run manually after Settings > Pages > Source has been set to GitHub Actions.
+# Publish tested changes on main; manual publication is also available.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read

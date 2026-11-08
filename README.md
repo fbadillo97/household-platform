@@ -6,10 +6,10 @@ Private household finance foundation, with property identifiers ready for future
 
 - This private repository contains code, migrations and fabricated fixtures only.
 - The dedicated Household Platform database is active in Canada Central (`ca-central-1`).
-- Both SQL migrations are already applied to that project. Do not rerun them manually.
-- The owner email reservation is configured privately in the database. No owner identity was created and no email was sent by this setup.
-- The frontend is ready to build; it is **not deployed** to a website yet.
-- Email delivery, Auth URL configuration and passkey settings must be completed after choosing the permanent website address.
+- All three SQL migrations are already applied to that project. Do not rerun them manually.
+- The owner email reservation is configured privately in the database. The owner subsequently completed verified signup and passkey enrollment. No real email is seeded in migrations.
+- The frontend deploys to GitHub Pages after successful tests/builds on main, or a manual Publish GitHub Pages run.
+- The GitHub Pages website is published at https://fbadillo97.github.io/household-platform/ . Finish the Email-provider cutover described below; real-data acceptance and restore checks remain outstanding.
 
 The older FastAPI/SQLite Docker starter remains a separate local deliverable; this hosted app replaces that runtime with controlled Supabase database operations. There are no Docker or Python services to host for this version.
 
@@ -33,18 +33,17 @@ See [deployment and sign-in setup](docs/DEPLOYMENT.md) before the first owner si
 
 ## How access works
 
-1. A visitor requests an email sign-in link. Supabase verifies email ownership.
-2. The app requests household access after verified sign-in. Ordinary new accounts are `pending` and receive no records.
-3. The privately reserved owner email can bootstrap the single owner on its first verified sign-in. The first arbitrary registrant never becomes owner.
-4. The owner sees pending requests and approves/rejects them. Approved members share finance read/write access. Members cannot see the approval queue or manage membership. The owner cannot be demoted/removed through the browser API.
-5. Approved members can enroll and manage passkeys; sign-in links remain the recovery path. A passkey proves identity, **not** household approval. Supabase's passkey feature is experimental and must be enabled in the Dashboard.
-6. Protected operations check the current verified non-anonymous Auth identity, live server-side session and current database membership. A removed account's old token cannot read records. A rejected/removed user cannot reset their own status by requesting again.
+Routine login is passkey-only. The database checks the verified user's live session, its **server-stored** `auth.mfa_amr_claims.authentication_method = 'passkey'`, and current approved membership on every data/admin operation. A user-controlled JWT metadata field, AAL1, a verified email, or an approved owner role is not sufficient. The only operations permitted without a passkey are reading one's own membership status and requesting approval; they expose no household records or approval queue.
 
-Passkey APIs are provided by Supabase Auth directly. The app restricts enrollment UI to approved members; an unapproved Auth account registering a credential directly would still have no household access. The owner approval gate is for application data, not an Auth-provider-level ban on creating identities.
+The frontend provides only a passkey sign-in button and no email-link form. Automatic URL session acceptance is disabled. An email-authenticated session is not shown Finance or owner controls. Sessions remain in browser memory only, and late protected responses are invalidated on sign-out/revocation. Current access is rechecked every 30 seconds and on visibility changes. Already viewed information cannot be recalled.
 
-There is one household per project. All approved members currently have the same finance write capabilities; no read-only role or granular property-level sharing is implemented. Do not approve people who should only see wishlist content. The wishlist uses a different project and membership list.
+**Complete the Auth-provider cutover:** disable the Email provider in the Household Platform Dashboard (not the email-confirmation option), retain passkeys, and use Account security → Sign out all devices, then sign back in with a passkey. The connector cannot change provider settings. Until Email is disabled, Supabase's direct Auth APIs may still issue email sessions and permit credential enrollment; hiding the email form or blocking data alone is not the full provider cutover. Do not describe the project as fully passkey-only before this is completed and verified.
 
-The browser keeps Auth sessions only in memory, so a reload requires another sign-in (or a newly opened email-link callback). It clears the protected view on sign-out or failed access checks and invalidates late responses. Access is rechecked every 30 seconds and on visibility changes. Already viewed records cannot be recalled. No financial data is placed in browser localStorage or service-worker caches.
+Two passkeys were registered for the owner at cutover. Keep independent backups. The UI prevents removing the last listed key, but this is a convenience guard rather than a restriction on Supabase's direct credential-management APIs. Recovery after loss of all keys requires deliberate administrator assistance, identity verification and re-enrollment; there is no automatic email recovery. Protect the Supabase administrator account itself.
+
+Membership approval remains separate from identity authentication: pending/rejected/removed accounts cannot read records, even with a passkey; only the current owner may approve/remove members. User-editable JWT metadata does not assign roles. Future-member initial enrollment needs a controlled administrator-assisted flow while Email is disabled; no public self-service passkey registration/recovery flow is supplied by this cutover. Approval APIs remain ready for enrolled users.
+
+There is one household per project. All approved members currently share finance read/write access. The wishlist remains on a separate Supabase project. Passkeys are an experimental Supabase feature; keep the client pinned and retest on upgrades.
 
 ## Finance workflow
 
@@ -60,11 +59,11 @@ This remains a transaction-ledger foundation: no reconciliation, opening balance
 
 ## Database ownership and API
 
-All records live in unexposed `household_private` tables with RLS enabled and no direct browser table grants. RLS intentionally has no allow policies: direct access is denied. The sole public endpoint is `household_v1(operation,payload)`, a SECURITY INVOKER wrapper around a checked private dispatcher. The private definer functions have fixed empty search paths, schema-qualified references, no dynamic SQL and restricted EXECUTE grants. They do not trust user-editable JWT metadata for approval/roles. See [API contract](docs/API.md).
+All records live in unexposed `household_private` tables with RLS enabled and no direct browser table grants. RLS intentionally has no allow policies: direct access is denied. The sole public endpoint is `household_v1(operation,payload)`, a SECURITY INVOKER wrapper around a checked private entry function and dispatcher. The private definer functions have fixed empty search paths, schema-qualified references, no dynamic SQL and restricted EXECUTE grants. They do not trust user-editable JWT metadata for approval/roles. See [API contract](docs/API.md).
 
 Do not expose `household_private` in the Data API settings. Do not grant direct table access to `anon` or `authenticated`. Database administrators and project secret keys remain privileged; protect the Supabase and GitHub accounts with MFA.
 
-Migrations are versioned in `supabase/migrations`. The first creates the foundation; the second qualifies staged-row columns in the import commit function. Those filenames match the project's applied migration history. Future changes need new migrations, database tests and advisor review. Supabase CLI 2.81.3 was used only to create migration files; hosted migrations were applied through the Supabase connector. CLI 3 has different target/confirmation behavior: read its help and current docs before deploying with it. No workflow automatically deploys database changes or requires a database secret.
+Migrations are versioned in `supabase/migrations`. The first creates the foundation; the second qualifies staged-row columns in the import commit function; the third requires server-recorded passkey authentication for household operations. Those filenames match the project's applied migration history. Future changes need new migrations, database tests and advisor review. Supabase CLI 2.81.3 was used only to create migration files; hosted migrations were applied through the Supabase connector. CLI 3 has different target/confirmation behavior: read its help and current docs before deploying with it. No workflow automatically deploys database changes or requires a database secret.
 
 ## Verification and backups
 

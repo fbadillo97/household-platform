@@ -2,12 +2,12 @@
 
 Supabase RPC: `POST /rest/v1/rpc/household_v1`. Headers: public project `apikey`, `Authorization: Bearer <user access token>`, JSON content type. In JavaScript use `client.rpc('household_v1', {operation, payload})`. The browser needs only a publishable key and the user's session. Anonymous requests cannot EXECUTE this endpoint.
 
-All operations require a verified, non-anonymous user and active server-side session. Only `access_state` and `request_access` allow a not-yet-approved identity. Remaining operations require approved membership; approval administration additionally requires the owner role.
+All operations require a verified, non-anonymous user and active server-side session. Only `access_state` and `request_access` allow a not-yet-approved identity. Remaining operations require approved membership AND server-recorded passkey authentication for the current live session; approval administration additionally requires the owner role.
 
 | Operation | Payload | Result |
 |---|---|---|
-| access_state | `{}` | Own status, role, revision; no request is created |
-| request_access | `{}` | Own status; creates pending request or reserved owner bootstrap |
+| access_state | `{}` | Own status, role, revision, passkey_verified; no request is created |
+| request_access | `{}` | Own status and passkey_verified; creates pending request or reserved owner bootstrap |
 | list_requests | `{}` | Owner-only list of user_id/email/status/role/revision |
 | decide_access | `{user_id,status,revision}` | Owner-only approved/rejected/removed decision |
 | list_accounts / list_properties / list_categories | `{}` | Shared household resource arrays |

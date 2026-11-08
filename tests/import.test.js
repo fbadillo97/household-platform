@@ -15,3 +15,12 @@ test('sign-out or revocation prevents delayed private results from restoring sta
  const fence=new SessionFence();let resolve;const delayed=fence.run(()=>new Promise(r=>resolve=r));fence.invalidate();resolve({private:'mock'});await assert.rejects(delayed,/Stale session/);
  assert.equal(await fence.run(async()=>42),42);
 });
+
+import {phaseForAccess} from '../src/access.js';
+test('approved email sessions cannot render protected finance and loose claims cannot enable access',()=>{
+ assert.equal(phaseForAccess({status:'approved',passkey_verified:false}),'passkey_required');
+ assert.equal(phaseForAccess({status:'approved',passkey_verified:'true'}),'passkey_required');
+ assert.equal(phaseForAccess({status:'approved',user_metadata:{passkey:true}}),'passkey_required');
+ assert.equal(phaseForAccess({status:'approved',passkey_verified:true}),'approved');
+ for(const status of ['pending','removed','rejected'])assert.equal(phaseForAccess({status,passkey_verified:true}),status);
+});

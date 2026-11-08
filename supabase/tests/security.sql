@@ -6,14 +6,24 @@ do $$
 declare n text; actor uuid; sid uuid;
 begin
  foreach n in array array['owner','member','other','unverified','anonymous'] loop
-  actor:=gen_random_uuid();sid:=gen_random_uuid();
+  actor:=null;
+  if n='owner' then select owner_user_id into actor from household_private.settings where singleton;end if;
+  if actor is null then
+   actor:=gen_random_uuid();
+   insert into auth.users(id,email,email_confirmed_at,is_anonymous,created_at,updated_at)
+    values(actor,'household-mock-'||n||'@example.invalid',case when n='unverified' then null else now() end,n='anonymous',now(),now());
+  end if;
+  sid:=gen_random_uuid();
   perform set_config('test.'||n||'_id',actor::text,true);
   perform set_config('test.'||n||'_session',sid::text,true);
-  insert into auth.users(id,email,email_confirmed_at,is_anonymous,created_at,updated_at)
-   values(actor,'household-mock-'||n||'@example.invalid',case when n='unverified' then null else now() end,n='anonymous',now(),now());
   insert into auth.sessions(id,user_id,created_at,updated_at,aal) values(sid,actor,now(),now(),'aal1');
+  insert into auth.mfa_amr_claims(id,session_id,authentication_method,created_at,updated_at) values(gen_random_uuid(),sid,'passkey',now(),now());
  end loop;
- update household_private.settings set owner_email='household-mock-owner@example.invalid',owner_user_id=null where singleton;
+ actor:=current_setting('test.owner_id')::uuid;sid:=gen_random_uuid();
+ perform set_config('test.owner_otp_session',sid::text,true);
+ insert into auth.sessions(id,user_id,created_at,updated_at,aal) values(sid,actor,now(),now(),'aal1');
+ insert into auth.mfa_amr_claims(id,session_id,authentication_method,created_at,updated_at) values(gen_random_uuid(),sid,'otp',now(),now());
+ update household_private.settings set owner_email='household-mock-owner@example.invalid' where singleton and owner_user_id is null;
 end $$;
 set local role authenticated;
 select set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.member_id'),'session_id',current_setting('test.member_session'),'role','authenticated','user_metadata',jsonb_build_object('role','owner'))::text,true);
@@ -40,7 +50,7 @@ begin
  perform public.household_v1('decide_access',jsonb_build_object('user_id',current_setting('test.other_id'),'status','rejected','revision',1));
  begin perform public.household_v1('decide_access',jsonb_build_object('user_id',current_setting('test.member_id'),'status','removed','revision',1));raise exception 'Stale approval accepted';exception when serialization_failure then null;end;
  begin perform public.household_v1('decide_access',jsonb_build_object('user_id',current_setting('test.owner_id'),'status','removed','revision',1));raise exception 'Owner removal accepted';exception when insufficient_privilege then null;end;
- if jsonb_array_length(public.household_v1('list_requests'))<>3 then raise exception 'Owner request list failed'; end if;
+ if jsonb_array_length(public.household_v1('list_requests'))<3 then raise exception 'Owner request list failed'; end if;
  insert into verification_results values('owner reserved-email bootstrap, decisions, revision and owner protections',true);
 end $$;
 select set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.other_id'),'session_id',current_setting('test.other_session'),'role','authenticated')::text,true);
@@ -57,14 +67,14 @@ begin
  begin perform public.household_v1('decide_access',jsonb_build_object('user_id',current_setting('test.other_id'),'status','approved','revision',2));raise exception 'Member approved user';exception when insufficient_privilege then null;end;
  account:=public.household_v1('create_account','{"name":"Mock chequing","kind":"checking","currency":"CAD"}');
  prop:=public.household_v1('create_property','{"name":"Mock rental","kind":"rental"}');
- category:=public.household_v1('create_category','{"name":"Mock repair"}');
+ category:=public.household_v1('create_category',jsonb_build_object('name','Mock repair '||gen_random_uuid()::text));
  rows:='[{"date":"2026-01-01","description":"Mock Coffee","amount":"-2.35"},{"date":"2026-01-01","description":" mock   coffee ","amount":"-2.35"},{"date":"2026-99-99","description":"Invalid","amount":"1"},{"date":"2026-01-01","description":"Invalid cents","amount":"1.001"}]';
  batch:=public.household_v1('stage_import',jsonb_build_object('account_id',account->>'id','rows',rows));
  if (batch->'rows'->0->>'duplicate')::boolean or not (batch->'rows'->1->>'duplicate')::boolean then raise exception 'Duplicate normalization failed';end if;
  if batch->'rows'->2->>'error' is null or batch->'rows'->3->>'error' is null then raise exception 'Invalid row accepted';end if;
- if jsonb_array_length(public.household_v1('list_transactions'))<>0 then raise exception 'Staging changed transactions';end if;
+ if jsonb_array_length(public.household_v1('list_transactions',jsonb_build_object('account_id',account->>'id')))<>0 then raise exception 'Staging changed transactions';end if;
  begin perform public.household_v1('commit_import',jsonb_build_object('id',batch->>'id','row_ids',jsonb_build_array(batch->'rows'->0->>'id',batch->'rows'->2->>'id')));raise exception 'Invalid selection committed';exception when invalid_parameter_value then null;end;
- if jsonb_array_length(public.household_v1('list_transactions'))<>0 then raise exception 'Failed selection partially committed';end if;
+ if jsonb_array_length(public.household_v1('list_transactions',jsonb_build_object('account_id',account->>'id')))<>0 then raise exception 'Failed selection partially committed';end if;
  begin perform public.household_v1('commit_import',jsonb_build_object('id',batch->>'id','row_ids',jsonb_build_array(gen_random_uuid())));raise exception 'Foreign row selection committed';exception when invalid_parameter_value then null;end;
  second_batch:=public.household_v1('stage_import',jsonb_build_object('account_id',account->>'id','rows',jsonb_build_array(rows->0)));
  result:=public.household_v1('commit_import',jsonb_build_object('id',batch->>'id','row_ids',jsonb_build_array(batch->'rows'->0->>'id')));
@@ -75,7 +85,7 @@ begin
  other_account:=public.household_v1('create_account','{"name":"Other mock account","kind":"savings"}');
  result:=public.household_v1('stage_import',jsonb_build_object('account_id',other_account->>'id','rows',jsonb_build_array(rows->0)));
  if (result->'rows'->0->>'duplicate')::boolean then raise exception 'Duplicate crossed account boundary';end if;
- transaction:=public.household_v1('list_transactions')->0;
+ transaction:=public.household_v1('list_transactions',jsonb_build_object('account_id',account->>'id'))->0;
  if (transaction->>'amount_minor')::bigint<>-235 then raise exception 'Integer cents wrong';end if;
  perform public.household_v1('assign_transaction',jsonb_build_object('id',transaction->>'id','revision',1,'property_id',prop->>'id','category_id',category->>'id'));
  begin perform public.household_v1('assign_transaction',jsonb_build_object('id',transaction->>'id','revision',1));raise exception 'Stale assignment allowed';exception when serialization_failure then null;end;
@@ -103,6 +113,23 @@ select set_config('request.jwt.claims',jsonb_build_object('sub',current_setting(
 do $$begin
  begin perform public.household_v1('request_access');raise exception 'Anonymous authenticated role accepted';exception when insufficient_privilege then null;end;
  insert into verification_results values('anonymous Auth accounts denied despite authenticated role',true);
+end $$;
+-- Even an approved owner and forged JWT/user metadata cannot turn an OTP session into a passkey session.
+select set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.owner_id'),'session_id',current_setting('test.owner_otp_session'),'role','authenticated','amr',jsonb_build_array(jsonb_build_object('method','passkey')),'user_metadata',jsonb_build_object('role','owner','passkey',true))::text,true);
+do $$
+declare op text; state jsonb;
+begin
+ state:=public.household_v1('access_state');
+ if (state->>'passkey_verified')::boolean or state->>'status'<>'approved' then raise exception 'OTP status classification failed';end if;
+ foreach op in array array['list_accounts','list_properties','list_categories','list_transactions','create_account','create_property','create_category','assign_transaction','stage_import','preview_import','commit_import','list_requests','decide_access'] loop
+  begin perform public.household_v1(op,'{}');raise exception 'OTP session accepted for %',op;exception when insufficient_privilege then null;end;
+ end loop;
+ insert into verification_results values('OTP-only owner blocked from all household/admin operations despite forged passkey claims',true);
+end $$;
+select set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.owner_id'),'session_id',current_setting('test.owner_session'),'role','authenticated')::text,true);
+do $$begin
+ if public.household_v1('access_state')->>'passkey_verified'<>'true' then raise exception 'Passkey session not recognized';end if;
+ insert into verification_results values('server-recorded passkey session recognized',true);
 end $$;
 -- Simulate a token whose referenced server-side session no longer exists.
 select set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.owner_id'),'session_id',gen_random_uuid()::text,'role','authenticated')::text,true);
