@@ -1,4 +1,5 @@
 import React,{useState,useEffect,useRef} from 'react';
+import {TransferSection} from './TransferSection.jsx';
 import {receiptMetadata} from '../receipts.js';
 const draftFor=t=>({description:t.description,account_id:t.account_id,category_id:t.category_id||'',notes:t.notes||'',review_status:t.review_status||'unreviewed',needs_attention:!!t.needs_attention,tags_override:t.tags_override??null});
 export function TransactionDetail({id,accounts,categories,money,secureCall,secureReceipt,refresh,onClose}){
@@ -55,6 +56,7 @@ export function TransactionDetail({id,accounts,categories,money,secureCall,secur
  <button type="button" className="text-button" onClick={()=>field('tags_override',null)}>Reset tags to imported</button>
  {!item.deleted_at&&<button disabled={!dirty||busy}>Save changes</button>}
  </fieldset></form></div>
+ <TransferSection key={item.id+':'+item.revision} item={item} accounts={accounts} money={money} secureCall={secureCall} action={action} busy={busy} dirty={dirty} onUpdated={async updated=>{if(alive.current)accept(updated,true);await refresh();}}/>
  <section className="receipt-section"><h3>Receipts</h3><p>PDF, JPEG, PNG or WebP · up to 10 MB each · 20 per transaction</p>
  {!item.deleted_at&&<label className="receipt-upload">Attach receipt<input type="file" accept="application/pdf,image/jpeg,image/png,image/webp" disabled={busy} onChange={e=>{const file=e.target.files[0];e.target.value='';upload(file);}}/></label>}
  <ul className="receipt-list">{(item.receipts||[]).map(r=><li key={r.id}><div><strong>{r.filename}</strong><small>{Math.ceil(r.byte_size/1024)} KB{r.state==='pending'?' · Upload incomplete — retry the same file or remove':''}</small></div><div>{r.state==='ready'&&<button className="secondary" disabled={busy} onClick={()=>openReceipt(r)}>View</button>}{!item.deleted_at&&<button className="text-button" disabled={busy} onClick={()=>setConfirm({kind:'receipt',receipt:r})}>Remove</button>}</div></li>)}</ul>
