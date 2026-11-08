@@ -1,0 +1,37 @@
+begin;
+create temporary table secured_test_results(name text,passed boolean);
+do $$
+declare actor uuid:=gen_random_uuid();sid uuid:=gen_random_uuid();asset uuid;debt uuid;other uuid;usd uuid;r jsonb;before_row jsonb;
+begin
+ insert into auth.users(id,email,email_confirmed_at,is_anonymous,created_at,updated_at) values(actor,'mock-equity-'||actor||'@example.invalid',now(),false,now(),now());
+ insert into household_private.memberships(user_id,status,role) values(actor,'approved','member');
+ insert into auth.sessions(id,user_id,aal) values(sid,actor,'aal1');
+ insert into auth.mfa_amr_claims(id,session_id,authentication_method,created_at,updated_at) values(gen_random_uuid(),sid,'passkey',now(),now());
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'session_id',sid,'role','authenticated')::text,true);
+ r:=public.household_v1('create_account',jsonb_build_object('name','Mock equity house '||actor,'kind','asset','currency','CAD'));asset:=(r->>'id')::uuid;
+ r:=public.household_v1('create_account',jsonb_build_object('name','Mock equity mortgage '||actor,'kind','mortgage','currency','CAD','secured_asset_id',asset));debt:=(r->>'id')::uuid;
+ if r->>'secured_asset_id' is distinct from asset::text then raise exception 'Link on account creation missing';end if;
+ r:=public.household_v1('create_account',jsonb_build_object('name','Mock equity other debt '||actor,'kind','loan','currency','CAD'));other:=(r->>'id')::uuid;
+ r:=public.household_v1('create_account',jsonb_build_object('name','Mock equity USD asset '||actor,'kind','asset','currency','USD'));usd:=(r->>'id')::uuid;
+ begin perform public.household_v1('update_account',jsonb_build_object('id',debt,'revision',1,'secured_asset_id',usd));raise exception 'Cross-currency link allowed';exception when invalid_parameter_value then null;end;
+ begin perform public.household_v1('update_account',jsonb_build_object('id',debt,'revision',1,'secured_asset_id',other));raise exception 'Debt-to-debt allowed';exception when invalid_parameter_value then null;end;
+ begin perform public.household_v1('update_account',jsonb_build_object('id',asset,'revision',1,'secured_asset_id',asset));raise exception 'Self/non-debt link allowed';exception when invalid_parameter_value or check_violation then null;end;
+ r:=public.household_v1('save_account_balance',jsonb_build_object('id',debt,'revision',1,'amount_minor',45000000,'as_of',current_date::text));
+ select to_jsonb(a) into before_row from household_private.accounts a where id=debt;
+ r:=public.household_v1('update_account',jsonb_build_object('id',debt,'revision',2,'secured_asset_id',null));
+ if r->>'secured_asset_id' is not null or r->'balance_snapshot'->>'amount_minor'<>'45000000' then raise exception 'Unlink lost balance snapshot';end if;
+ if (select to_jsonb(a)-array['secured_asset_id','revision'] from household_private.accounts a where id=debt)<>(before_row-array['secured_asset_id','revision']) then raise exception 'Linking changed source account metadata';end if;
+ begin perform public.household_v1('set_account_security',jsonb_build_object('id',debt,'revision',2,'secured_asset_id',asset));raise exception 'Stale link accepted';exception when serialization_failure then null;end;
+ r:=public.household_v1('set_account_security',jsonb_build_object('id',debt,'revision',3,'secured_asset_id',asset));
+ if r->>'secured_asset_id' is distinct from asset::text then raise exception 'Direct link setter failed';end if;
+ if (select count(*) from household_private.account_link_events where account_id=debt)<>3 then raise exception 'Link audit missing';end if;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'role','authenticated')::text,true);
+ begin perform public.household_v1('set_account_security',jsonb_build_object('id',other,'revision',1,'secured_asset_id',asset));raise exception 'Sessionless link allowed';exception when insufficient_privilege then null;end;
+ perform set_config('request.jwt.claims','{}',true);
+ r:=household_private.set_account_security(jsonb_build_object('id',other,'revision',1,'secured_asset_id',asset),true);
+ if r->>'secured_asset_id' is distinct from asset::text or not exists(select 1 from household_private.account_link_events where account_id=other and actor_id is null and provenance='assistant_admin') then raise exception 'AI automatic link/provenance missing';end if;
+ if has_function_privilege('authenticated','household_private.set_account_security(jsonb,boolean)','EXECUTE') or has_table_privilege('authenticated','household_private.account_link_events','SELECT') then raise exception 'Private linkage interface exposed';end if;
+ insert into secured_test_results values('link-on-create, direct assistant linking, same-currency/non-debt validation, stale checks, source/balance invariants and private passkey boundary',true);
+end $$;
+select * from secured_test_results;
+rollback;

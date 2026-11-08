@@ -19,3 +19,13 @@ Before changing UI, check the acceptance checklist in section 14. Keep financial
 ## Repository workflow
 
 The owner prefers direct commits to `main` for routine low-stakes changes, rather than draft pull requests. Run available tests/build checks and report failures accurately. Database migrations and security-sensitive operations still require careful verification. Never put private household records or secrets into this public repository.
+
+## AI-assisted asset/debt entry
+
+When entering assets and related debts, resolve the intended relationship from the
+provided context and save `secured_asset_id` automatically. The user does not want
+a separate review/confirmation step for these links. Create/resolve the asset first;
+use the checked account APIs or the restricted administrative setter described in
+[docs/EQUITY.md](docs/EQUITY.md). Keep the relationship editable under Accounts.
+Do not invent associations among ambiguous assets or allocate unsecured card debt
+across assets. Preserve original source records, dated balances and net worth totals.

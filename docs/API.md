@@ -118,3 +118,9 @@ ledger fields, recognition rules and atomic bulk payee action.
 
 See [Automations](AUTOMATIONS.md) for closed definition schemas, private assistant
 configuration, on/off controls, activity and guarded Undo APIs.
+
+## Secured asset links
+
+Account create/update accepts nullable `secured_asset_id`; the checked
+`set_account_security` operation supports direct revision-checked linking. See
+[Equity](EQUITY.md) for administrative AI entry, constraints and provenance.

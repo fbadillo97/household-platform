@@ -10,10 +10,27 @@ export function summarizeWorth(accounts,currency,today=localToday()){
  function metric(rows,net=false){const provided=rows.filter(a=>knownIds.has(a.id));return {ids:rows.map(a=>a.id),count:rows.length,known:provided.length,missing:rows.length-provided.length,minor:provided.length?safeSum(provided.map(a=>net&&isDebt(a)?-a.balance_snapshot.amount_minor:a.balance_snapshot.amount_minor)):rows.length?null:0};}
  const metrics={net:metric(eligible,true),assets:metric(eligible.filter(a=>!isDebt(a))),debts:metric(eligible.filter(isDebt)),cash:metric(eligible.filter(a=>['checking','savings'].includes(a.kind)))};
  if(!eligible.length)metrics.net.minor=null;
- const buckets=ASSET_BUCKETS.map(([id,label,kinds,color])=>{const rows=known.filter(a=>kinds.includes(a.kind)&&a.balance_snapshot.amount_minor>0);return {id,label,color,ids:rows.map(a=>a.id),minor:safeSum(rows.map(a=>a.balance_snapshot.amount_minor))};}).filter(b=>b.ids.length);
- const positiveAssets=safeSum(buckets.map(b=>b.minor??0));const allocationSafe=buckets.every(b=>b.minor!==null)&&positiveAssets!==null;
+ // Equity allocates only included, same-currency debt explicitly linked to an asset.
+ const assets=eligible.filter(a=>!isDebt(a)),assetIds=new Set(assets.map(a=>a.id));
+ const equityRows=assets.map(a=>{
+  const debts=eligible.filter(d=>isDebt(d)&&d.secured_asset_id===a.id);
+  const complete=knownIds.has(a.id)&&debts.every(d=>knownIds.has(d.id));
+  const minor=complete?safeSum([a.balance_snapshot.amount_minor,...debts.map(d=>-d.balance_snapshot.amount_minor)]):null;
+  return {account:a,debts,minor,complete};
+ });
+ const buckets=ASSET_BUCKETS.map(([id,label,kinds,color])=>{
+  const rows=equityRows.filter(e=>kinds.includes(e.account.kind)&&e.minor!==null&&e.minor>0);
+  return {id,label,color,ids:rows.flatMap(e=>[e.account.id,...e.debts.map(d=>d.id)]),minor:safeSum(rows.map(e=>e.minor))};
+ }).filter(b=>b.ids.length);
+ const positiveEquity=safeSum(buckets.map(b=>b.minor??0));const allocationSafe=buckets.every(b=>b.minor!==null)&&positiveEquity!==null;
+ const negativeEquity=safeSum(equityRows.filter(e=>e.minor!==null&&e.minor<0).map(e=>e.minor));
+ const missingEquity=equityRows.filter(e=>!e.complete),unsafeEquity=equityRows.filter(e=>e.complete&&e.minor===null);
+ const unlinkedDebts=eligible.filter(d=>isDebt(d)&&(!d.secured_asset_id||!assetIds.has(d.secured_asset_id)));
+ const unlinkedDebtKnown=unlinkedDebts.filter(d=>knownIds.has(d.id));
+ const unlinkedDebtMinor=unlinkedDebts.length&&!unlinkedDebtKnown.length?null:safeSum(unlinkedDebtKnown.map(d=>d.balance_snapshot.amount_minor));
  const dates=known.map(a=>a.balance_snapshot.as_of).sort();
- return {currency,eligible,known,missing,invalid,stale,metrics,buckets,positiveAssets,allocationSafe,oldest:dates[0]||null,newest:dates.at(-1)||null,
+ return {currency,eligible,known,missing,invalid,stale,metrics,buckets,positiveEquity,allocationSafe,equityRows,negativeEquity,missingEquity,unsafeEquity,unlinkedDebts,unlinkedDebtMinor,unlinkedDebtKnown,oldest:dates[0]||null,newest:dates.at(-1)||null,
+  positiveAssets:safeSum(known.filter(a=>!isDebt(a)&&a.balance_snapshot.amount_minor>0).map(a=>a.balance_snapshot.amount_minor)),
   negativeAssets:safeSum(known.filter(a=>!isDebt(a)&&a.balance_snapshot.amount_minor<0).map(a=>a.balance_snapshot.amount_minor)),
   debtCredits:safeSum(known.filter(a=>isDebt(a)&&a.balance_snapshot.amount_minor<0).map(a=>-a.balance_snapshot.amount_minor)),
   excluded:inCurrency.filter(a=>!a.archived_at&&a.include_in_net_worth===false),archived:inCurrency.filter(a=>a.archived_at),

@@ -21,3 +21,22 @@ test('unsafe aggregate amounts are unavailable instead of rounded and negative n
  const s=summarizeWorth(Array.from({length:100},(_,i)=>account('large-'+i,'asset',100000000000000)),'CAD',today);assert.equal(s.metrics.net.minor,null);assert.equal(s.metrics.assets.minor,null);assert.equal(s.allocationSafe,false);
  const debt=summarizeWorth([account('bank','checking',100),account('debt','mortgage',500)],'CAD',today);assert.equal(debt.metrics.net.minor,-400);
 });
+test('equity subtracts linked debt once, keeps unsecured debt separate and preserves net worth',()=>{
+ const rows=[account('home','asset',10000000),account('mortgage','mortgage',6000000,'CAD',{secured_asset_id:'home'}),account('car','asset',1000000),account('car-loan','loan',1200000,'CAD',{secured_asset_id:'car'}),account('bank','checking',200000),account('card','credit',50000)];
+ const s=summarizeWorth(rows,'CAD',today);
+ assert.equal(s.metrics.assets.minor,11200000);assert.equal(s.metrics.debts.minor,7250000);assert.equal(s.metrics.net.minor,3950000);
+ assert.equal(s.positiveEquity,4200000);assert.equal(s.negativeEquity,-200000);assert.equal(s.unlinkedDebtMinor,50000);
+ assert.equal(s.buckets.find(b=>b.id==='property').minor,4000000);assert.deepEqual(s.buckets.find(b=>b.id==='property').ids,['home','mortgage']);
+ assert.equal(s.positiveEquity+s.negativeEquity-s.unlinkedDebtMinor,s.metrics.net.minor);
+ rows.push(account('credit-adjustment','loan',-10000,'CAD',{secured_asset_id:'home'}));
+ const credit=summarizeWorth(rows,'CAD',today);assert.equal(credit.buckets.find(b=>b.id==='property').minor,4010000);
+});
+test('unknown secured balances never become gross-value equity; included cohorts and zero/negative equity stay honest',()=>{
+ const rows=[account('home','asset',10000000),account('mortgage','mortgage',null,'CAD',{secured_asset_id:'home'})];
+ const missing=summarizeWorth(rows,'CAD',today);assert.equal(missing.positiveEquity,0);assert.equal(missing.buckets.length,0);assert.equal(missing.missingEquity.length,1);
+ rows[1].include_in_net_worth=false;assert.equal(summarizeWorth(rows,'CAD',today).positiveEquity,10000000);
+ rows[1]=account('mortgage','mortgage',10000000,'CAD',{secured_asset_id:'home'});assert.equal(summarizeWorth(rows,'CAD',today).positiveEquity,0);
+ rows[1]=account('mortgage','mortgage',11000000,'CAD',{secured_asset_id:'home'});assert.equal(summarizeWorth(rows,'CAD',today).negativeEquity,-1000000);
+ rows[0].include_in_net_worth=false;const excluded=summarizeWorth(rows,'CAD',today);assert.equal(excluded.unlinkedDebtMinor,11000000);
+ const unknown=summarizeWorth([account('unknown','loan',null)],'CAD',today);assert.equal(unknown.unlinkedDebtMinor,null);
+});

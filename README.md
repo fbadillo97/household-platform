@@ -8,7 +8,7 @@ Private household finance foundation, with property identifiers ready for future
 
 - This public repository contains code, migrations and fabricated fixtures only; real imported records stay in the private database.
 - The dedicated Household Platform database is active in Canada Central (`ca-central-1`).
-- All fourteen SQL migrations are already applied to that project. Do not rerun them manually.
+- All fifteen SQL migrations are already applied to that project. Do not rerun them manually.
 - The owner email reservation is configured privately in the database. The owner subsequently completed verified signup and passkey enrollment. No real email is seeded in migrations.
 - The frontend deploys to GitHub Pages after successful tests/builds on main, or a manual Publish GitHub Pages run.
 - The GitHub Pages website is published at https://fbadillo97.github.io/household-platform/ . The owner has completed passkey sign-in and disabled the Email provider. Statement reconciliation and a backup/restore drill remain outstanding.
@@ -71,7 +71,7 @@ Dashboard starts with Where you stand: Net worth, Assets, Debts and Cash availab
 
 Coverage shows provided versus included accounts, date span, balances over 30 days old, assumed currencies and excluded/archive counts. Missing or invalid/future/mismatched-currency snapshots are omitted and mark the view Partial; they never become fake zero balances. All-missing totals say Not provided, genuine saved zeros display zero, absent account types show a dash. Unsafe aggregate integer amounts show unavailable rather than rounded totals. Totals describe only the accounts the user chose to include, not a guarantee of complete household coverage.
 
-Two responsive SVG visuals show signed Assets versus Debts bars and a positive-asset breakdown donut. Exact amounts remain in labelled buttons/legend entries and accessible SVG descriptions. Negative asset balances and debt credits are listed separately; neither creates a negative donut slice. All-zero or missing data produces an honest empty state. The charts use presentation attributes and external CSS compatible with the existing CSP, with no external chart scripts or tracking.
+Two responsive SVG visuals show one bar with Debts on the left, Assets on the right and Net worth in the middle, plus a positive-equity breakdown donut. Equity deducts explicitly linked secured debts from the corresponding asset values. Exact amounts remain in labelled buttons/legend entries and accessible SVG descriptions. Negative equity and unallocated debt/credits are reported outside the donut; no negative slices are drawn. Missing linked-debt balances mark equity incomplete rather than using gross value. All-zero or missing data produces an honest empty state. The charts use presentation attributes and external CSS compatible with the existing CSP, with no external chart scripts or tracking.
 
 Totals/chart controls open the relevant account subset with a visible Show all accounts reset. An included-account balance list opens individual account management directly. Account creation clears a subset so the new record is visible. Normal Accounts navigation returns the full list. These subsets are in session memory, not public URL parameters. Save a dated balance and return to Dashboard to see the updated overview. Open Net worth history for the saved-balance timeline, described below.
 
@@ -168,3 +168,10 @@ assistant to create or revise a definition; imports execute validated actions
 without per-transaction AI calls. Existing payee aliases appear in the same
 directory. See [Automations](docs/AUTOMATIONS.md) and the retained
 [Recurring/Cash Flow roadmap](docs/ROADMAP.md).
+
+### Secured assets and equity
+
+Link a mortgage/loan to its asset under **Accounts → Manage account → Secured
+asset**. AI-assisted entry can set this relationship directly without a separate
+review. The overview shows equity rather than gross values in its breakdown,
+while unallocated debt still counts toward net worth. See [Equity](docs/EQUITY.md).
