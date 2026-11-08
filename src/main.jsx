@@ -5,6 +5,7 @@ import {SessionFence} from './lifecycle.js';
 import {Finance} from './Finance.jsx';
 import {phaseForAccess} from './access.js';
 import './style.css';
+import './design-system.css';
 function App(){
  const [phase,setPhase]=useState('signed_out'),[role,setRole]=useState(null),[error,setError]=useState(''),[notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[people,setPeople]=useState([]),[keys,setKeys]=useState([]),[generation,setGeneration]=useState(0);
  const fence=useRef(new SessionFence()),alive=useRef(true),currentUser=useRef(null);
