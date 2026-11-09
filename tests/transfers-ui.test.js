@@ -37,7 +37,7 @@ test('confirmed transfer workflow updates dashboard, classifies a single side, l
  async function change(select,value){await act(async()=>{select.value=value;select.dispatchEvent(new dom.window.Event('change',{bubbles:true}));});}
  async function open(){await act(async()=>container.querySelector('[aria-label="Edit transaction Mock bill payment"]').click());}
  try{
-  await act(async()=>{root.render(React.createElement(Finance,{secureCall}));await new Promise(r=>setTimeout(r,0));});
+  await act(async()=>{root.render(React.createElement(Finance,{initialToday:'2026-10-31',secureCall}));await new Promise(r=>setTimeout(r,0));});
   assert.match(container.querySelector('.money-cards article').textContent,/300\.00/);
   await page('Transactions');await open();
   assert.equal(container.querySelector('[aria-label="Transaction type"]'),null);

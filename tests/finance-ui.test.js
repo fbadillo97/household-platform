@@ -39,13 +39,13 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   }
   if(operation==='stage_import')return {id:'mock-batch',account_id:'mock-account',committed:false,rows:[{id:'mock-stage-row',line:2,error:null,duplicate:false,payload:{date:'2026-10-03',description:'Mock staged item',amount_minor:-100}}]};
   if(operation==='create_account'){accounts.push({id:'mock-second',...payload});return accounts.at(-1);}
-  const data={list_payees:[],list_accounts:accounts,list_properties:[],list_categories:[{id:'food',name:'Mock groceries'}],list_transactions:transactions,list_source_snapshots:[{id:'mock-snapshot',source:'monarch',account_name:'Mock Checking',period_start:'2026-10-01',period_end:'2026-10-31',committed_at:'2026-11-01',expected_count:2,inserted_count:2,skipped_count:0,coverage_notes:['Excluded mock institution']} ]};
+  const data={list_payees:[],list_accounts:accounts,list_properties:[],list_categories:[{id:'food',name:'Mock groceries'}],list_transactions:transactions,list_source_snapshots:[{id:'mock-snapshot',source:'monarch',account_name:'Mock Checking',period_start:'2026-05-01',period_end:'2026-10-31',committed_at:'2026-11-01',expected_count:2,inserted_count:2,skipped_count:0,coverage_notes:['Excluded mock institution']} ]};
   if(!(operation in data))throw Error('Unexpected operation: '+operation);
   return data[operation];
  };
  const container=document.getElementById('root');const root=createRoot(container);
  try{
-  await act(async()=>{root.render(React.createElement(Finance,{secureCall,settingsContent:React.createElement('section',null,React.createElement('h2',null,'Account security'))}));await new Promise(r=>setTimeout(r,0));});
+  await act(async()=>{root.render(React.createElement(Finance,{initialToday:'2026-10-31',secureCall,settingsContent:React.createElement('section',null,React.createElement('h2',null,'Account security'))}));await new Promise(r=>setTimeout(r,0));});
   const heading=()=>container.querySelector('h1').textContent;
   async function flushLedger(){await act(async()=>{await new Promise(r=>setTimeout(r,220));});}
   async function openPage(name){await act(async()=>{const link=[...container.querySelectorAll('nav a')].find(a=>a.textContent===name);link.dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true,cancelable:true}));});await flushLedger();}
@@ -80,7 +80,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   assert.match(container.querySelector('.money-cards').textContent,/18\.75/); // transaction search must not affect overview totals
   await openPage('Transactions');
   assert.equal(container.querySelector('input[type="search"]').value,'Renovation');
-  assert.equal(container.querySelector('input[type="month"]').value,'2026-10');
+  assert.equal(container.querySelector('.transaction-period select').value,'month');assert.equal(calls.filter(c=>c.operation==='list_ledger_transactions'&&c.payload.limit===50).at(-1).payload.date_from,'2026-10-01');
   assert.equal(container.querySelectorAll('tbody tr').length,1);
   await openPage('Dashboard');
   await act(async()=>{[...container.querySelectorAll('button')].find(b=>b.textContent==='View transactions').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true}));});

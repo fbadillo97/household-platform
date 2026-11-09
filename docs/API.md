@@ -140,3 +140,9 @@ manual date edits mark the view Custom. A changed period resets pagination/selec
 retains unrelated filters/sorting; record details and ordinary page navigation preserve
 it. Clear all filters returns All time. The server still filters the complete ledger and
 paginates results; the dashboard's 500-record activity sample is not used for this view.
+
+Transactions initially opens on This month to date using the browser's local current date;
+import coverage dates do not seed the default. Today is one calendar day, This week runs
+Monday through today, and Last 2 weeks includes today and the preceding 13 calendar days.
+Dashboard month state is separate so a retained overview month cannot silently override
+the transaction preset; explicit dashboard/account/payee drill-downs still carry their scope.
