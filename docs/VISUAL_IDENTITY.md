@@ -58,3 +58,7 @@ Model tests cover word boundaries, exact aliases, ambiguous matching and safe im
 Browser checks use synthetic records to verify cross-page overrides, failed-save drafts,
 reset, refreshable catalog and fallbacks, plus keyboard/accessibility and mobile overflow.
 The full pre-existing financial workflow suite runs alongside these checks.
+
+Payees now also support an explicitly fetched website icon; see
+[Payee websites](PAYEES.md#websites-and-website-icons). Website images are private
+small PNGs with source provenance. Manual appearance overrides retain priority.

@@ -1,0 +1,33 @@
+begin;
+create temporary table website_results(name text,passed boolean);
+do $$
+declare actor uuid:=gen_random_uuid();sid uuid:=gen_random_uuid();pid uuid;aid uuid;tx uuid;snap jsonb;r jsonb;png text:='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=';
+begin
+insert into auth.users(id,email,email_confirmed_at,is_anonymous)values(actor,'mock-website-'||actor||'@example.invalid',now(),false);
+insert into household_private.memberships(user_id,status,role)values(actor,'approved','member');
+insert into auth.sessions(id,user_id,aal)values(sid,actor,'aal1');
+insert into auth.mfa_amr_claims(id,session_id,authentication_method,created_at,updated_at)values(gen_random_uuid(),sid,'passkey',now(),now());
+perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'session_id',sid,'role','authenticated')::text,true);
+execute 'set local role authenticated';
+if public.household_payee_websites_v1('payee_website_access')->>'allowed'<>'true'then raise exception 'Access check failed';end if;
+execute 'reset role';
+pid:=(public.household_v1('create_payee',jsonb_build_object('name','Mock website '||actor,'kind','business','website','https://example.com/','website_logo_base64',png,'website_logo_source','https://example.com/icon.png'))->>'id')::uuid;
+select value into r from jsonb_array_elements(public.household_v1('list_payees'))where value->>'id'=pid::text;
+if r->>'website'<>'https://example.com/' or r->>'website_logo_base64'<>png or r?'website_logo'then raise exception 'Website/logo not returned safely';end if;
+insert into household_private.accounts(name,kind,currency)values('Mock website checking','checking','CAD')returning id into aid;
+insert into household_private.transactions(account_id,date,description,amount_minor,fingerprint,payee_id)values(aid,'2026-10-01','Mock website record',-125,'mock-website-'||actor,pid)returning id into tx;
+select to_jsonb(t)into snap from household_private.transactions t where id=tx;
+begin perform public.household_v1('update_payee',jsonb_build_object('id',pid,'revision',1,'name','Mock website '||actor,'kind','business','website','javascript:bad'));raise exception 'Unsafe website accepted';exception when invalid_parameter_value then null;end;
+begin perform public.household_v1('update_payee',jsonb_build_object('id',pid,'revision',1,'name','Mock website '||actor,'kind','business','website','https://example.com/','website_logo_base64','PHN2Zz48L3N2Zz4=','website_logo_source','https://example.com/icon.svg'));raise exception 'SVG accepted';exception when invalid_parameter_value then null;end;
+perform public.household_v1('update_payee',jsonb_build_object('id',pid,'revision',1,'name','Mock website '||actor,'kind','business','website',''));
+if (select website is not null or website_logo is not null or website_logo_source is not null from household_private.payees where id=pid)then raise exception 'Website clear left stale logo';end if;
+if (select to_jsonb(t)from household_private.transactions t where id=tx)is distinct from snap then raise exception 'Ledger changed';end if;
+begin perform public.household_v1('update_payee',jsonb_build_object('id',pid,'revision',1,'name','Mock website '||actor,'kind','business','website','https://example.com'));raise exception 'Stale edit accepted';exception when serialization_failure then null;end;
+if has_function_privilege('anon','public.household_payee_websites_v1(text,jsonb)','execute')then raise exception 'Anonymous execution granted';end if;
+if has_table_privilege('authenticated','household_private.payees','select')or has_function_privilege('authenticated','household_private.payee_action_before_website(text,jsonb)','execute')then raise exception 'Direct access exposed';end if;
+update auth.mfa_amr_claims set authentication_method='otp'where session_id=sid;
+begin perform public.household_payee_websites_v1('payee_website_access');raise exception 'OTP access allowed';exception when insufficient_privilege then null;end;
+insert into website_results values('website PNG roundtrip, clear, validation, revisions, ledger preservation and live passkey security',true);
+end $$;
+select * from website_results;
+rollback;

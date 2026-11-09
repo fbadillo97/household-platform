@@ -6,6 +6,11 @@ export const configured=Boolean(url&&key&&key.startsWith('sb_publishable_'));
 export const client=configured?createClient(url,key,{auth:{persistSession:false,autoRefreshToken:true,detectSessionInUrl:false,experimental:{passkey:true}}}):null;
 export async function call(operation,payload={}){
  if(!client)throw Error('Project configuration is missing');
+ if(operation==='payee_website_logo'){
+  const {data,error}=await client.functions.invoke('payee-website-logo',{body:payload});
+  if(error){let message='Website logo could not be fetched.';try{message=(await error.context?.json())?.error||message;}catch{}const failure=new Error(message);failure.status=error.context?.status;throw failure;}
+  return data;
+ }
  const {data,error}=await client.rpc(operationEndpoint(operation),{operation,payload});
  if(error)throw error;
  return data;

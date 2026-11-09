@@ -270,3 +270,5 @@ thead{background:var(--hp-surface-raised)}
 .payee-tools{display:flex;flex-wrap:wrap;align-items:end;gap:var(--hp-space-3);margin-block:var(--hp-space-3)}
 .payee-tag-chip{display:inline-block;padding:2px 7px;margin:2px;border-radius:var(--hp-radius);background:var(--hp-accent-tint);color:var(--hp-text);font-size:var(--hp-font-sm)}
 .payee-tag-choices{display:flex;flex-wrap:wrap;gap:var(--hp-space-3);border:1px solid var(--hp-border);border-radius:var(--hp-radius);padding:var(--hp-space-3)}
+
+.payee-website-logo{display:flex;align-items:center;gap:var(--hp-space-3)}.payee-website-logo img{object-fit:contain;border-radius:var(--hp-radius)}

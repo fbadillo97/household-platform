@@ -1,0 +1,7 @@
+project_id = "household-platform"
+
+[functions.payee-website-logo]
+enabled = true
+verify_jwt = false
+entrypoint = "./functions/payee-website-logo/index.ts"
+import_map = "./functions/payee-website-logo/deno.json"

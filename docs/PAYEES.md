@@ -124,3 +124,41 @@ report periods and transfer treatment require explicit context.
 Verification uses fabricated SQL/browser fixtures for tag CRUD, archive retention,
 revision failures, atomic bulk edits, original-ledger preservation and passkey/
 private-grant boundaries. Personal relationships must not be guessed from names.
+
+## Websites and website icons
+
+The payee side panel accepts an HTTPS website (a bare domain is normalized).
+**Fetch website logo** reads published icon links, previews a rasterized PNG,
+and keeps the result in the draft until Save payee. The website can be saved
+without an image. Editing/clearing the website clears its previous staged image;
+Remove website logo retains the website. Existing saved-brand or fallback-only
+appearance choices override the website image. Automatic appearance uses the
+website icon first, then catalog matching, then initials/icons.
+
+The private payee record stores the website, bounded PNG and source URL. There
+are no browser requests to merchants or third-party favicon services when viewing
+records. Fetching is an explicit action through the `payee-website-logo` Edge
+Function, which validates the caller via the approved live-passkey database RPC
+before any outbound lookup. It has no service-role client and forwards no user
+credentials to websites. Gateway JWT verification is disabled because this handler
+performs its own database-backed JWT/session/passkey/approval check; an anonymous
+or OTP caller cannot reach extraction. The function uses the platform-provided
+SUPABASE_URL and SUPABASE_ANON_KEY environment values, not stored credentials.
+
+Only public HTTPS hosts on port 443 are fetched. DNS answers are validated and
+pinned to the outgoing TLS socket; every redirect is rechecked. Requests and
+responses are bounded, HTML scripts are never executed, SVG is not accepted, and
+failed or blocked sites retain the existing fallback. Website fetching is rate
+limited to 30 requests per member per 10 minutes. Images are decoded locally from
+bounded response bytes and re-encoded to PNG, at most 128 pixels and 16 KB; SQL
+also validates PNG bounds. Saving uses existing payee revisions and audits, keeping
+transaction tags, imported records and accounting unchanged.
+
+The Edge source and configuration are in `supabase/functions/payee-website-logo`.
+Deploy that function with its bundled files and custom auth mode when changing
+its server code; Pages publishes only the frontend. SQL, mock browser and network
+policy unit fixtures cover normal saves, failed fetches, clears, explicit visual
+overrides, URL/DNS/redirect rejection and passkey isolation. Some sites publish
+only SVGs, require JavaScript or block server requests; those require a saved logo
+instead. This is on-demand extraction, not a scheduled logo refresh or website
+identity verification.

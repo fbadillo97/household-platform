@@ -1,5 +1,7 @@
 import React,{useEffect,useRef,useState} from 'react';
 import {IdentityLabel} from '../visuals/VisualProvider.jsx';
+import {normalizeWebsite,websiteLogoPng} from '../visuals/website.js';
+import {pngDataUrl} from '../visuals/model.js';
 import {Icon} from '../visuals/Icon.jsx';
 import {Panel,SectionHeading,InlineNotice,EmptyState} from '../components/ui.jsx';
 import {PayeeTagChoices,usePayeeTags} from './PayeeTagsSection.jsx';
@@ -8,14 +10,16 @@ import {PAYEE_KINDS,payeeAliases,payeeDirectory} from '../payees.js';
 export function PayeeEditor({payee,secureCall,refresh,onClose,onSaved,tags}){
  const available=usePayeeTags(secureCall);const tagOptions=tags||available.tags;
  const dialog=useRef(null),alive=useRef(true);
- const initial={name:payee?.name||'',kind:payee?.kind||'other',aliases:(payee?.aliases||[]).join('\n'),archived:!!payee?.archived_at,tag_ids:(payee?.tags||[]).map(t=>t.id)};
- const [draft,setDraft]=useState(initial),[busy,setBusy]=useState(false),[error,setError]=useState(''),[discard,setDiscard]=useState(false);
+ const initial={name:payee?.name||'',kind:payee?.kind||'other',aliases:(payee?.aliases||[]).join('\n'),archived:!!payee?.archived_at,tag_ids:(payee?.tags||[]).map(t=>t.id),website:payee?.website||'',website_logo_base64:payee?.website_logo_base64||null,website_logo_source:payee?.website_logo_source||null};
+ const [draft,setDraft]=useState(initial),[busy,setBusy]=useState(false),[fetchingLogo,setFetchingLogo]=useState(false),[error,setError]=useState(''),[discard,setDiscard]=useState(false);
  const dirty=JSON.stringify(draft)!==JSON.stringify(initial);
  useEffect(()=>{alive.current=true;const previous=document.activeElement;dialog.current.showModal?.();if(!dialog.current.open)dialog.current.setAttribute('open','');return()=>{alive.current=false;previous?.focus();};},[]);
  function close(){if(busy)return;if(dirty)setDiscard(true);else onClose();}
  function field(key,value){setDraft(d=>({...d,[key]:value}));}
+ async function fetchLogo(){setBusy(true);setFetchingLogo(true);setError('');try{const result=await secureCall('payee_website_logo',{website:normalizeWebsite(draft.website)});const png=await websiteLogoPng(result);if(alive.current)setDraft(d=>({...d,website:normalizeWebsite(d.website),website_logo_base64:png,website_logo_source:result.source_url}));}catch(e){if(alive.current&&e.message!=='Stale session')setError(e.message);}finally{if(alive.current){setBusy(false);setFetchingLogo(false);}}}
+
  async function save(event){event.preventDefault();setError('');setBusy(true);try{
-  const payload={...draft,name:draft.name.trim(),aliases:payeeAliases(draft.aliases)};
+  const payload={...draft,name:draft.name.trim(),website:normalizeWebsite(draft.website),aliases:payeeAliases(draft.aliases)};
   if(payee)Object.assign(payload,{id:payee.id,revision:payee.revision});
   const saved=await secureCall(payee?'update_payee':'create_payee',payload);
   await refresh();if(alive.current)onSaved(saved.id);
@@ -24,12 +28,14 @@ export function PayeeEditor({payee,secureCall,refresh,onClose,onSaved,tags}){
  <div className="detail-heading"><h2 id="payee-title">{payee?'Edit payee':'Add payee'}</h2><button className="secondary" aria-label="Close payee" disabled={busy} onClick={close}><Icon name="close"/>Close</button></div>
  {error&&<InlineNotice>{error} {payee&&<button className="text-button" disabled={busy} onClick={()=>{if(dirty)setDiscard(true);else onClose();}}>Close payee editor</button>}</InlineNotice>}
  <form onSubmit={save}><fieldset disabled={busy} className="detail-fields"><label>Name<input required maxLength="120" value={draft.name} onChange={e=>field('name',e.target.value)} autoFocus/></label>
+ <label>Website<input type="text" inputMode="url" maxLength="1000" placeholder="https://example.com" value={draft.website} onChange={e=>setDraft(d=>({...d,website:e.target.value,website_logo_base64:null,website_logo_source:null}))}/></label>
+ <div className="payee-website-logo"><button type="button" className="secondary" disabled={!draft.website.trim()} onClick={fetchLogo}>{fetchingLogo?'Fetching logo…':'Fetch website logo'}</button>{draft.website_logo_base64&&<><img src={pngDataUrl(draft.website_logo_base64)} alt="Website logo preview" width="40" height="40"/><button type="button" className="text-button" onClick={()=>setDraft(d=>({...d,website_logo_base64:null,website_logo_source:null}))}>Remove website logo</button></>}</div><small>Fetch a published site icon, then save the payee. Your appearance override still takes priority.</small>
  <label>Kind<select value={draft.kind} onChange={e=>field('kind',e.target.value)}>{PAYEE_KINDS.map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>
  {available.error&&!tags&&<InlineNotice>{available.error}</InlineNotice>}<PayeeTagChoices tags={tagOptions} selected={draft.tag_ids} onChange={ids=>field('tag_ids',ids)}/>
  <label>Imported description aliases<textarea rows="5" value={draft.aliases} onChange={e=>field('aliases',e.target.value)} aria-describedby="alias-help"/></label><small id="alias-help">One exact imported description per line. Case and extra spaces are ignored. Recognizes future imports; existing records are suggested for review. Each alias belongs to one payee.</small>
  {payee&&<label className="checkbox-label"><input type="checkbox" checked={draft.archived} onChange={e=>field('archived',e.target.checked)}/> Archived</label>}
  {draft.archived&&<small>Existing assignments stay intact. Archived payees are unavailable for new assignments and recognition.</small>}
- <button disabled={busy||!draft.name.trim()||!!payee&&!dirty}>{busy?'Saving…':payee?'Save payee':'Create payee'}</button></fieldset></form>
+ <button disabled={busy||!draft.name.trim()||!!payee&&!dirty}>{busy?(fetchingLogo?'Fetching logo…':'Saving…'):payee?'Save payee':'Create payee'}</button></fieldset></form>
  {discard&&<div className="detail-confirm" role="alertdialog" aria-label="Discard payee changes"><p>Discard unsaved payee changes?</p><button autoFocus disabled={busy} onClick={onClose}>Discard payee changes</button><button className="secondary" onClick={()=>setDiscard(false)}>Keep editing payee</button></div>}
  </dialog>;
 }
