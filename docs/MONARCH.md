@@ -27,3 +27,37 @@ A possible matching CSV fingerprint blocks the source commit for review. Cross-f
 ## Tests and privacy
 
 `supabase/tests/monarch.sql` uses mock values in one rollback transaction to check staging, counts, cents, metadata, repeat IDs, changed-source conflicts, validation and passkey/privilege boundaries. Do not replace the mock values with real source data. Finance UI tests use fabricated accounts and cover rendering/filtering/source coverage and account creation. Real account names, IDs, balances, transactions and notes must never be copied into tests, migrations, GitHub issues, workflow output or screenshots committed to the repository.
+
+## Broad history imports
+
+Full-history imports may use exhaustive global pagination when name filters are
+ambiguous. Verify each row's stable account ID, deduplicate all pages, and account
+explicitly for provider-excluded rows in the advertised count. Historical account
+IDs missing from the current inventory remain separate accounts, excluded from
+net worth until resolved. Do not merge accounts merely because their names match.
+
+The importer accepts every supported account kind. Source notes initialize notes
+on new entries only; replays preserve all local edits. Source tags, recurring
+markers, merchant/category IDs, cleaned descriptions and attachment metadata stay
+in `source_data`. Attachment metadata is not a downloaded receipt.
+
+Match existing manually entered assets and debts before creating source accounts.
+Attach source identity with revision guards and assistant audit entries, preserving
+names, dated balances and secured-asset links. Currency inference remains flagged.
+Do not reconstruct balances from transactions or trust property equity that omits
+linked loans. Newly imported transfer-group categories must retain cash-flow
+exclusion. Reverse-direction card payments use an explicit payment-reversal
+transfer category; their original category remains in source metadata.
+
+`monarch_catalog_snapshots` privately archives accounts, category/tag catalogs,
+real estate, recurring streams, source rules, returned net-worth history,
+investments, goals, budgets and coverage. Archives are bounded, content-addressed,
+RLS protected and inaccessible to browser roles. They are not active app budgets,
+goals, valuations or automations. Never execute source rule text. No public API
+exposes these raw catalogs. Record assistant provenance and an audit event on each
+administrative archive write. Raw transaction snapshots remain separately scoped
+by account/year and idempotent through source IDs.
+
+The connector can exclude institutions, omit receipt URLs, return limited history
+or incomplete holdings. Preserve those limitations in private coverage metadata;
+never describe the import as a complete bank reconciliation or complete backup.
