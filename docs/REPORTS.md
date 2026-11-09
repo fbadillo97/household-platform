@@ -86,3 +86,38 @@ BigInt-safe integer cents, checked before rendering, and rounds the mean to the 
 
 Future work may add recurring items, scenarios and goals after the desired scope is decided.
 The starter does not create transactions or change balances/plans.
+
+## Category overview and recorded changes
+
+Reports → Overview includes income/inflows, net spending, money left over, and a
+cash-flow savings rate (money left over divided by positive recorded income).
+The rate is unavailable for zero/negative income and is neither a balance change
+nor a measure of investment returns, debt principal reduction or net worth.
+
+The income and spending category donuts share the checked reporting events,
+account/currency/date filters, transfer/Trash exclusions and Budget refund policy
+used by the monthly chart. Income categories include signed income corrections;
+known linked-refund remainders remain in review. The private summary helper adds
+`income_categories` without changing report dispatch permissions or source data.
+
+Ranked lists show exact net category amounts and contributing-entry counts.
+Positive category totals determine donut shares. If a category nets to a credit
+or negative income correction, it remains visible in the list and overall total
+but is not drawn as an invalid negative slice. Zero totals remain inspectable.
+The seven largest positive categories are drawn separately; Other categories
+expands the full ranked list. Percentages round to one decimal, so displayed
+shares may not add to exactly 100%. Categories are never silently reassigned.
+
+“What changed” compares the selected period with the existing previous
+**equal-day-length** period. Income and spending have separate views, ordered by
+absolute dollar change; increases and decreases retain their signs. Categories
+present in only one period remain visible. Percentage differences appear only
+when the prior amount is positive and the current amount is nonnegative;
+zero baselines show “No prior amount” and signed credit/correction comparisons
+omit percentages. These are recorded differences, with import coverage warnings,
+not claims of complete household-wide trends. Either period’s exact amount opens
+that period’s category source events, including attributed refunds.
+
+Irregular-expense labels, lifestyle baselines and fixed/flexible classifications
+remain deferred. No household transaction or Budget setting is changed by viewing
+these reports.

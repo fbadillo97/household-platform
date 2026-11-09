@@ -210,3 +210,8 @@ export logs; import coverage is located there. See [Calculations and log boundar
 Reports includes a Trends & Forecasts starter with six complete months of history and
 provisional three-month estimates based on a three-month average. Missing history stays
 explicit; see [Reports](docs/REPORTS.md).
+
+Reports Overview includes category income/spending donuts with ranked exact
+amounts, a cash-flow savings rate, and category changes against the previous
+same-length period. Chart slices and comparison amounts open their source
+records; currencies and incomplete import coverage remain explicit.

@@ -32,3 +32,10 @@ payments consistently. No Cash Flow or Recurring page ships with Automations.
 - Completed starter: Reports historical trends and a provisional three-month average
   forecast. Recurring items, scenarios, seasonality and goals remain future scope.
 Date presets and the forecast starter were added after visual identity.
+
+## Reports overview — completed starter
+
+- Cash-flow overview: income/inflows, net spending, money left over and savings rate.
+- Separate income and spending category donuts, ranked exact amounts and shares.
+- Biggest recorded category changes, including prior-only categories and source drilldown.
+- Irregular expenses and fixed/flexible lifestyle classifications are deferred.

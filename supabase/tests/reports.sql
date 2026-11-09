@@ -22,6 +22,7 @@ begin
  report:=public.household_budget_v1('budget_link_refund',jsonb_build_object('currency','XTR','purchase_id',purchase,'purchase_revision',1,'refund_id',refund,'refund_revision',1,'amount_minor',4000));link:=(report->>'id')::uuid;
  report:=public.household_reports_v1('reports_overview','{"from":"2026-08-01","to":"2026-09-30","currency":"XTR","account_ids":[],"compare_from":"2026-06-01","compare_to":"2026-07-31"}');
  if report->'current'->>'income_minor'<>'100000' or report->'current'->>'spending_minor'<>'10000' or report->'current'->>'surplus_minor'<>'90000' then raise exception 'Whole-period net totals, transfer or currency exclusion failed: %',report->'current';end if;
+ if report->'current'->'income_categories'->0->>'income_minor'<>'100000' or report->'current'->'income_categories'->0->>'category_id'<>pay::text then raise exception 'Income category attribution failed';end if;
  if report->'current'->>'coverage_confirmed'<>'false' or jsonb_array_length(report->'current'->'months')<>2 then raise exception 'Coverage/month shape failed';end if;
  if report->'current'->'months'->1->>'spending_minor'<>'-2000' then raise exception 'Net-credit month was hidden';end if;
  report:=public.household_reports_v1('reports_overview',jsonb_build_object('from','2026-09-01','to','2026-09-30','currency','XTR','account_ids',jsonb_build_array(bank)));
@@ -43,6 +44,16 @@ begin
  insert into household_private.transactions(account_id,date,description,amount_minor,fingerprint,deleted_at) values(bank,'2026-08-02','Mock trashed expense',-80000,'mock-report-trash-'||actor,now());
  report:=public.household_reports_v1('reports_overview','{"from":"2026-08-01","to":"2026-09-30","currency":"XTR"}');
  if report->'current'->>'income_minor'<>'99000' or report->'current'->>'spending_minor'<>'10000' or report->'current'->>'review_minor'<>'1000' or report->'current'->>'review_entries'<>'1' then raise exception 'Income correction, Trash or refund remainder misclassified: %',report->'current';end if;
+ if report->'current'->'income_categories'->0->>'income_minor'<>'99000' then raise exception 'Category income corrections or known refund exclusions failed';end if;
+ insert into household_private.transactions(account_id,category_id,date,description,amount_minor,fingerprint) values(bank,pay,'2026-08-03','Mock larger income correction',-100000,'mock-report-correction-2-'||actor),(bank,null,'2026-08-03','Mock unassigned income',500,'mock-report-unassigned-'||actor),(bank,food,'2026-08-03','Mock other income',3000,'mock-report-other-income-'||actor);
+ report:=public.household_reports_v1('reports_overview','{"from":"2026-08-01","to":"2026-09-30","currency":"XTR","compare_from":"2026-06-01","compare_to":"2026-07-31"}');
+ if report->'current'->>'income_minor'<>'2500' or (select sum((e->>'income_minor')::numeric) from jsonb_array_elements(report->'current'->'income_categories') e)<>2500 or report->'current'->'income_categories'->0->>'income_minor'<>'3000' or report->'current'->'income_categories'->2->>'income_minor'<>'-1000' or jsonb_array_length(report->'comparison'->'income_categories')<>0 then raise exception 'Mixed signed categories, sorting or empty comparison failed';end if;
+ if not exists(select 1 from jsonb_array_elements(report->'current'->'income_categories') e where e->'category_id'='null'::jsonb and e->>'income_minor'='500') then raise exception 'Unassigned income missing';end if;
+ report:=public.household_reports_v1('reports_activity',jsonb_build_object('from','2026-08-01','to','2026-09-30','currency','XTR','series','income','category_id',pay));
+ if report->>'total'<>'3' or (select sum((e->>'impact_minor')::numeric) from jsonb_array_elements(report->'rows') e)<>-1000 then raise exception 'Category correction source drilldown mismatch';end if;
+ report:=public.household_reports_v1('reports_overview',jsonb_build_object('from','2026-08-01','to','2026-09-30','currency','XTR','account_ids',jsonb_build_array(card)));
+ if jsonb_array_length(report->'current'->'income_categories')<>0 then raise exception 'Category income leaked across selected accounts';end if;
+ insert into reports_test_results values('signed income category totals, unassigned income, empty comparisons and source drilldowns',true);
  insert into reports_test_results values('income corrections, Trash and known refund remainders retain correct accounting signs',true);
  insert into reports_test_results values('exact monthly/category totals, refunds, transfers, currencies, purchase-account attribution and source pagination',true),('budget refund timing, read-only source invariants and honest partial/confirmed coverage',true);
  begin perform public.household_reports_v1('reports_overview','{"from":"2026-09-01","to":"2026-08-01","currency":"XTR"}');raise exception 'Reversed range allowed';exception when invalid_parameter_value then null;end;
