@@ -162,3 +162,14 @@ overrides, URL/DNS/redirect rejection and passkey isolation. Some sites publish
 only SVGs, require JavaScript or block server requests; those require a saved logo
 instead. This is on-demand extraction, not a scheduled logo refresh or website
 identity verification.
+
+Website transport uses native Deno TCP/TLS rather than Node HTTPS's custom
+`lookup` option: Supabase Edge Runtime 1.77.9 / Deno 2.1.4 does not implement that
+option even though newer local Deno versions do. The TCP peer is the validated
+public IP; TLS checks the original hostname. Bounded HTTP/1.1 parsing supports
+content-length, chunked and connection-close bodies and rechecks redirects.
+A blocked or oversized homepage falls back to direct favicon/apple-touch paths.
+Unit tests cover native socket pinning, TLS hostname selection, HTTP framing and
+homepage failure. A temporary internal fixed-public-URL check verified Airbnb's
+favicon in the deployed runtime; that diagnostic was removed afterward. No test
+route, alternate authentication path or authentication bypass is deployed.

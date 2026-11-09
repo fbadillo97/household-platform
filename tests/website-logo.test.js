@@ -1,8 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {websiteUrl,publicAddress,iconCandidates,discoverLogo,readPublic}from '../supabase/functions/payee-website-logo/core.mjs';
+import {websiteUrl,publicAddress,iconCandidates,discoverLogo,readPublic,responseBody}from '../supabase/functions/payee-website-logo/core.mjs';
 import {normalizeWebsite}from '../src/visuals/website.js';
 import {resolveVisual}from '../src/visuals/model.js';
-import {EventEmitter}from 'node:events';
 test('website normalization rejects protocols, credentials, IP encodings and unsafe networks',()=>{
  assert.equal(normalizeWebsite('example.com'),'https://example.com/');assert.equal(websiteUrl('https://example.com/path#secret').href,'https://example.com/path');
  for(const url of ['http://example.com','https://user:pass@example.com','https://127.0.0.1','https://0x7f000001','https://2130706433','https://[::1]','https://example.com:444','https://host.local'])assert.throws(()=>websiteUrl(url));
@@ -15,14 +14,22 @@ test('discovery uses published icon links and bounded fallback without executing
  const result=await discoverLogo(base,{read});assert.equal(result.mime,'image/png');assert.equal(result.source_url,'https://example.com/icon.png');
  await assert.rejects(discoverLogo(base,{read:async url=>url===base?await read(url):{url,headers:{},body:new TextEncoder().encode('<svg></svg>')}}),/No usable/);
 });
-test('outbound sockets pin a validated public DNS answer and reject private DNS/redirects',async()=>{
+test('native TCP pins public DNS, TLS verifies hostname, and framing stays bounded',async()=>{
  await assert.rejects(readPublic('https://example.com',{resolver:async()=>[{address:'127.0.0.1',family:4}]}),/network address/);
- let pinned=false;
- const request=(options,callback)=>{const req=new EventEmitter();req.setTimeout=()=>{};req.destroy=()=>{};req.end=()=>{options.lookup(options.hostname,{all:false},(_error,address)=>{assert.equal(address,'1.1.1.1');pinned=true;});const res=new EventEmitter();res.statusCode=200;res.headers={'content-type':'image/png'};res.resume=()=>{};res.destroy=()=>{};callback(res);queueMicrotask(()=>{res.emit('data',Buffer.from('ok'));res.emit('end');});};return req;};
- const r=await readPublic('https://example.com',{resolver:async()=>[{address:'1.1.1.1',family:4}],request});assert.equal(pinned,true);assert.equal(r.body.toString(),'ok');
- const redirect=(_options,cb)=>{const req=new EventEmitter();req.setTimeout=()=>{};req.end=()=>{const res=new EventEmitter();res.statusCode=302;res.headers={location:'https://127.0.0.1/private'};res.destroy=()=>{};cb(res);};return req;};
- await assert.rejects(readPublic('https://example.com',{resolver:async()=>[{address:'1.1.1.1',family:4}],request:redirect}),/HTTPS website/);
- await assert.rejects(readPublic('https://example.com',{resolver:async()=>[{address:'1.1.1.1',family:4}],request,limit:1}),/too large/);
+ let pinned=false,verified=false,closed=false,request='';
+ function transport(wire){let offset=0;return {async write(b){request+=Buffer.from(b).toString();return b.length;},async read(b){if(offset===wire.length)return null;const n=Math.min(17,b.length,wire.length-offset);b.set(wire.subarray(offset,offset+n));offset+=n;return n;},close(){closed=true;}};}
+ const options={resolver:async()=>[{address:'1.1.1.1',family:4}],connect:async o=>{assert.equal(o.hostname,'1.1.1.1');pinned=true;return transport(Buffer.from('HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nok'));},startTls:async(s,o)=>{assert.equal(o.hostname,'example.com');verified=true;return s;}};
+ const r=await readPublic('https://example.com',options);assert.equal(pinned&&verified&&closed,true);assert.equal(r.body.toString(),'ok');assert.match(request,/Host: example.com/);
+ await assert.rejects(readPublic('https://example.com',{...options,limit:1}),/too large/);
+ await assert.rejects(readPublic('https://example.com',{...options,connect:async()=>transport(Buffer.from('HTTP/1.1 302 Found\r\nLocation: https://127.0.0.1/private\r\n\r\n'))}),/HTTPS website/);
+ assert.equal(responseBody(Buffer.from('2\r\nok\r\n0\r\n\r\n'),{'transfer-encoding':'chunked'},10).toString(),'ok');
+ assert.equal(responseBody(Buffer.from('2\r\no'),{'transfer-encoding':'chunked'},10),null);
+ assert.throws(()=>responseBody(Buffer.from('a\r\n'),{'transfer-encoding':'chunked'},2),/too large/);
+ assert.throws(()=>responseBody(Buffer.from(''),{'transfer-encoding':'chunked','content-length':'2'},10),/framing/);
+});
+test('a blocked or oversized homepage still allows direct favicon discovery',async()=>{
+ const calls=[];const read=async url=>{calls.push(url);if(url==='https://example.com/')throw Error('Website response is too large.');return{url,headers:{},body:Buffer.from([0,0,1,0,1,0])};};
+ const r=await discoverLogo('https://example.com/',{read});assert.equal(r.mime,'image/x-icon');assert.equal(r.source_url,'https://example.com/favicon.ico');assert.equal(calls.length,2);
 });
 test('website image respects explicit brand and fallback-only overrides',()=>{
  const entity={id:'p',name:'Mock',website_logo_base64:'mock'};

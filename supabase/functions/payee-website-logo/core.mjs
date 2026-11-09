@@ -1,4 +1,4 @@
-import https from 'node:https';
+import {Buffer} from 'node:buffer';
 import {lookup} from 'node:dns/promises';
 import {isIP} from 'node:net';
 export function websiteUrl(value){
@@ -18,25 +18,54 @@ async function resolvePublic(host,resolver,signal){
  let stop;const cancelled=new Promise((_,reject)=>{stop=()=>reject(Error('Website request timed out.'));signal.addEventListener('abort',stop,{once:true});});
  try{return await Promise.race([resolver(host,{all:true,verbatim:true}),cancelled]);}finally{signal.removeEventListener('abort',stop);}
 }
-// Resolve once and pin the HTTPS socket to that address; TLS still verifies the hostname.
-export async function readPublic(value,{limit=262144,signal,redirects=0,resolver=lookup,request=https.request}={}){
+function responseHead(bytes){
+ const end=bytes.indexOf('\r\n\r\n');if(end<0){if(bytes.length>16384)throw Error('Website headers are too large.');return null;}
+ if(end>16384)throw Error('Website headers are too large.');
+ const lines=bytes.subarray(0,end).toString('latin1').split('\r\n'),status=Number(/^HTTP\/1\.[01] (\d{3})(?: |$)/.exec(lines.shift()||'')?.[1]);
+ if(!status)throw Error('Invalid website response.');const headers={};
+ for(const line of lines){const split=line.indexOf(':');if(split<1)throw Error('Invalid website headers.');const key=line.slice(0,split).toLowerCase(),value=line.slice(split+1).trim();
+ if((key==='content-length'||key==='transfer-encoding')&&key in headers)throw Error('Ambiguous website response.');headers[key]=value;}
+ return {status,headers,offset:end+4};
+}
+export function responseBody(bytes,headers,limit,eof=false){
+ if(headers['transfer-encoding']){
+  if(headers['transfer-encoding'].toLowerCase()!=='chunked'||headers['content-length'])throw Error('Unsupported website response framing.');
+  let offset=0,total=0;const chunks=[];
+  while(true){const end=bytes.indexOf('\r\n',offset);if(end<0){if(bytes.length-offset>128)throw Error('Invalid website chunk.');return null;}
+   const line=bytes.subarray(offset,end).toString('ascii').split(';')[0];if(!/^[0-9a-f]{1,8}$/i.test(line))throw Error('Invalid website chunk.');
+   const size=parseInt(line,16);if(size===0)return Buffer.concat(chunks,total);if(total+size>limit)throw Error('Website response is too large.');
+   offset=end+2;if(bytes.length<offset+size+2)return null;if(bytes[offset+size]!==13||bytes[offset+size+1]!==10)throw Error('Invalid website chunk.');
+   chunks.push(bytes.subarray(offset,offset+size));total+=size;offset+=size+2;
+  }
+ }
+ const length=headers['content-length'];if(length!==undefined){if(!/^\d+$/.test(length)||!Number.isSafeInteger(Number(length)))throw Error('Invalid website response length.');if(Number(length)>limit)throw Error('Website response is too large.');return bytes.length>=Number(length)?bytes.subarray(0,Number(length)):null;}
+ if(bytes.length>limit)throw Error('Website response is too large.');return eof?bytes:null;
+}
+// Native TCP pins a validated address; TLS still verifies the original hostname.
+export async function readPublic(value,{limit=262144,signal,redirects=0,resolver=lookup,connect=options=>Deno.connect(options),startTls=(socket,options)=>Deno.startTls(socket,options)}={}){
  const url=websiteUrl(String(value)),addresses=await resolvePublic(url.hostname,resolver,signal);
  if(!addresses.length||addresses.some(a=>!publicAddress(a.address)))throw Error('Website resolves to an unavailable network address.');
- const chosen=addresses.find(a=>a.family===4)||addresses[0];
- const result=await new Promise((resolve,reject)=>{
-  const req=request({protocol:'https:',hostname:url.hostname,servername:url.hostname,port:443,path:url.pathname+url.search,method:'GET',agent:false,signal,maxHeaderSize:16384,
-   lookup:(_host,options,cb)=>{if(typeof options==='function'){cb=options;options={};}if(options?.all)cb(null,[chosen]);else cb(null,chosen.address,chosen.family);},
-   headers:{'User-Agent':'HouseholdPlatform-WebsiteIcon/1.0','Accept':'text/html,image/png,image/jpeg,image/webp,image/x-icon,image/vnd.microsoft.icon','Accept-Encoding':'identity'}},res=>{
-   const status=res.statusCode||0,headers=res.headers;
-   if(status>=300&&status<400){res.destroy();resolve({status,headers,body:new Uint8Array()});return;}
-   if(status!==200){res.destroy();reject(Error('Website image is unavailable.'));return;}
-   if(Number(headers['content-length']||0)>limit){res.destroy();reject(Error('Website response is too large.'));return;}
-   const chunks=[];let size=0;res.on('data',part=>{size+=part.length;if(size>limit){res.destroy();reject(Error('Website response is too large.'));}else chunks.push(part);});
-   res.on('error',reject);res.on('end',()=>resolve({status,headers,body:Buffer.concat(chunks)}));
-  });req.setTimeout(5000,()=>req.destroy(Error('Website request timed out.')));req.on('error',reject);req.end();
- });
- if(result.status>=300&&result.status<400){if(redirects>=3||!result.headers.location)throw Error('Too many website redirects.');return readPublic(new URL(result.headers.location,url),{limit,signal,redirects:redirects+1,resolver,request});}
- return {...result,url:url.href};
+ const chosen=addresses.find(a=>a.family===4)||addresses[0];let socket;let timedOut=false;
+ const close=()=>{try{socket?.close();}catch{}};let rejectDeadline;
+ const deadline=new Promise((_,reject)=>{rejectDeadline=reject;});
+ const abort=()=>{timedOut=true;close();rejectDeadline(Error('Website request timed out.'));};const timer=setTimeout(abort,5000);signal?.addEventListener('abort',abort,{once:true});
+ const bounded=promise=>Promise.race([promise,deadline]);
+ try{
+  socket=await bounded(Promise.resolve(connect({hostname:chosen.address,port:443,transport:'tcp'})).then(s=>{if(timedOut){s.close();throw Error('Website request timed out.');}return s;}));if(timedOut||signal?.aborted)throw Error('Website request timed out.');
+  socket=await bounded(startTls(socket,{hostname:url.hostname,alpnProtocols:['http/1.1']}));if(timedOut||signal?.aborted)throw Error('Website request timed out.');
+  const request=new TextEncoder().encode('GET '+url.pathname+url.search+' HTTP/1.1\r\nHost: '+url.hostname+'\r\nUser-Agent: HouseholdPlatform-WebsiteIcon/1.0\r\nAccept: text/html,image/png,image/jpeg,image/webp,image/x-icon,image/vnd.microsoft.icon\r\nAccept-Encoding: identity\r\nConnection: close\r\n\r\n');
+  let sent=0;while(sent<request.length){const written=await bounded(socket.write(request.subarray(sent)));if(!written)throw Error('Website connection closed.');sent+=written;}
+  let bytes=Buffer.alloc(0),head=null;const chunk=new Uint8Array(16384);
+  while(true){const count=await bounded(socket.read(chunk)),eof=count===null;
+   if(count)bytes=Buffer.concat([bytes,Buffer.from(chunk.subarray(0,count))]);if(bytes.length>limit+81920)throw Error('Website response is too large.');
+   if(!head){head=responseHead(bytes);if(head){bytes=bytes.subarray(head.offset);if(head.status>=100&&head.status<200){if(head.status===101)throw Error('Unsupported website upgrade.');head=null;continue;}
+    if(head.status>=300&&head.status<400){if(redirects>=3||!head.headers.location)throw Error('Too many website redirects.');close();return await readPublic(new URL(head.headers.location,url),{limit,signal,redirects:redirects+1,resolver,connect,startTls});}
+    if(head.status!==200)throw Error('Website returned HTTP '+head.status+'.');if(head.headers['content-encoding']&&head.headers['content-encoding']!=='identity')throw Error('Website requires unsupported compression.');
+   }}
+   if(head){const body=responseBody(bytes,head.headers,limit,eof);if(body!==null)return {status:head.status,headers:head.headers,body,url:url.href};}
+   if(eof)throw Error('Website response ended early.');
+  }
+ }catch(e){if(timedOut||signal?.aborted)throw Error('Website request timed out.');throw e;}finally{clearTimeout(timer);signal?.removeEventListener('abort',abort);close();}
 }
 export function iconCandidates(html,base){
  const icons=[];
@@ -55,9 +84,11 @@ export function rasterType(body,header=''){
  throw Error('No supported website icon was found.');
 }
 export async function discoverLogo(website,options={}){
- const signal=options.signal||AbortSignal.timeout(15000),read=options.read||readPublic;const page=await read(website,{signal});
- if(!String(page.headers['content-type']||'').includes('text/html'))throw Error('Website did not return an HTML page.');
- const candidates=iconCandidates(new TextDecoder().decode(page.body),page.url);
- for(const url of candidates){try{const img=await read(url,{signal});const mime=rasterType(img.body);return {website:page.url,source_url:img.url,mime,base64:Buffer.from(img.body).toString('base64')};}catch(e){if(signal.aborted)throw Error('Website lookup timed out.');}}
+ const signal=options.signal||AbortSignal.timeout(15000),read=options.read||readPublic,base=websiteUrl(website).href;let page=null;
+ // Large or blocked homepages must not prevent direct icon discovery.
+ try{page=await read(base,{signal});}catch(e){if(signal.aborted)throw Error('Website lookup timed out.');}
+ const candidates=page&&String(page.headers['content-type']||'').includes('text/html')?iconCandidates(new TextDecoder().decode(page.body),page.url):[];
+ for(const path of ['/favicon.ico','/favicon.png','/apple-touch-icon.png']){const url=new URL(path,page?.url||base).href;if(!candidates.includes(url))candidates.push(url);}
+ for(const url of candidates.slice(0,8)){try{const img=await read(url,{signal});const mime=rasterType(img.body);return {website:page?.url||base,source_url:img.url,mime,base64:Buffer.from(img.body).toString('base64')};}catch(e){if(signal.aborted)throw Error('Website lookup timed out.');}}
  throw Error('No usable website icon found. Keep the current logo or use a saved logo.');
 }
