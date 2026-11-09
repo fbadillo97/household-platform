@@ -1,7 +1,7 @@
 # Net worth and secured-asset equity
 
 The overview uses the accounting identity **assets = liabilities + equity**.
-Liabilities fill the left segment and Net worth labels the right, in
+Liabilities fill the left segment and Equity labels the right, in
 proportion to total assets. There is no unused background track. Net worth stays
 centered above the bar and total assets label the whole. Negative equity or other
 signed balances that cannot form positive proportions show exact signed totals
