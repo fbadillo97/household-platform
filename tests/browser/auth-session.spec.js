@@ -1,0 +1,22 @@
+import {test,expect} from '@playwright/test';
+const url='/tests/browser/auth.html#payees';
+test.beforeEach(async({page})=>{await page.route('**/*',r=>['127.0.0.1','localhost'].includes(new URL(r.request().url()).hostname)?r.continue():r.abort());});
+async function draft(page){await page.goto(url);await page.getByRole('button',{name:'Edit payee Mock market',exact:true}).click();await page.getByRole('dialog').getByLabel('Name',{exact:true}).fill('Mock unsaved name');}
+test('switching Chrome tabs and refreshing the same session preserves the open editor and unsaved text',async({page,context})=>{
+ await draft(page);await page.evaluate(()=>window.__draftNode=document.querySelector('dialog'));const other=await context.newPage();await other.goto('about:blank');await other.bringToFront();await page.bringToFront();await other.close();
+ await page.evaluate(()=>{const a=window.__authFixture;a.emit('SIGNED_IN');a.emit('TOKEN_REFRESHED',a.session('mock-owner','mock-passkey-session',2));a.emit('USER_UPDATED');document.dispatchEvent(new Event('visibilitychange'));});
+ await expect(page.getByRole('dialog').getByLabel('Name',{exact:true})).toHaveValue('Mock unsaved name');expect(await page.evaluate(()=>window.__draftNode===document.querySelector('dialog'))).toBe(true);expect(await page.evaluate(()=>window.__authFixture.calls.filter(c=>c==='list_accounts').length)).toBe(1);await expect(page).toHaveURL(/#payees$/);
+});
+test('a new session, another user or actual sign-out clears the previous workspace',async({page})=>{
+ await draft(page);await page.evaluate(()=>{const a=window.__authFixture;a.emit('TOKEN_REFRESHED',a.session('mock-owner','another-passkey-session'));});await expect(page.getByRole('dialog')).toHaveCount(0);await expect(page.getByRole('heading',{name:'Payees',exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'Edit payee Mock market',exact:true}).click();await page.evaluate(()=>{const a=window.__authFixture;a.emit('SIGNED_IN',a.session('another-member','another-session'));});await expect(page.getByRole('dialog')).toHaveCount(0);await expect(page.getByRole('heading',{name:'Payees',exact:true})).toBeVisible();await page.getByRole('button',{name:'Edit payee Mock market',exact:true}).click();await page.evaluate(()=>window.__authFixture.emit('SIGNED_OUT',null));await expect(page.getByRole('dialog')).toHaveCount(0);await expect(page.getByRole('heading',{name:'Sign in to your household'})).toBeVisible();
+});
+test('returning to the tab still checks approval and passkey access',async({page})=>{
+ await draft(page);await page.evaluate(()=>{window.__authFixture.status='removed';document.dispatchEvent(new Event('visibilitychange'));});await expect(page.getByRole('heading',{name:'Household access removed'})).toBeVisible();await expect(page.getByRole('dialog')).toHaveCount(0);
+ await page.reload();await draft(page);await page.evaluate(()=>{window.__authFixture.passkey_verified=false;document.dispatchEvent(new Event('visibilitychange'));});await expect(page.getByRole('heading',{name:'Sign in with a passkey to continue'})).toBeVisible();await expect(page.getByRole('dialog')).toHaveCount(0);
+});
+test('transaction notes, description and date filters survive periodic access checks and same-session notifications',async({page})=>{
+ await page.clock.install();await page.goto('/tests/browser/auth.html#transactions');await page.getByRole('combobox',{name:'Date period',exact:true}).selectOption('all');await page.getByRole('button',{name:'Edit transaction Mock purchase 02',exact:true}).click();const panel=page.getByRole('dialog');await panel.getByRole('textbox',{name:'Notes',exact:true}).fill('Mock unsaved receipt context');await panel.getByLabel('Description',{exact:true}).fill('Mock unsaved description');
+ await page.evaluate(()=>{const a=window.__authFixture;a.emit('SIGNED_IN');a.emit('TOKEN_REFRESHED',a.session('mock-owner','mock-passkey-session',3));});await page.clock.fastForward(30001);
+ await expect(panel.getByRole('textbox',{name:'Notes',exact:true})).toHaveValue('Mock unsaved receipt context');await expect(panel.getByLabel('Description',{exact:true})).toHaveValue('Mock unsaved description');await expect(page.getByRole('combobox',{name:'Date period',exact:true})).toHaveValue('all');expect(await page.evaluate(()=>window.__authFixture.calls.includes('access_state'))).toBe(true);expect(await page.evaluate(()=>window.__authFixture.calls.filter(c=>c==='list_accounts').length)).toBe(1);
+});

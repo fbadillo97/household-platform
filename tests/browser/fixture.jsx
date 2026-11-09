@@ -35,7 +35,7 @@ function history(payload){const cohort=payload.scope==='account'?accounts.filter
  const effective=[...daily.values()],visible=effective.filter(e=>e.as_of>=from);for(const a of cohort){const seed=effective.filter(e=>e.account_id===a.id&&e.as_of<from).sort((a,b)=>b.as_of.localeCompare(a.as_of))[0];if(seed)visible.push({...seed,carry_in:true});}
  return {scope:payload.scope,currency,from,to:payload.to,earliest_available:earliest,cohort_policy:payload.scope==='account'?'individual_account':'current_inclusion',accounts:structuredClone(cohort),entries:structuredClone(visible.sort((a,b)=>a.as_of.localeCompare(b.as_of)||a.account_id.localeCompare(b.account_id)))};
 }
-async function mockCall(operation,payload={}){
+export async function mockCall(operation,payload={}){
  state.calls.push({operation,payload:structuredClone(payload)});
  if(operation==='admin_get_transfer_logs'){if(state.adminDelay)await new Promise(r=>setTimeout(r,state.adminDelay));if(state.failAdminLogs){state.failAdminLogs=false;throw Error('Mock log read failed');}return {stream:payload.stream,offset:payload.offset||0,total:payload.stream==='exports'?0:1,downloads_tracked:false,rows:payload.stream==='exports'?[]:[{id:'mock-import-log',source:'csv',account_name:'Mock checking',created_at:today+'T12:00:00Z',status:'imported',committed_at:today+'T12:05:00Z',expected_count:55,inserted_count:55,skipped_count:0,error_count:0,period_start:shiftDate(today,-54),period_end:today,created_via:'browser'}]};}
  if(operation==='visuals_get_catalog')return structuredClone(visualCatalog);
@@ -75,4 +75,4 @@ async function mockCall(operation,payload={}){
  throw Error('Unexpected mock operation '+operation);
 }
 function Fixture(){const fence=useRef(new SessionFence()),[signedOut,setSignedOut]=useState(false);useEffect(()=>{state.signOut=()=>{fence.current.invalidate();setSignedOut(true);};},[]);return <div className="shell"><header><div className="brand">H<span>Household</span></div><span className="tag">Mock data only</span><button onClick={()=>state.signOut()}>Sign out (mock)</button></header><main>{signedOut?<h1>Mock signed out</h1>:<Finance secureCall={(...args)=>fence.current.run(()=>mockCall(...args))} secureDocument={(...args)=>fence.current.run(()=>taxApi.storage(...args))} secureReceipt={async()=>{throw Error('No real receipt files in browser fixture');}} settingsContent={<section className="panel"><h2>Account security</h2><p>Mock passkey-only session. No credentials are used by these browser checks.</p></section>}/>}</main><footer>Browser test fixture · fabricated household records</footer></div>;}
-createRoot(document.getElementById('root')).render(<Fixture/>);
+if(window.location.pathname.endsWith('/index.html'))createRoot(document.getElementById('root')).render(<Fixture/>);
