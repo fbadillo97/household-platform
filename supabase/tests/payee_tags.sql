@@ -9,6 +9,7 @@ insert into auth.sessions(id,user_id,aal)values(sid,actor,'aal1');
 insert into auth.mfa_amr_claims(id,session_id,authentication_method,created_at,updated_at)values(gen_random_uuid(),sid,'passkey',now(),now());
 perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'session_id',sid,'role','authenticated')::text,true);
 tag:=(public.household_v1('create_payee_tag',jsonb_build_object('name','Mock family '||actor))->>'id')::uuid;
+if not exists(select 1 from jsonb_array_elements(public.household_v1('list_payee_tags'))v where v->>'id'=tag::text and v->>'payee_count'='0')then raise exception 'Tag catalog read failed';end if;
 p:=(public.household_v1('create_payee',jsonb_build_object('name','Mock tagged '||actor,'kind','person','tag_ids',jsonb_build_array(tag)))->>'id')::uuid;
 q:=(public.household_v1('create_payee',jsonb_build_object('name','Mock second '||actor,'kind','business'))->>'id')::uuid;
 insert into household_private.accounts(name,kind,currency)values('Mock tags bank','checking','CAD')returning id into a;
@@ -16,6 +17,7 @@ insert into household_private.transactions(account_id,date,description,amount_mi
 select to_jsonb(t)into before_row from household_private.transactions t where id=tx;
 select value into r from jsonb_array_elements(public.household_v1('list_payees'))where value->>'id'=p::text;
 if jsonb_array_length(r->'tags')<>1 or r->>'transaction_count'<>'1' or r->>'last_transaction'<>'2026-10-01'then raise exception 'Directory metadata missing';end if;
+if not exists(select 1 from jsonb_array_elements(public.household_v1('list_payee_tags'))v where v->>'id'=tag::text and v->>'payee_count'='1')then raise exception 'Tag usage count failed';end if;
 perform public.household_v1('update_payee_tag',jsonb_build_object('id',tag,'revision',1,'name','Mock renamed '||actor,'archived',true));
 if not exists(select 1 from household_private.payee_tag_links where payee_id=p and tag_id=tag)then raise exception 'Rename/archive lost links';end if;
 begin perform public.household_v1('bulk_payee_tag',jsonb_build_object('tag_id',tag,'action','add','payees',jsonb_build_array(jsonb_build_object('id',q,'revision',1))));raise exception 'Archived tag assigned';exception when invalid_parameter_value then null;end;
