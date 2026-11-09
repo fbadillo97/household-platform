@@ -1,0 +1,16 @@
+import React,{useEffect,useState} from 'react';
+import {Panel,SectionHeading,InlineNotice} from '../components/ui.jsx';
+export function usePayeeTags(secureCall){
+ const [tags,setTags]=useState([]),[error,setError]=useState('');
+ async function reload(){try{const value=await secureCall('list_payee_tags',{});setTags(value);setError('');}catch(e){if(e.message!=='Stale session')setError(e.message);}}
+ useEffect(()=>{let active=true;secureCall('list_payee_tags',{}).then(v=>{if(active)setTags(v);}).catch(e=>{if(active&&e.message!=='Stale session')setError(e.message);});return()=>{active=false;};},[secureCall]);
+ return {tags,error,reload};
+}
+export function PayeeTagChoices({tags,selected,onChange}){return <fieldset className="payee-tag-choices"><legend>Payee tags</legend>{tags.filter(t=>!t.archived_at||selected.includes(t.id)).map(t=><label className="checkbox-label" key={t.id}><input type="checkbox" checked={selected.includes(t.id)} onChange={e=>onChange(e.target.checked?[...selected,t.id]:selected.filter(id=>id!==t.id))}/>{t.name}{t.archived_at?' (archived)':''}</label>)}{!tags.length&&<small>Create labels under Settings → Payee tags.</small>}</fieldset>;}
+export function PayeeTagsSection({secureCall}){
+ const {tags,error:loadError,reload}=usePayeeTags(secureCall),[name,setName]=useState(''),[draft,setDraft]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ async function save(e){e.preventDefault();setBusy(true);setError('');try{await secureCall(draft?'update_payee_tag':'create_payee_tag',draft?{id:draft.id,revision:draft.revision,name:draft.name.trim(),archived:draft.archived}:{name:name.trim()});if(draft)setDraft(null);else setName('');await reload();}catch(e){setError(e.message);}finally{setBusy(false);}}
+ return <Panel><SectionHeading title="Payee tags" detail="Describe relationships and business groups. These labels are separate from transaction tags."/>{(error||loadError)&&<InlineNotice>{error||loadError} <button className="text-button" onClick={reload}>Reload tags</button></InlineNotice>}
+ <form className="payee-tools" onSubmit={save}><label>{draft?'Tag name':'New payee tag'}<input required maxLength="60" value={draft?draft.name:name} onChange={e=>draft?setDraft({...draft,name:e.target.value}):setName(e.target.value)} disabled={busy}/></label>{draft&&<label className="checkbox-label"><input type="checkbox" checked={draft.archived} onChange={e=>setDraft({...draft,archived:e.target.checked})} disabled={busy}/> Archived</label>}<button disabled={busy}>{busy?'Saving…':draft?'Save tag':'Add tag'}</button>{draft&&<button type="button" className="secondary" disabled={busy} onClick={()=>setDraft(null)}>Cancel</button>}</form>
+ <div className="scroll"><table><caption className="sr-only">Payee tag settings</caption><thead><tr><th>Tag</th><th>Payees</th><th>Status</th><th>Action</th></tr></thead><tbody>{tags.map(t=><tr key={t.id}><td>{t.name}</td><td>{t.payee_count||0}</td><td>{t.archived_at?'Archived':'Active'}</td><td><button className="secondary" disabled={busy} aria-label={'Edit tag '+t.name} onClick={()=>setDraft({...t,archived:!!t.archived_at})}>Edit</button></td></tr>)}</tbody></table></div><p className="section-description">Renaming preserves assignments. Archived tags remain on existing payees and can be restored here.</p></Panel>;
+}

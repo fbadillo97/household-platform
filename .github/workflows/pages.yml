@@ -24,7 +24,7 @@ jobs:
       - name: Isolated PostgreSQL planning tests with fabricated records
         run: npm run test:planning:sql
       - name: Source import invariants with fabricated records
-        run: node tests/planning/run-local.mjs supabase/tests/monarch.sql
+        run: node tests/planning/run-local.mjs supabase/tests/monarch.sql supabase/tests/payees.sql supabase/tests/payee_tags.sql
       - name: Install browser test runtime
         run: npx playwright install --with-deps chromium --only-shell
       - name: Desktop and mobile browser checks with mock data

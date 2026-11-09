@@ -261,3 +261,7 @@ thead{background:var(--hp-surface-raised)}
 @media(max-width:600px){.transaction-period{width:100%}.transaction-period-controls label{flex:1 1 150px;min-width:0}}
 
 .transaction-quick-filters{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;padding-bottom:12px}.transaction-quick-filters>.transaction-period{flex:1 1 260px}.transaction-quick-filters>.filters{flex:1 1 240px}.transaction-quick-filters>.quick-review{flex-basis:100%}
+
+.payee-tools{display:flex;flex-wrap:wrap;align-items:end;gap:var(--hp-space-3);margin-block:var(--hp-space-3)}
+.payee-tag-chip{display:inline-block;padding:2px 7px;margin:2px;border-radius:var(--hp-radius);background:var(--hp-accent-tint);color:var(--hp-text);font-size:var(--hp-font-sm)}
+.payee-tag-choices{display:flex;flex-wrap:wrap;gap:var(--hp-space-3);border:1px solid var(--hp-border);border-radius:var(--hp-radius);padding:var(--hp-space-3)}

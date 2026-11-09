@@ -96,3 +96,31 @@ public URL parameter containing names or other household records.
 
 Payee-specific financial reports and fuzzy suggestions remain future work.
 Cash Flow reporting has not been implemented by this release.
+
+## Payee tags and directory tools
+
+Settings → Payee tags creates, renames, archives and restores classification
+labels independently of transaction tags. Multiple tags may describe a payee;
+these never determine accounting behavior. Household member names can be labels,
+but are not yet foreign keys to membership profiles. Starter labels and curated
+assignments are private runtime data, not embedded in this public repository.
+
+The directory filters by name/alias/tag search, type, tag (including Untagged)
+and archive state; sorts by name, type, active transaction count or most recent
+transaction date; and paginates 50 rows. Existing archived tag assignments remain
+visible and filterable. The payee editor saves tags with the rest of its draft.
+Page selections can add/remove one tag atomically with revision checks. Settings
+renames preserve tag IDs and links. Archive stops new assignment, retaining links;
+there is no destructive tag-delete operation.
+
+Private tables `payee_tags` and `payee_tag_links` have RLS and no direct browser
+privileges. The existing approved passkey RPC routes `list_payee_tags`,
+`create_payee_tag`, `update_payee_tag` and `bulk_payee_tag`; create/update payee
+add optional `tag_ids`. Limits: 200 tag definitions, 30 tags per payee, 100 payees
+per bulk request. Stale bulk requests roll back in full. Directory activity counts
+exclude Trash. Monetary totals are intentionally omitted because currencies,
+report periods and transfer treatment require explicit context.
+
+Verification uses fabricated SQL/browser fixtures for tag CRUD, archive retention,
+revision failures, atomic bulk edits, original-ledger preservation and passkey/
+private-grant boundaries. Personal relationships must not be guessed from names.

@@ -28,7 +28,7 @@ function FinanceWorkspace({secureCall,secureReceipt,secureDocument,settingsConte
  const [refreshVersion,setRefreshVersion]=useState(0);
  const [account,setAccount]=useState(''),[batch,setBatch]=useState(null),[selected,setSelected]=useState([]);
  const [page,setPage]=useState(()=>pageFromHash(window.location.hash));
- const [settingsSection,setSettingsSection]=useState(()=>window.location.hash==='#settings/automations'?'automations':'general');
+ const [settingsSection,setSettingsSection]=useState(()=>window.location.hash==='#settings/automations'?'automations':window.location.hash==='#settings/payee-tags'?'payee-tags':'general');
  const [accountScope,setAccountScope]=useState(null);
  const [planningDetail,setPlanningDetail]=useState(null),[budgetActivity,setBudgetActivity]=useState(null);
  const [accountFilter,setAccountFilter]=useState(''),[month,setMonth]=useState(()=>today.slice(0,7)),[transactionMonth,setTransactionMonth]=useState(''),[query,setQuery]=useState('');
@@ -45,12 +45,12 @@ function FinanceWorkspace({secureCall,secureReceipt,secureDocument,settingsConte
  }
 
  useEffect(()=>{
-  const sync=()=>{setPage(pageFromHash(window.location.hash));setSettingsSection(window.location.hash==='#settings/automations'?'automations':'general');};
+  const sync=()=>{setPage(pageFromHash(window.location.hash));setSettingsSection(window.location.hash==='#settings/automations'?'automations':window.location.hash==='#settings/payee-tags'?'payee-tags':'general');};
   window.addEventListener('hashchange',sync);window.addEventListener('popstate',sync);
   return()=>{window.removeEventListener('hashchange',sync);window.removeEventListener('popstate',sync);};
  },[]);
  useEffect(()=>{document.title=PAGES[page].title+' · Household';},[page]);
- function navigate(next){if(window.location.hash!=='#'+next)window.history.pushState(null,'','#'+next);setPage(pageFromHash('#'+next));setSettingsSection(next==='settings/automations'?'automations':'general');}
+ function navigate(next){if(window.location.hash!=='#'+next)window.history.pushState(null,'','#'+next);setPage(pageFromHash('#'+next));setSettingsSection(next==='settings/automations'?'automations':next==='settings/payee-tags'?'payee-tags':'general');}
  const overviewRows=filterRows(transactions,{accountId:accountFilter,month},categories);
 
  const totals=summarizeRows(overviewRows);
@@ -72,7 +72,7 @@ function FinanceWorkspace({secureCall,secureReceipt,secureDocument,settingsConte
  {page==='dashboard'&&<DashboardPage accounts={accounts} rows={overviewRows} snapshots={snapshots} totals={totals} currency={currency} currencies={currencies} money={money} summaryMoney={summaryMoney} outflowCategories={outflowCategories} filters={<ActivityFilters {...filterProps}/>} onViewTransactions={()=>{setQuery('');changeTransactionMonth(month);navigate('transactions');}} secureCall={secureCall} onViewAccounts={scope=>{setAccountScope(scope);navigate('accounts');}} onViewCategory={name=>{setQuery('');setTransactionMonth(month);setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,category:categories.find(c=>c.name===name)?.id||'__unassigned'},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}} onReviewTransfers={()=>{setQuery('');setTransactionMonth(month);setTransactionView(v=>({...v,datePreset:month?'specific_month':'all',columns:{...v.columns,dateFrom:'',dateTo:''},flow:'unlinked_transfer',trashOnly:false,offset:0}));navigate('transactions');}}/>}
  {page==='accounts'&&<AccountsPage scope={accountScope} onClearScope={()=>setAccountScope(null)} accounts={accounts} secureCall={secureCall} refresh={refresh} money={money} onViewTransactions={id=>{setAccountFilter(id);setMonth('');setTransactionMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
  {page==='transactions'&&<TransactionsPage payees={payees} accounts={accounts} categories={categories} money={money} busy={busy} run={run} secureCall={secureCall} secureReceipt={secureReceipt} refresh={refresh} accountFilter={accountFilter} setAccountFilter={changeAccount} month={transactionMonth} setMonth={changeTransactionMonth} query={query} setQuery={changeQuery} view={transactionView} setView={setTransactionView} refreshVersion={refreshVersion} filters={<ActivityFilters {...filterProps} query={query} setQuery={changeQuery} hideAccount hideMonth/>}><CsvImport accounts={accounts} account={account} setAccount={setAccount} batch={batch} setBatch={setBatch} selected={selected} setSelected={setSelected} busy={busy} run={run} secureCall={secureCall} setNotice={setNotice} refresh={refresh} money={money}/></TransactionsPage>}
- {page==='payees'&&<PayeesPage payees={payees} secureCall={secureCall} refresh={refresh} onViewTransactions={id=>{setAccountFilter('');setMonth('');setTransactionMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,payee:id},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
+ {page==='payees'&&<PayeesPage onManageTags={()=>navigate('settings/payee-tags')} payees={payees} secureCall={secureCall} refresh={refresh} onViewTransactions={id=>{setAccountFilter('');setMonth('');setTransactionMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,payee:id},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
  <Suspense fallback={<p role="status">Loading household workspace…</p>}>
  {page==='reports'&&<ReportsPage secureCall={secureCall} onOpenTransaction={setPlanningDetail} onReviewRefunds={()=>navigate('budget')} refreshVersion={refreshVersion}/>}
  {page==='taxes'&&<TaxesPage secureCall={secureCall} documentStorage={secureDocument} refreshVersion={refreshVersion} onOpenTransaction={setPlanningDetail}/>}
@@ -80,7 +80,7 @@ function FinanceWorkspace({secureCall,secureReceipt,secureDocument,settingsConte
  {budgetActivity&&<BudgetActivity scope={budgetActivity} secureCall={secureCall} refreshVersion={refreshVersion} onClose={()=>setBudgetActivity(null)} onOpenTransaction={setPlanningDetail}/>}
  </Suspense>
  {planningDetail&&<TransactionDetail key={planningDetail} id={planningDetail} accounts={accounts} categories={categories} payees={payees} money={money} secureCall={secureCall} secureReceipt={secureReceipt} refresh={refresh} onClose={()=>setPlanningDetail(null)}/>}
- {page==='settings'&&<SettingsPage section={settingsSection} onSectionChange={section=>navigate(section==='automations'?'settings/automations':'settings')} onViewTransactions={({source='',event=''})=>{setAccountFilter('');setMonth('');setTransactionMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,automationSource:source,automationEvent:event},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}} payees={payees} accounts={accounts} categories={categories} busy={busy} create={create} secureCall={secureCall} refresh={refresh}>{settingsContent}</SettingsPage>}
+ {page==='settings'&&<SettingsPage section={settingsSection} onSectionChange={section=>navigate(section==='general'?'settings':'settings/'+section)} onViewTransactions={({source='',event=''})=>{setAccountFilter('');setMonth('');setTransactionMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,automationSource:source,automationEvent:event},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}} payees={payees} accounts={accounts} categories={categories} busy={busy} create={create} secureCall={secureCall} refresh={refresh}>{settingsContent}</SettingsPage>}
  </div></div>;
 }
 
