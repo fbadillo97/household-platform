@@ -8,7 +8,7 @@ Private household finance foundation, with property identifiers ready for future
 
 - This public repository contains code, migrations and fabricated fixtures only; real imported records stay in the private database.
 - The dedicated Household Platform database is active in Canada Central (`ca-central-1`).
-- All nineteen SQL migrations are already applied to that project. Do not rerun them manually.
+- The versioned SQL migrations in this repository are already applied to that project. Do not rerun them manually.
 - The owner email reservation is configured privately in the database. The owner subsequently completed verified signup and passkey enrollment. No real email is seeded in migrations.
 - The frontend deploys to GitHub Pages after successful tests/builds on main, or a manual Publish GitHub Pages run.
 - The GitHub Pages website is published at https://fbadillo97.github.io/household-platform/ . The owner has completed passkey sign-in and disabled the Email provider. Statement reconciliation and a backup/restore drill remain outstanding.
@@ -200,3 +200,13 @@ Soft category badges, identity-first account/payee images and static empty-state
 illustrations share the platform's compact dark design. Customize records under
 Settings → Icons & logos. Logos live privately outside the app code, so future AI-assisted
 logo additions need no code release. See [Visual identity and logo workflow](docs/VISUAL_IDENTITY.md).
+
+## Transaction summary and Administration
+
+Transactions includes a full filtered summary with separate currency totals, averages,
+record links and refund/transfer handling. Administration expands to Settings and import/
+export logs; import coverage is located there. See [Calculations and log boundaries](docs/TRANSACTION_SUMMARY_ADMIN.md).
+
+Reports includes a Trends & Forecasts starter with six complete months of history and
+provisional three-month estimates based on a three-month average. Missing history stays
+explicit; see [Reports](docs/REPORTS.md).

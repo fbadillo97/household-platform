@@ -48,3 +48,6 @@ test('confirmed transfers and card payments are excluded on both sides and acros
  assert.deepEqual(summarizeRows(filterRows(data,{accountId:'card'},[])),{count:2,inflow:0,outflow:300,net:-300});
  assert.equal(ledgerPayload({view:{columns:{...EMPTY_COLUMN_FILTERS},flow:'unlinked_transfer',sort:'date',direction:'desc',offset:0}}).flow,'unlinked_transfer');
 });
+
+import {pageHash,isAdministration} from '../src/navigation.js';
+test('Administration routes preserve legacy links and identify the expandable group',()=>{assert.equal(pageFromHash('#administration/settings'),'settings');assert.equal(pageFromHash('#administration/transfers'),'transfer_logs');assert.equal(pageFromHash('#settings/automations'),'settings');assert.equal(pageHash('settings/automations'),'#administration/settings/automations');assert.equal(isAdministration('settings'),true);assert.equal(isAdministration('dashboard'),false);});

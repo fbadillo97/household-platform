@@ -29,6 +29,6 @@ payments consistently. No Cash Flow or Recurring page ships with Automations.
 
 - Completed: Transactions date presets for calendar months/quarters/years, rolling
   six-month, one/two/five-year windows, all time and custom dates.
-- Reports: historical trends and forecasts, recurring income/bills and projected cash
-  flow, with estimates distinct from actuals and incomplete import coverage visible.
-Forecasts remain a separate planned feature. Date presets were added after visual identity.
+- Completed starter: Reports historical trends and a provisional three-month average
+  forecast. Recurring items, scenarios, seasonality and goals remain future scope.
+Date presets and the forecast starter were added after visual identity.

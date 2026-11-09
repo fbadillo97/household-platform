@@ -51,7 +51,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   async function openPage(name){await act(async()=>{const link=[...container.querySelectorAll('nav a')].find(a=>a.textContent===name);link.dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true,cancelable:true}));});await flushLedger();}
   async function typeValue(input,value){await act(async()=>{Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype,'value').set.call(input,value);input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));});}
   assert.equal(heading(),'Dashboard');
-  assert.match(container.textContent,/Mock Checking/);assert.match(container.textContent,/Excluded mock institution/);
+  assert.match(container.textContent,/Mock Checking/);assert.doesNotMatch(container.textContent,/Import coverage|Excluded mock institution/);
   assert.equal(container.querySelector('table'),null);
   assert.equal(container.querySelector('input[type="search"]'),null);
   assert.doesNotMatch(container.textContent,/Account security/);

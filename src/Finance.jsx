@@ -5,7 +5,8 @@ import {transactionPeriodRange} from './transaction-periods.js';
 import {formatMoney} from './money.js';
 import {VisualProvider} from './visuals/VisualProvider.jsx';
 import {Icon,PAGE_ICONS} from './visuals/Icon.jsx';
-import {PAGES,pageFromHash} from './navigation.js';
+import {AdministrationLogs} from './pages/AdministrationLogs.jsx';
+import {PAGES,pageFromHash,pageHash,isAdministration,settingsSectionFromHash} from './navigation.js';
 import {DashboardPage} from './pages/DashboardPage.jsx';
 import {TransactionsPage} from './pages/TransactionsPage.jsx';
 import {AccountsPage} from './pages/AccountsPage.jsx';
@@ -28,7 +29,8 @@ function FinanceWorkspace({secureCall,secureReceipt,secureDocument,settingsConte
  const [refreshVersion,setRefreshVersion]=useState(0);
  const [account,setAccount]=useState(''),[batch,setBatch]=useState(null),[selected,setSelected]=useState([]);
  const [page,setPage]=useState(()=>pageFromHash(window.location.hash));
- const [settingsSection,setSettingsSection]=useState(()=>window.location.hash==='#settings/automations'?'automations':window.location.hash==='#settings/payee-tags'?'payee-tags':'general');
+ const [settingsSection,setSettingsSection]=useState(()=>settingsSectionFromHash(window.location.hash));
+ const [adminExpanded,setAdminExpanded]=useState(()=>isAdministration(pageFromHash(window.location.hash)));
  const [accountScope,setAccountScope]=useState(null);
  const [planningDetail,setPlanningDetail]=useState(null),[budgetActivity,setBudgetActivity]=useState(null);
  const [accountFilter,setAccountFilter]=useState(''),[month,setMonth]=useState(()=>today.slice(0,7)),[transactionMonth,setTransactionMonth]=useState(''),[query,setQuery]=useState('');
@@ -45,12 +47,13 @@ function FinanceWorkspace({secureCall,secureReceipt,secureDocument,settingsConte
  }
 
  useEffect(()=>{
-  const sync=()=>{setPage(pageFromHash(window.location.hash));setSettingsSection(window.location.hash==='#settings/automations'?'automations':window.location.hash==='#settings/payee-tags'?'payee-tags':'general');};
+  const sync=()=>{const next=pageFromHash(window.location.hash);setPage(next);setAdminExpanded(isAdministration(next));setSettingsSection(settingsSectionFromHash(window.location.hash));};
   window.addEventListener('hashchange',sync);window.addEventListener('popstate',sync);
   return()=>{window.removeEventListener('hashchange',sync);window.removeEventListener('popstate',sync);};
  },[]);
  useEffect(()=>{document.title=PAGES[page].title+' · Household';},[page]);
- function navigate(next){if(window.location.hash!=='#'+next)window.history.pushState(null,'','#'+next);setPage(pageFromHash('#'+next));setSettingsSection(next==='settings/automations'?'automations':next==='settings/payee-tags'?'payee-tags':'general');}
+ function navigate(next){const hash=pageHash(next);if(window.location.hash!==hash)window.history.pushState(null,'',hash);const target=pageFromHash(hash);setPage(target);setAdminExpanded(isAdministration(target));setSettingsSection(settingsSectionFromHash(hash));}
+
  const overviewRows=filterRows(transactions,{accountId:accountFilter,month},categories);
 
  const totals=summarizeRows(overviewRows);
@@ -66,7 +69,7 @@ function FinanceWorkspace({secureCall,secureReceipt,secureDocument,settingsConte
  const filterProps={accounts,accountFilter,setAccountFilter:changeAccount,month,setMonth:changeMonth};
  return <div className="platform-layout">
  <aside className="platform-sidebar" aria-label="Household platform sections"><div className="sidebar-identity"><span className="sidebar-mark" aria-hidden="true">H</span><span><strong>Household</strong><small>Platform</small></span></div><div className="sidebar-section-label">FINANCE</div>
- <nav className="app-nav" aria-label="Main navigation">{Object.entries(PAGES).map(([id,info])=><a key={id} href={'#'+id} aria-current={page===id?'page':undefined} onClick={e=>{e.preventDefault();if(id==='accounts')setAccountScope(null);navigate(id);}}><Icon name={PAGE_ICONS[id]}/>{info.title}</a>)}</nav><div className="sidebar-footer">Household Platform <span>v0.4</span></div></aside><div className="platform-workspace">
+ <nav className="app-nav" aria-label="Main navigation">{Object.entries(PAGES).filter(([id])=>!isAdministration(id)).map(([id,info])=><a key={id} href={pageHash(id)} aria-current={page===id?'page':undefined} onClick={e=>{e.preventDefault();if(id==='accounts')setAccountScope(null);navigate(id);}}><Icon name={PAGE_ICONS[id]}/>{info.title}</a>)}<div className="admin-nav-group"><button className="admin-nav-toggle" data-active={isAdministration(page)} aria-expanded={adminExpanded} aria-controls="admin-nav-children" onClick={()=>setAdminExpanded(v=>!v)}><Icon name="shield-check"/>Administration<Icon name="next" className={adminExpanded?'admin-chevron expanded':'admin-chevron'}/></button><div id="admin-nav-children" hidden={!adminExpanded}>{['settings','transfer_logs'].map(id=><a key={id} href={pageHash(id)} aria-current={page===id?'page':undefined} onClick={e=>{e.preventDefault();navigate(id);}}><Icon name={id==='settings'?'settings':'files'}/>{PAGES[id].title}</a>)}</div></div></nav><div className="sidebar-footer">Household Platform <span>v0.4</span></div></aside><div className="platform-workspace">
  <div className="section-head page-heading"><div><p className="eyebrow">HOUSEHOLD FINANCE</p><h1>{PAGES[page].title}</h1><p className="intro">{PAGES[page].description}</p></div><button disabled={busy} onClick={()=>run(refresh)}><Icon name="refresh"/>Refresh</button></div>
  {error&&<p className="error" role="alert">{error}</p>}{notice&&<p role="status">{notice}</p>}
  {page==='dashboard'&&<DashboardPage accounts={accounts} rows={overviewRows} snapshots={snapshots} totals={totals} currency={currency} currencies={currencies} money={money} summaryMoney={summaryMoney} outflowCategories={outflowCategories} filters={<ActivityFilters {...filterProps}/>} onViewTransactions={()=>{setQuery('');changeTransactionMonth(month);navigate('transactions');}} secureCall={secureCall} onViewAccounts={scope=>{setAccountScope(scope);navigate('accounts');}} onViewCategory={name=>{setQuery('');setTransactionMonth(month);setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,category:categories.find(c=>c.name===name)?.id||'__unassigned'},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}} onReviewTransfers={()=>{setQuery('');setTransactionMonth(month);setTransactionView(v=>({...v,datePreset:month?'specific_month':'all',columns:{...v.columns,dateFrom:'',dateTo:''},flow:'unlinked_transfer',trashOnly:false,offset:0}));navigate('transactions');}}/>}
@@ -80,6 +83,7 @@ function FinanceWorkspace({secureCall,secureReceipt,secureDocument,settingsConte
  {budgetActivity&&<BudgetActivity scope={budgetActivity} secureCall={secureCall} refreshVersion={refreshVersion} onClose={()=>setBudgetActivity(null)} onOpenTransaction={setPlanningDetail}/>}
  </Suspense>
  {planningDetail&&<TransactionDetail key={planningDetail} id={planningDetail} accounts={accounts} categories={categories} payees={payees} money={money} secureCall={secureCall} secureReceipt={secureReceipt} refresh={refresh} onClose={()=>setPlanningDetail(null)}/>}
+ {page==='transfer_logs'&&<AdministrationLogs secureCall={secureCall} snapshots={snapshots} refreshVersion={refreshVersion}/>}
  {page==='settings'&&<SettingsPage section={settingsSection} onSectionChange={section=>navigate(section==='general'?'settings':'settings/'+section)} onViewTransactions={({source='',event=''})=>{setAccountFilter('');setMonth('');setTransactionMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,automationSource:source,automationEvent:event},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}} payees={payees} accounts={accounts} categories={categories} busy={busy} create={create} secureCall={secureCall} refresh={refresh}>{settingsContent}</SettingsPage>}
  </div></div>;
 }

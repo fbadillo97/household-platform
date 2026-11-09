@@ -63,3 +63,26 @@ refunds, purchase-account attribution, currencies, transfer exclusion, source pa
 coverage, payload validation and session/member/role boundaries. Browser tests use fabricated
 records only, exercise filters, charts, sources, keyboard access, retry/late responses and
 sign-out, and scan desktop/mobile views for accessibility and page overflow.
+
+## Trends & Forecasts starter
+
+The Trends & Forecasts view uses the same account/currency filters and checked read-only
+report API. Its chart shows the six calendar months before the current month. Exact figures
+and source drill-down remain available. Latest-month changes are absolute recorded changes,
+with unconfirmed imports labelled; partial current-month activity is excluded from history.
+
+The simple forecast averages the three calendar months immediately before the current month,
+then repeats those averages for three whole months starting with the current month. Current-
+month actuals are not added to the estimates. It predicts recorded income/inflows, net
+spending and net cash flow, not account balances, scheduled transactions or net worth.
+
+Three consecutive full baseline months must each contain imported activity or an explicit
+valid confirmation of zero activity. Missing/unconfirmed empty or partial months produce
+“More history needed.” Invalid refund links require review first. Estimates based on
+unconfirmed-but-present imports are provisional. Refund review exclusions, net-refund
+baselines and the absence of seasonality, goals and one-off adjustments are disclosed.
+No statistical confidence interval or guaranteed outcome is inferred. Arithmetic uses
+BigInt-safe integer cents, checked before rendering, and rounds the mean to the nearest cent.
+
+Future work may add recurring items, scenarios and goals after the desired scope is decided.
+The starter does not create transactions or change balances/plans.
