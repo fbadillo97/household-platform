@@ -9,6 +9,7 @@ import {SettingsPage} from './pages/SettingsPage.jsx';
 import {PayeesPage} from './pages/PayeesPage.jsx';
 import {CsvImport} from './pages/CsvImport.jsx';
 import {TransactionDetail} from './pages/TransactionDetail.jsx';
+const ReportsPage=lazy(()=>import('./reports/ReportsPage.jsx').then(m=>({default:m.ReportsPage})));
 const TaxesPage=lazy(()=>import('./taxes/TaxesPage.jsx').then(m=>({default:m.TaxesPage})));
 const BudgetPage=lazy(()=>import('./budget/BudgetPage.jsx').then(m=>({default:m.BudgetPage})));
 const BudgetActivity=lazy(()=>import('./budget/BudgetActivity.jsx').then(m=>({default:m.BudgetActivity})));
@@ -68,6 +69,7 @@ export function Finance({secureCall,secureReceipt,secureDocument,settingsContent
  {page==='transactions'&&<TransactionsPage payees={payees} accounts={accounts} categories={categories} money={money} busy={busy} run={run} secureCall={secureCall} secureReceipt={secureReceipt} refresh={refresh} accountFilter={accountFilter} setAccountFilter={changeAccount} month={month} setMonth={changeMonth} query={query} setQuery={changeQuery} view={transactionView} setView={setTransactionView} refreshVersion={refreshVersion} filters={<ActivityFilters {...filterProps} query={query} setQuery={changeQuery} hideAccount/>}><CsvImport accounts={accounts} account={account} setAccount={setAccount} batch={batch} setBatch={setBatch} selected={selected} setSelected={setSelected} busy={busy} run={run} secureCall={secureCall} setNotice={setNotice} refresh={refresh} money={money}/></TransactionsPage>}
  {page==='payees'&&<PayeesPage payees={payees} secureCall={secureCall} refresh={refresh} onViewTransactions={id=>{setAccountFilter('');setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,payee:id},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
  <Suspense fallback={<p role="status">Loading household workspace…</p>}>
+ {page==='reports'&&<ReportsPage secureCall={secureCall} onOpenTransaction={setPlanningDetail} onReviewRefunds={()=>navigate('budget')} refreshVersion={refreshVersion}/>}
  {page==='taxes'&&<TaxesPage secureCall={secureCall} documentStorage={secureDocument} refreshVersion={refreshVersion} onOpenTransaction={setPlanningDetail}/>}
  {page==='budget'&&<BudgetPage secureCall={secureCall} refreshVersion={refreshVersion} onViewTransactions={setBudgetActivity}/>}
  {budgetActivity&&<BudgetActivity scope={budgetActivity} secureCall={secureCall} refreshVersion={refreshVersion} onClose={()=>setBudgetActivity(null)} onOpenTransaction={setPlanningDetail}/>}

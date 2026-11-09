@@ -2,6 +2,7 @@
 import React,{useEffect,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Finance} from '../../src/Finance.jsx';
+import {mockReportsApi} from '../reports/mock.js';
 import {mockTaxApi,mockTaxWorkspace} from '../taxes/mock.js';
 import {mockBudgetApi,mockBudget} from '../budget/mock.js';
 const taxApi=mockTaxApi(mockTaxWorkspace(new Date().getFullYear())),budgetApi=mockBudgetApi(mockBudget());
@@ -12,6 +13,7 @@ import '../../src/style.css';
 import '../../src/design-system.css';
 const today=localToday();let seq=0;
 const accounts=[['bank','Mock checking','checking','CAD'],['saving','Mock savings','savings','CAD'],['card','Mock card','credit','CAD'],['loan','Mock loan','mortgage','CAD'],['invest','Mock investments','investment','CAD'],['home','Mock property','asset','CAD'],['usd','Mock USD checking','checking','USD'],['excluded','Mock excluded savings','savings','CAD'],['archived','Mock archived card','credit','CAD']].map(([id,name,kind,currency])=>({id,name,kind,currency,revision:1,include_in_net_worth:id!=='excluded',archived_at:id==='archived'?today:null}));
+const reportsApi=mockReportsApi(today,accounts);
 const entries=[];function addBalance(id,as_of,amount_minor,note=''){const a=accounts.find(a=>a.id===id);entries.push({id:'entry-'+(++seq),sequence:seq,account_id:id,as_of,amount_minor,currency:a.currency,is_estimate:a.kind==='asset',note});}
 for(const [id,amount] of [['bank',350000],['saving',800000],['card',70000],['invest',2800000],['usd',120000],['excluded',100000],['archived',0]])for(const [days,multiplier] of [[100,.8],[60,.9],[30,.95],[10,1],[0,1.1]])addBalance(id,shiftDate(today,-days),Math.round(amount*multiplier),'Mock saved balance');
 addBalance('home',shiftDate(today,-60),75000000,'Mock valuation');addBalance('loan',shiftDate(today,-10),45000000,'Mock first loan record');addBalance('bank',shiftDate(today,-30),340000,'Mock same-day correction');
@@ -20,7 +22,7 @@ const payees=[{id:'mock-payee',name:'Mock market',kind:'business',revision:1,ali
 const transactions=Array.from({length:55},(_,i)=>({id:'tx-'+i,revision:1,account_id:i%2?'card':'bank',date:shiftDate(today,-i),description:'Mock purchase '+String(i).padStart(2,'0'),amount_minor:-(500+i*11),category_id:i%3?'food':null,source_data:{tags:['Home']},review_status:'unreviewed',needs_attention:i===2,notes:'',deleted_at:null,flow_type:'regular',transfer_peer_id:null,receipts:[]}));
 const automationRules=[{id:'mock-rule',kind:'rule',name:'Mock insurance tag',source_key:'rule:mock-rule',priority:100,revision:1,enabled:true,effective_enabled:true,conditions:{payee_id:'mock-payee',amount_min_minor:-12500,amount_max_minor:-12500,currency:'CAD'},actions:{add_tags:['Insurance']},applied_count:1,error_count:1,last_event:{at:new Date().toISOString(),status:'error',error:'Mock automation needs review'}},{id:'mock-alias',kind:'alias',description:'MOCK MARKET #01',payee_id:'mock-payee',source_key:'alias:mock-alias',revision:1,enabled:false,effective_enabled:false,applied_count:0,error_count:0}];
 const automationEvents=[{id:'mock-event',source_key:'rule:mock-rule',transaction_id:'tx-0',definition:automationRules[0],status:'applied',before_values:{tags_override:null},after_values:{tags_override:['Home','Insurance']},after_revision:1,created_at:new Date().toISOString()},{id:'mock-error',source_key:'rule:mock-rule',transaction_id:'tx-1',definition:automationRules[0],status:'error',error_message:'Mock automation could not add a tag',before_values:{},after_values:{},created_at:new Date().toISOString()}];
-const state={historyMode:'normal',historyDelay:0,failHistory:false,calls:[],signOut:null};window.__householdFixture=state;window.__planningFixture={taxApi,budgetApi};
+const state={historyMode:'normal',historyDelay:0,failHistory:false,calls:[],signOut:null};window.__householdFixture=state;window.__planningFixture={taxApi,budgetApi,reportsApi};
 function accountView(a){const latest=entries.filter(e=>e.account_id===a.id).sort((x,y)=>y.as_of.localeCompare(x.as_of)||y.sequence-x.sequence)[0];return {...a,balance_snapshot:latest?{...latest}:null};}
 function transactionView(t){return {...t,original_description:t.description,original_account_id:t.account_id,original_tags:t.source_data.tags,description:t.description_override??t.description,account_id:t.account_override_id??t.account_id,has_description_override:!!t.description_override,has_account_override:!!t.account_override_id,receipt_count:t.receipts.length};}
 function history(payload){const cohort=payload.scope==='account'?accounts.filter(a=>a.id===payload.account_id):accounts.filter(a=>a.currency===payload.currency&&!a.archived_at&&a.include_in_net_worth);const currency=cohort[0]?.currency||payload.currency;
@@ -32,6 +34,7 @@ function history(payload){const cohort=payload.scope==='account'?accounts.filter
 }
 async function mockCall(operation,payload={}){
  state.calls.push({operation,payload:structuredClone(payload)});
+ if(operation.startsWith('reports_'))return reportsApi.call(operation,payload);
  if(operation.startsWith('tax_'))return taxApi.call(operation,payload);
  if(operation.startsWith('budget_'))return budgetApi.call(operation,payload);
  if(operation==='get_balance_history'){if(state.historyDelay)await new Promise(r=>setTimeout(r,state.historyDelay));if(state.failHistory){state.failHistory=false;throw Error('Mock temporary history failure');}return history(payload);}

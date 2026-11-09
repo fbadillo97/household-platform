@@ -11,7 +11,7 @@
     "test:browser": "playwright test",
     "build:browser": "vite build --config vite.browser.config.js",
     "preview:browser": "vite preview --config vite.browser.config.js --host 127.0.0.1 --port 4175 --strictPort",
-    "test:planning:sql": "node tests/planning/run-local.mjs supabase/tests/planning.sql"
+    "test:planning:sql": "node tests/planning/run-local.mjs supabase/tests/planning.sql supabase/tests/reports.sql"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.119.0",
