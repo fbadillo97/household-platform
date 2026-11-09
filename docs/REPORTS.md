@@ -121,3 +121,7 @@ that period’s category source events, including attributed refunds.
 Irregular-expense labels, lifestyle baselines and fixed/flexible classifications
 remain deferred. No household transaction or Budget setting is changed by viewing
 these reports.
+
+Hovering or focusing a donut slice shows a brief category/amount/share preview in
+the chart center. Pointer exit, blur or Escape dismisses it; clicking still opens
+the category source records. Other categories previews its combined share.
