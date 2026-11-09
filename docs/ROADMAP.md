@@ -27,8 +27,8 @@ payments consistently. No Cash Flow or Recurring page ships with Automations.
 
 ## Agreed follow-ups after visual identity
 
-- Transactions: convenient month, quarter, six-month, year, two-year, five-year, all-time
-  and custom date presets; distinguish calendar periods from rolling windows.
+- Completed: Transactions date presets for calendar months/quarters/years, rolling
+  six-month, one/two/five-year windows, all time and custom dates.
 - Reports: historical trends and forecasts, recurring income/bills and projected cash
   flow, with estimates distinct from actuals and incomplete import coverage visible.
-These are planned separately; the visual identity release does not implement them.
+Forecasts remain a separate planned feature. Date presets were added after visual identity.

@@ -124,3 +124,19 @@ configuration, on/off controls, activity and guarded Undo APIs.
 Account create/update accepts nullable `secured_asset_id`; the checked
 `set_account_security` operation supports direct revision-checked linking. See
 [Equity](EQUITY.md) for administrative AI entry, constraints and provenance.
+
+### Transaction date presets
+
+Transactions maps its date-period dropdown to the existing checked ledger's `date_from`
+and `date_to` filters. All time sends null bounds and an empty month. Calendar quarter/year
+presets and rolling 3/6/12-month, 2-year and 5-year windows are labelled separately; the
+actual inclusive dates appear under the dropdown. Rolling ranges start the day after
+the corresponding clamped calendar date N months/years earlier. Calculations use UTC
+calendar arithmetic on the user's local current date to avoid daylight-saving offsets.
+
+Specific month retains the existing month filter and clears range bounds. Every other
+preset clears the old month before applying its dates. Custom dates open Advanced filters;
+manual date edits mark the view Custom. A changed period resets pagination/selection and
+retains unrelated filters/sorting; record details and ordinary page navigation preserve
+it. Clear all filters returns All time. The server still filters the complete ledger and
+paginates results; the dashboard's 500-record activity sample is not used for this view.

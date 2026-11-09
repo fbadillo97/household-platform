@@ -96,7 +96,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   await act(async()=>[...container.querySelectorAll('button')].find(b=>b.textContent==='Clear all filters').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
   await flushLedger();assert.equal(container.querySelectorAll('.ledger-table tbody>tr').length,2);
   assert.match(container.querySelector('details.transaction-filters summary').textContent,/None active/);
-  assert.equal(container.querySelector('input[type="month"]').value,'');
+  assert.equal(container.querySelector('.transaction-period select').value,'all');assert.equal(container.querySelector('input[type="month"]'),null);
   await act(async()=>container.querySelector('[aria-label="Edit transaction Mock shop"]').dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
   await typeValue(container.querySelector('.ledger-editor input'),'Edited groceries');
   await act(async()=>{const select=container.querySelector('.ledger-editor select');select.value='mock-savings';select.dispatchEvent(new dom.window.Event('change',{bubbles:true}));});
@@ -109,7 +109,7 @@ test('ledger navigation, sorting, column filters, overrides and staged imports w
   for(const label of ['Reset description','Reset account'])await act(async()=>[...container.querySelectorAll('.ledger-editor button')].find(b=>b.textContent===label).dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true})));
   await act(async()=>{container.querySelector('.ledger-editor form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await new Promise(r=>setTimeout(r,0));});await flushLedger();
   assert.equal(transactions[0].description_override,null);assert.equal(transactions[0].account_override_id,null);
-  assert.equal(container.querySelector('input[type="month"]').value,''); // refresh after saving must not restore a cleared period
+  assert.equal(container.querySelector('.transaction-period select').value,'all');assert.equal(container.querySelector('input[type="month"]'),null); // refresh after saving must not restore a cleared period
   await act(async()=>container.querySelector('[aria-label="Close transaction"]').click());
   const fileInput=container.querySelector('input[type="file"]');
   await act(async()=>{Object.defineProperty(fileInput,'files',{configurable:true,value:[{size:65,text:async()=> 'date,description,amount\n2026-10-03,Mock staged item,-1.00'}]});fileInput.dispatchEvent(new dom.window.Event('change',{bubbles:true}));await new Promise(r=>setTimeout(r,0));});

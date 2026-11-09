@@ -1,0 +1,5 @@
+import React from 'react';import {TRANSACTION_PERIODS,transactionPeriodRange} from '../transaction-periods.js';
+export function TransactionPeriod({preset,month,from,to,onChange,onMonthChange}){
+ const range=preset==='specific_month'&&month?transactionPeriodRange(preset,undefined,month):{from,to};
+ return <div className="transaction-period"><div className="transaction-period-controls"><label>Date period<select aria-describedby="transaction-period-range" value={preset} onChange={e=>onChange(e.target.value)}>{TRANSACTION_PERIODS.map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>{preset==='specific_month'&&<label>Month<input aria-label="Transaction month" type="month" value={month} onChange={e=>onMonthChange(e.target.value)}/></label>}</div><small id="transaction-period-range" className="transaction-period-range" role="status">{range.from||range.to?(range.from||'No start date')+' to '+(range.to||'No end date')+' · both dates included':preset==='custom'?'Choose start and end dates in Advanced filters.':'All imported dates'}</small></div>;
+}
