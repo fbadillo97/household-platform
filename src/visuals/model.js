@@ -12,6 +12,6 @@ export function resolveVisual(catalog,type,entity={}){
   if(preference?.brand_mode==='brand')brand=catalog.brands?.find(b=>b.key===preference.brand_key)||null;
   else {const names=[entity.institution_name,entity.source_metadata?.institution_name,entity.source_metadata?.institution,entity.name].filter(v=>typeof v==='string').map(normalized);const matches=(catalog.brands||[]).filter(b=>(b.aliases||[]).some(a=>{const alias=normalized(a);return alias&&names.some(n=>type==='payee'?n===alias:(' '+n+' ').includes(' '+alias+' '));}));if(matches.length===1)brand=matches[0];}
  }
- return {...base,...(preference?.icon?{icon:preference.icon}:{}),...(preference?.tone?{tone:preference.tone}:{}),brand};
+ return {...base,customIcon:Boolean(preference?.icon),...(preference?.icon?{icon:preference.icon}:{}),...(preference?.tone?{tone:preference.tone}:{}),brand};
 }
 export function pngDataUrl(value){return typeof value==='string'&&value.length<=90000&&/^[A-Za-z0-9+/]+={0,2}$/.test(value)&&value.startsWith('iVBORw0KGgo')?'data:image/png;base64,'+value:null;}
