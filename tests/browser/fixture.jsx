@@ -11,6 +11,7 @@ import {historyRange,shiftDate} from '../../src/history.js';
 import {localToday} from '../../src/accounts.js';
 import '../../src/style.css';
 import '../../src/design-system.css';
+const visualCatalog={brands:[],preferences:[]};window.__visualCatalog=visualCatalog;
 const today=localToday();let seq=0;
 const accounts=[['bank','Mock checking','checking','CAD'],['saving','Mock savings','savings','CAD'],['card','Mock card','credit','CAD'],['loan','Mock loan','mortgage','CAD'],['invest','Mock investments','investment','CAD'],['home','Mock property','asset','CAD'],['usd','Mock USD checking','checking','USD'],['excluded','Mock excluded savings','savings','CAD'],['archived','Mock archived card','credit','CAD']].map(([id,name,kind,currency])=>({id,name,kind,currency,revision:1,include_in_net_worth:id!=='excluded',archived_at:id==='archived'?today:null}));
 const reportsApi=mockReportsApi(today,accounts);
@@ -34,6 +35,8 @@ function history(payload){const cohort=payload.scope==='account'?accounts.filter
 }
 async function mockCall(operation,payload={}){
  state.calls.push({operation,payload:structuredClone(payload)});
+ if(operation==='visuals_get_catalog')return structuredClone(visualCatalog);
+ if(operation==='visuals_save_preference'){if(state.failVisualSave){state.failVisualSave=false;throw Error('Mock appearance changed elsewhere');}const old=visualCatalog.preferences.find(v=>v.entity_type===payload.entity_type&&v.entity_id===payload.entity_id);if(old)Object.assign(old,payload,{revision:old.revision+1});else visualCatalog.preferences.push({...payload,revision:1});return {revision:(old?.revision||1)};}
  if(operation.startsWith('reports_'))return reportsApi.call(operation,payload);
  if(operation.startsWith('tax_'))return taxApi.call(operation,payload);
  if(operation.startsWith('budget_'))return budgetApi.call(operation,payload);

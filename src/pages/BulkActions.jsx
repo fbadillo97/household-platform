@@ -1,3 +1,4 @@
+import {Icon} from '../visuals/Icon.jsx';
 import React,{useState,useEffect,useRef} from 'react';
 import {BULK_ACTIONS,bulkValue,bulkDescription,bulkPreview,defaultBulkValue} from '../bulk.js';
 function BulkConfirmation({selection,action,value,categories,payees=[],accounts,secureCall,onDone,onCancel,onBusyChange,onRefresh}){
@@ -26,7 +27,7 @@ export function BulkActions({selection,categories,payees=[],accounts,trashOnly,d
  useEffect(()=>{setPending(null);setError('');},[signature]);
  function choose(value){setAction(value);setInput(defaultBulkValue(value));setPending(null);setError('');}
  function review(event){event.preventDefault();setError('');try{if(action==='trash'&&linked)throw Error('Deselect linked transfers or undo their links first.');setPending({action,value:bulkValue(action,input)});}catch(e){setError(e.message);}}
- return <section className="bulk-actions" aria-label="Bulk transaction actions"><div className="bulk-selection"><strong role="status">{selection.length} selected</strong><span>Current page only · up to 50</span><button className="text-button" disabled={disabled} onClick={onClear}>Clear selection</button></div>
+ return <section className="bulk-actions" aria-label="Bulk transaction actions"><div className="bulk-selection"><strong role="status">{selection.length} selected</strong><span>Current page only · up to 50</span><button className="text-button" disabled={disabled} onClick={onClear}><Icon name="close"/>Clear selection</button></div>
  <form onSubmit={review}><fieldset disabled={disabled}>
  <label>Action<select aria-label="Bulk action" value={action} onChange={e=>choose(e.target.value)}>{Object.entries(BULK_ACTIONS).filter(([key])=>trashOnly?key==='restore':key!=='restore').map(([key,label])=><option key={key} value={key}>{label}</option>)}</select></label>
  {action==='category'&&<label>Category<select required aria-label="Bulk category" value={input} onChange={e=>setInput(e.target.value)}><option value="" disabled>Choose a category…</option><option value="__unassigned">Unassigned (clear category)</option>{categories.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label>}

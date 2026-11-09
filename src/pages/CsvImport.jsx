@@ -1,3 +1,4 @@
+import {Icon} from '../visuals/Icon.jsx';
 import React from 'react';
 import {parseCSV,defaultSelection,commitSelection} from '../import.js';
 export function CsvImport({accounts,account,setAccount,batch,setBatch,selected,setSelected,busy,run,secureCall,setNotice,refresh,money}){

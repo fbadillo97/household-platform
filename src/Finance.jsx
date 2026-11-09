@@ -1,6 +1,8 @@
 import React,{useState,useEffect,useRef,lazy,Suspense} from 'react';
 import {summarizeRows,filterRows,EMPTY_COLUMN_FILTERS,isTransfer} from './finance.js';
 import {formatMoney} from './money.js';
+import {VisualProvider} from './visuals/VisualProvider.jsx';
+import {Icon,PAGE_ICONS} from './visuals/Icon.jsx';
 import {PAGES,pageFromHash} from './navigation.js';
 import {DashboardPage} from './pages/DashboardPage.jsx';
 import {TransactionsPage} from './pages/TransactionsPage.jsx';
@@ -16,7 +18,7 @@ const BudgetActivity=lazy(()=>import('./budget/BudgetActivity.jsx').then(m=>({de
 function ActivityFilters({accounts,accountFilter,setAccountFilter,month,setMonth,query,setQuery,hideAccount=false}){
  return <div className={'filters'+(setQuery&&!hideAccount?'':' filters-overview')}>{!hideAccount&&<label>Account<select value={accountFilter} onChange={e=>setAccountFilter(e.target.value)}><option value="">All accounts</option>{accounts.map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select></label>}<label>Month<input type="month" value={month} onChange={e=>setMonth(e.target.value)}/></label>{setQuery&&<label>Search<input type="search" placeholder="Description, payee, category or tag" value={query} onChange={e=>setQuery(e.target.value)}/></label>}</div>;
 }
-export function Finance({secureCall,secureReceipt,secureDocument,settingsContent}){
+function FinanceWorkspace({secureCall,secureReceipt,secureDocument,settingsContent}){
  const [error,setError]=useState(''),[busy,setBusy]=useState(false),[notice,setNotice]=useState('');
  const [accounts,setAccounts]=useState([]),[categories,setCategories]=useState([]),[transactions,setTransactions]=useState([]),[snapshots,setSnapshots]=useState([]),[payees,setPayees]=useState([]);
  const [transactionView,setTransactionView]=useState({columns:{...EMPTY_COLUMN_FILTERS},sort:'date',direction:'desc',offset:0});
@@ -61,8 +63,8 @@ export function Finance({secureCall,secureReceipt,secureDocument,settingsContent
  const filterProps={accounts,accountFilter,setAccountFilter:changeAccount,month,setMonth:changeMonth};
  return <div className="platform-layout">
  <aside className="platform-sidebar" aria-label="Household platform sections"><div className="sidebar-identity"><span className="sidebar-mark" aria-hidden="true">H</span><span><strong>Household</strong><small>Platform</small></span></div><div className="sidebar-section-label">FINANCE</div>
- <nav className="app-nav" aria-label="Main navigation">{Object.entries(PAGES).map(([id,info])=><a key={id} href={'#'+id} aria-current={page===id?'page':undefined} onClick={e=>{e.preventDefault();if(id==='accounts')setAccountScope(null);navigate(id);}}>{info.title}</a>)}</nav><div className="sidebar-footer">Household Platform <span>v0.4</span></div></aside><div className="platform-workspace">
- <div className="section-head page-heading"><div><p className="eyebrow">HOUSEHOLD FINANCE</p><h1>{PAGES[page].title}</h1><p className="intro">{PAGES[page].description}</p></div><button disabled={busy} onClick={()=>run(refresh)}>Refresh</button></div>
+ <nav className="app-nav" aria-label="Main navigation">{Object.entries(PAGES).map(([id,info])=><a key={id} href={'#'+id} aria-current={page===id?'page':undefined} onClick={e=>{e.preventDefault();if(id==='accounts')setAccountScope(null);navigate(id);}}><Icon name={PAGE_ICONS[id]}/>{info.title}</a>)}</nav><div className="sidebar-footer">Household Platform <span>v0.4</span></div></aside><div className="platform-workspace">
+ <div className="section-head page-heading"><div><p className="eyebrow">HOUSEHOLD FINANCE</p><h1>{PAGES[page].title}</h1><p className="intro">{PAGES[page].description}</p></div><button disabled={busy} onClick={()=>run(refresh)}><Icon name="refresh"/>Refresh</button></div>
  {error&&<p className="error" role="alert">{error}</p>}{notice&&<p role="status">{notice}</p>}
  {page==='dashboard'&&<DashboardPage accounts={accounts} rows={overviewRows} snapshots={snapshots} totals={totals} currency={currency} currencies={currencies} money={money} summaryMoney={summaryMoney} outflowCategories={outflowCategories} filters={<ActivityFilters {...filterProps}/>} onViewTransactions={()=>{setQuery('');navigate('transactions');}} secureCall={secureCall} onViewAccounts={scope=>{setAccountScope(scope);navigate('accounts');}} onViewCategory={name=>{setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,category:categories.find(c=>c.name===name)?.id||'__unassigned'},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}} onReviewTransfers={()=>{setQuery('');setTransactionView(v=>({...v,flow:'unlinked_transfer',trashOnly:false,offset:0}));navigate('transactions');}}/>}
  {page==='accounts'&&<AccountsPage scope={accountScope} onClearScope={()=>setAccountScope(null)} accounts={accounts} secureCall={secureCall} refresh={refresh} money={money} onViewTransactions={id=>{setAccountFilter(id);setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}}/>}
@@ -78,3 +80,5 @@ export function Finance({secureCall,secureReceipt,secureDocument,settingsContent
  {page==='settings'&&<SettingsPage section={settingsSection} onSectionChange={section=>navigate(section==='automations'?'settings/automations':'settings')} onViewTransactions={({source='',event=''})=>{setAccountFilter('');setMonth('');setQuery('');setTransactionView({columns:{...EMPTY_COLUMN_FILTERS,automationSource:source,automationEvent:event},sort:'date',direction:'desc',offset:0,trashOnly:false,review:'',flow:''});navigate('transactions');}} payees={payees} accounts={accounts} categories={categories} busy={busy} create={create} secureCall={secureCall} refresh={refresh}>{settingsContent}</SettingsPage>}
  </div></div>;
 }
+
+export function Finance(props){return <VisualProvider secureCall={props.secureCall}><FinanceWorkspace {...props}/></VisualProvider>;}

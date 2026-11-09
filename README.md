@@ -8,7 +8,7 @@ Private household finance foundation, with property identifiers ready for future
 
 - This public repository contains code, migrations and fabricated fixtures only; real imported records stay in the private database.
 - The dedicated Household Platform database is active in Canada Central (`ca-central-1`).
-- All seventeen SQL migrations are already applied to that project. Do not rerun them manually.
+- All nineteen SQL migrations are already applied to that project. Do not rerun them manually.
 - The owner email reservation is configured privately in the database. The owner subsequently completed verified signup and passkey enrollment. No real email is seeded in migrations.
 - The frontend deploys to GitHub Pages after successful tests/builds on main, or a manual Publish GitHub Pages run.
 - The GitHub Pages website is published at https://fbadillo97.github.io/household-platform/ . The owner has completed passkey sign-in and disabled the Email provider. Statement reconciliation and a backup/restore drill remain outstanding.
@@ -128,7 +128,7 @@ This remains a transaction-ledger foundation: no reconciliation, opening balance
 
 ## Database ownership and API
 
-All records live in unexposed `household_private` tables with RLS enabled and no direct browser table grants. RLS intentionally has no allow policies: direct access is denied. The sole public endpoint is `household_v1(operation,payload)`, a SECURITY INVOKER wrapper around a checked private entry function and dispatcher. The private definer functions have fixed empty search paths, schema-qualified references, no dynamic SQL and restricted EXECUTE grants. They do not trust user-editable JWT metadata for approval/roles. See [API contract](docs/API.md).
+All records live in unexposed `household_private` tables with RLS enabled and no direct browser table grants. RLS intentionally has no allow policies: direct access is denied. Public APIs use SECURITY INVOKER wrappers around checked private entry functions and dispatchers; visual preferences use `household_visuals_v1`. The private definer functions have fixed empty search paths, schema-qualified references, no dynamic SQL and restricted EXECUTE grants. They do not trust user-editable JWT metadata for approval/roles. See [API contract](docs/API.md).
 
 Do not expose `household_private` in the Data API settings. Do not grant direct table access to `anon` or `authenticated`. Database administrators and project secret keys remain privileged; protect the Supabase and GitHub accounts with MFA.
 
@@ -193,3 +193,10 @@ Reports shows monthly income/inflows versus net spending, category charts, surpl
 and a preceding equal-length comparison, with separate currencies and account filters.
 Select a total or chart to inspect contributing records. Coverage warnings distinguish
 imported activity from confirmed household totals. See [Reports calculations and tests](docs/REPORTS.md).
+
+## Icons and logos
+
+Soft category badges, identity-first account/payee images and static empty-state
+illustrations share the platform's compact dark design. Customize records under
+Settings → Icons & logos. Logos live privately outside the app code, so future AI-assisted
+logo additions need no code release. See [Visual identity and logo workflow](docs/VISUAL_IDENTITY.md).

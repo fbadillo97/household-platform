@@ -11,7 +11,7 @@ test('page-scoped selection, bulk previews, preserved tags, stale retry, linked 
  const dom=new JSDOM('<!doctype html><div id="root"></div>',{url:'https://example.invalid/household-platform/'});
  globalThis.window=dom.window;globalThis.document=dom.window.document;globalThis.HTMLElement=dom.window.HTMLElement;globalThis.IS_REACT_ACT_ENVIRONMENT=true;
  const output=new URL('./.bulk-render.mjs',import.meta.url);
- const bundle=await build({entryPoints:[fileURLToPath(new URL('../src/pages/TransactionsPage.jsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react'],write:false});await writeFile(output,bundle.outputFiles[0].text);
+ const bundle=await build({entryPoints:[fileURLToPath(new URL('../src/pages/TransactionsPage.jsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react'],loader:{'.css':'empty'},write:false});await writeFile(output,bundle.outputFiles[0].text);
  const {TransactionsPage}=await import(output.href);const {createRoot}=await import('react-dom/client');
  const rows=Array.from({length:55},(_,i)=>({id:'mock-'+i,revision:1,date:'2026-10-01',description:'Mock '+String(i).padStart(2,'0'),account_id:'mock-bank',amount_minor:-100,category_id:null,review_status:'unreviewed',needs_attention:false,notes:'Mock note '+i,receipt_count:i===2?1:0,source_data:{tags:[{name:i===3?'Existing':'Home'}]},flow_type:i===0?'transfer':'regular',transfer_peer_id:i===0?'mock-external-peer':null,deleted_at:null}));
  const calls=[];

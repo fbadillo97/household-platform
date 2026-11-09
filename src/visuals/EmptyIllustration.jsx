@@ -1,0 +1,3 @@
+import React from 'react';import {Icon} from './Icon.jsx';
+const scenes={transactions:['receipt','upload'],search:['receipt','search'],accounts:['wallet','credit-card'],budget:['calendar-days','banknote'],documents:['files','paperclip'],complete:['files','check']};
+export function EmptyIllustration({kind='transactions'}){const [main,accent]=scenes[kind]||scenes.transactions;return <div className={'empty-illustration scene-'+kind} aria-hidden="true"><span className="illustration-glow"/><span className="illustration-sheet"><Icon name={main} size={44}/><span className="illustration-line"/><span className="illustration-line short"/></span><span className="illustration-accent"><Icon name={accent} size={23}/></span><span className="illustration-spark">✦</span></div>;}

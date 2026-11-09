@@ -19,7 +19,7 @@ test('detail panel saves notes and flags, confirms unsaved changes, attaches pri
  const dom=new JSDOM('<!doctype html><div id="root"></div>',{url:'https://example.invalid'});
  globalThis.window=dom.window;globalThis.document=dom.window.document;globalThis.HTMLElement=dom.window.HTMLElement;globalThis.IS_REACT_ACT_ENVIRONMENT=true;
  const output=new URL('./.detail-render.mjs',import.meta.url);
- const built=await build({entryPoints:[fileURLToPath(new URL('../src/pages/TransactionDetail.jsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react'],write:false});await writeFile(output,built.outputFiles[0].text);
+ const built=await build({entryPoints:[fileURLToPath(new URL('../src/pages/TransactionDetail.jsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react'],loader:{'.css':'empty'},write:false});await writeFile(output,built.outputFiles[0].text);
  const {TransactionDetail}=await import(output.href);const {createRoot}=await import('react-dom/client');
  const account={id:'mock-account',name:'Mock checking',currency:'CAD'};
  let item={id:'mock-tx',revision:1,date:'2026-10-01',amount_minor:-125,description:'Mock purchase',original_description:'Mock purchase',account_id:account.id,original_account_id:account.id,category_id:null,notes:'',review_status:'unreviewed',needs_attention:false,original_tags:['Mock imported tag'],tags_override:null,receipts:[]};

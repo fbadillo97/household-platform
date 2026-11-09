@@ -1,3 +1,4 @@
+import {Icon} from '../visuals/Icon.jsx';
 import React,{useState} from 'react';
 import {flowLabel} from '../finance.js';
 export function TransferSection({item,accounts,money,secureCall,action,onUpdated,busy,dirty}){
